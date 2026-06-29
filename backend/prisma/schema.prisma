@@ -15,16 +15,59 @@ enum UserRole {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  nombre    String
-  apellido  String
-  email     String   @unique
-  password  String
-  telefono  String?
-  cargo     String?
-  color     String   @default("#2563EB")
-  activo    Boolean  @default(true)
-  role      UserRole @default(EJECUTIVO)
+  id String @id @default(cuid())
+
+  nombre   String
+  apellido String
+
+  email    String @unique
+  password String
+
+  telefono String?
+  cargo    String?
+  avatar   String?
+  color    String  @default("#2563EB")
+
+  role   UserRole @default(EJECUTIVO)
+  activo Boolean  @default(true)
+
+  ultimoLogin DateTime?
+
+  companies Company[] @relation("CompanyExecutive")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Company {
+  id String @id @default(cuid())
+
+  razonSocial    String
+  nombreFantasia String?
+  rut            String  @unique
+  giro           String?
+
+  direccion String?
+  region    String?
+  comuna    String?
+
+  telefono String?
+  email    String?
+  sitioWeb String?
+
+  ejecutivoId String?
+  ejecutivo   User?   @relation("CompanyExecutive", fields: [ejecutivoId], references: [id])
+
+  activo        Boolean @default(true)
+  observaciones String?
+
+  rubro       String?
+  tipoCliente String?
+  origen      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([rut])
+  @@index([ejecutivoId])
 }
