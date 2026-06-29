@@ -65,9 +65,38 @@ model Company {
   tipoCliente String?
   origen      String?
 
+  contacts Contact[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([rut])
   @@index([ejecutivoId])
+}
+
+model Contact {
+  id String @id @default(cuid())
+
+  nombre   String
+  apellido String?
+  cargo    String?
+
+  email    String?
+  telefono String?
+  celular  String?
+  whatsapp String?
+
+  principal          Boolean @default(false)
+  recibeCotizaciones Boolean @default(true)
+  recibeFacturas     Boolean @default(false)
+
+  observaciones String?
+
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
 }
