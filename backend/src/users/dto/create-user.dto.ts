@@ -15,26 +15,31 @@ export enum UserRole {
 
 export class CreateUserDto {
   @IsString()
-  nombre: string;
+  nombre!: string;
 
   @IsString()
-  apellido: string;
+  apellido!: string;
 
   @IsEmail()
-  email: string;
+  email!: string;
 
+  @IsString()
   @MinLength(6)
-  password: string;
+  password!: string;
 
   @IsOptional()
+  @IsString()
   telefono?: string;
 
   @IsOptional()
+  @IsString()
   cargo?: string;
 
   @IsOptional()
+  @IsString()
   color?: string;
 
+  @IsOptional()
   @IsEnum(UserRole)
-  role: UserRole;
+  role?: UserRole;
 }
