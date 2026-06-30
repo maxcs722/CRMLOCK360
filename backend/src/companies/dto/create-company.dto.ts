@@ -1,8 +1,14 @@
 import {
   IsEmail,
+  IsEnum,
   IsOptional,
   IsString,
 } from 'class-validator';
+
+import {
+  CompanyType,
+  LeadSource,
+} from '@prisma/client';
 
 export class CreateCompanyDto {
   @IsString()
@@ -25,11 +31,11 @@ export class CreateCompanyDto {
 
   @IsOptional()
   @IsString()
-  region?: string;
+  comuna?: string;
 
   @IsOptional()
   @IsString()
-  comuna?: string;
+  region?: string;
 
   @IsOptional()
   @IsString()
@@ -44,16 +50,12 @@ export class CreateCompanyDto {
   sitioWeb?: string;
 
   @IsOptional()
-  @IsString()
-  rubro?: string;
+  @IsEnum(CompanyType)
+  tipo?: CompanyType;
 
   @IsOptional()
-  @IsString()
-  tipoCliente?: string;
-
-  @IsOptional()
-  @IsString()
-  origen?: string;
+  @IsEnum(LeadSource)
+  origen?: LeadSource;
 
   @IsOptional()
   @IsString()

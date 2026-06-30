@@ -10,7 +10,9 @@ import { UpdateCompanyDto } from './dto/update-company.dto';
 
 @Injectable()
 export class CompaniesService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+  ) {}
 
   async create(dto: CreateCompanyDto) {
     const exists = await this.prisma.company.findUnique({
@@ -20,11 +22,37 @@ export class CompaniesService {
     });
 
     if (exists) {
-      throw new BadRequestException('Ya existe una empresa con ese RUT.');
+      throw new BadRequestException(
+        'Ya existe una empresa con ese RUT.',
+      );
     }
 
     return this.prisma.company.create({
-      data: dto,
+      data: {
+        razonSocial: dto.razonSocial,
+        nombreFantasia: dto.nombreFantasia,
+        rut: dto.rut,
+        giro: dto.giro,
+        direccion: dto.direccion,
+        comuna: dto.comuna,
+        region: dto.region,
+        telefono: dto.telefono,
+        email: dto.email,
+        sitioWeb: dto.sitioWeb,
+        tipo: dto.tipo,
+        origen: dto.origen,
+        observaciones: dto.observaciones,
+        activo: true,
+
+        ...(dto.ejecutivoId && {
+          ejecutivo: {
+            connect: {
+              id: dto.ejecutivoId,
+            },
+          },
+        }),
+      },
+
       include: {
         ejecutivo: true,
       },
@@ -36,6 +64,7 @@ export class CompaniesService {
       include: {
         ejecutivo: true,
       },
+
       orderBy: {
         razonSocial: 'asc',
       },
@@ -44,14 +73,19 @@ export class CompaniesService {
 
   async findOne(id: string) {
     const company = await this.prisma.company.findUnique({
-      where: { id },
+      where: {
+        id,
+      },
+
       include: {
         ejecutivo: true,
       },
     });
 
     if (!company) {
-      throw new NotFoundException('Empresa no encontrada.');
+      throw new NotFoundException(
+        'Empresa no encontrada.',
+      );
     }
 
     return company;
@@ -61,8 +95,34 @@ export class CompaniesService {
     await this.findOne(id);
 
     return this.prisma.company.update({
-      where: { id },
-      data: dto,
+      where: {
+        id,
+      },
+
+      data: {
+        razonSocial: dto.razonSocial,
+        nombreFantasia: dto.nombreFantasia,
+        rut: dto.rut,
+        giro: dto.giro,
+        direccion: dto.direccion,
+        comuna: dto.comuna,
+        region: dto.region,
+        telefono: dto.telefono,
+        email: dto.email,
+        sitioWeb: dto.sitioWeb,
+        tipo: dto.tipo,
+        origen: dto.origen,
+        observaciones: dto.observaciones,
+
+        ...(dto.ejecutivoId && {
+          ejecutivo: {
+            connect: {
+              id: dto.ejecutivoId,
+            },
+          },
+        }),
+      },
+
       include: {
         ejecutivo: true,
       },
@@ -73,7 +133,10 @@ export class CompaniesService {
     await this.findOne(id);
 
     return this.prisma.company.update({
-      where: { id },
+      where: {
+        id,
+      },
+
       data: {
         activo: false,
       },
