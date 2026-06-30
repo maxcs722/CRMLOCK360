@@ -9,6 +9,7 @@ import { AppService } from './app.service';
 import { CompaniesModule } from './companies/companies.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { ProspectsModule } from './prospects/prospects.module';
+import { ActivitiesModule } from './activities/activities.module';
 
 
 @Module({
@@ -19,6 +20,7 @@ import { ProspectsModule } from './prospects/prospects.module';
     CompaniesModule,
     ContactsModule,
     ProspectsModule,
+    ActivitiesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
