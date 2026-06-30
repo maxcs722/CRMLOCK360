@@ -8,6 +8,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CompaniesModule } from './companies/companies.module';
 import { ContactsModule } from './contacts/contacts.module';
+import { ProspectsModule } from './prospects/prospects.module';
+
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { ContactsModule } from './contacts/contacts.module';
     AuthModule,
     CompaniesModule,
     ContactsModule,
+    ProspectsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

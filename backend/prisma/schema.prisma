@@ -34,6 +34,17 @@ enum LeadSource {
   OTRO
 }
 
+enum ProspectStatus {
+  NUEVO
+  CONTACTADO
+  VISITA_AGENDADA
+  LEVANTAMIENTO
+  COTIZANDO
+  NEGOCIACION
+  GANADO
+  PERDIDO
+}
+
 //////////////////////////////////////////////////////
 // USER
 //////////////////////////////////////////////////////
@@ -59,7 +70,8 @@ model User {
 
   ultimoLogin DateTime?
 
-  companies Company[] @relation("CompanyExecutive")
+  companies Company[]  @relation("CompanyExecutive")
+  prospects Prospect[] @relation("ProspectExecutive")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -102,9 +114,45 @@ model Company {
 
   ejecutivo User? @relation("CompanyExecutive", fields: [ejecutivoId], references: [id])
 
+  prospects Prospect[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([rut])
+  @@index([ejecutivoId])
+}
+
+model Prospect {
+  id String @id @default(cuid())
+
+  titulo String
+
+  descripcion String?
+
+  servicio String
+
+  status ProspectStatus @default(NUEVO)
+
+  valorEstimado Decimal? @db.Decimal(12, 2)
+
+  fechaContacto DateTime?
+
+  proximaAccion DateTime?
+
+  companyId String?
+
+  company Company? @relation(fields: [companyId], references: [id])
+
+  ejecutivoId String?
+
+  ejecutivo User? @relation("ProspectExecutive", fields: [ejecutivoId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([companyId])
   @@index([ejecutivoId])
 }
