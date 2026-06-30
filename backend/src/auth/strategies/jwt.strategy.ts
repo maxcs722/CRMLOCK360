@@ -10,9 +10,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET || 'Lock360CRM2026',
     });
+
+    console.log('✅ JwtStrategy cargada');
   }
 
   async validate(payload: any) {
-    return payload;
+    console.log('📦 Payload JWT:', payload);
+
+    return {
+      id: payload.sub,
+      email: payload.email,
+      role: payload.role,
+    };
   }
 }

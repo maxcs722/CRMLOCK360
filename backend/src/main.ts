@@ -33,7 +33,17 @@ async function bootstrap() {
     .setTitle('LOCK360 CRM API')
     .setDescription('API del CRM LOCK360')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addBearerAuth(
+  {
+    type: 'http',
+    scheme: 'bearer',
+    bearerFormat: 'JWT',
+    in: 'header',
+    name: 'Authorization',
+    description: 'Ingrese: Bearer <token>',
+  },
+  'JWT',
+)
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

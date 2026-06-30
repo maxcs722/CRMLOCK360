@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
 import { PrismaModule } from '../prisma/prisma.module';
@@ -11,10 +12,14 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   imports: [
     PrismaModule,
 
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+    }),
+
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'Lock360CRM2026',
       signOptions: {
-        expiresIn: '1d' as const,
+        expiresIn: '1d',
       },
     }),
   ],
@@ -29,8 +34,9 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   ],
 
   exports: [
-    AuthService,
+    PassportModule,
     JwtModule,
+    AuthService,
   ],
 })
 export class AuthModule {}
