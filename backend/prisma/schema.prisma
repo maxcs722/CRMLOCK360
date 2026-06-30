@@ -7,12 +7,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//////////////////////////////////////////////////////
+// ENUMS
+//////////////////////////////////////////////////////
+
 enum UserRole {
   ADMIN
   GERENTE
   EJECUTIVO
   TECNICO
 }
+
+enum CompanyType {
+  CLIENTE
+  PROSPECTO
+  PROVEEDOR
+}
+
+enum LeadSource {
+  WEB
+  WHATSAPP
+  EMAIL
+  TELEFONO
+  REFERIDO
+  LICITACION
+  OTRO
+}
+
+//////////////////////////////////////////////////////
+// USER
+//////////////////////////////////////////////////////
 
 model User {
   id String @id @default(cuid())
@@ -26,10 +50,12 @@ model User {
   telefono String?
   cargo    String?
   avatar   String?
-  color    String  @default("#2563EB")
 
-  role   UserRole @default(EJECUTIVO)
-  activo Boolean  @default(true)
+  color String @default("#2563EB")
+
+  role UserRole @default(EJECUTIVO)
+
+  activo Boolean @default(true)
 
   ultimoLogin DateTime?
 
@@ -37,66 +63,48 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([email])
 }
+
+//////////////////////////////////////////////////////
+// COMPANY
+//////////////////////////////////////////////////////
 
 model Company {
   id String @id @default(cuid())
 
-  razonSocial    String
+  razonSocial String
+
   nombreFantasia String?
-  rut            String  @unique
-  giro           String?
+
+  rut String @unique
+
+  giro String?
 
   direccion String?
-  region    String?
   comuna    String?
+  region    String?
 
   telefono String?
   email    String?
   sitioWeb String?
 
-  ejecutivoId String?
-  ejecutivo   User?   @relation("CompanyExecutive", fields: [ejecutivoId], references: [id])
+  tipo CompanyType @default(PROSPECTO)
 
-  activo        Boolean @default(true)
+  origen LeadSource?
+
   observaciones String?
 
-  rubro       String?
-  tipoCliente String?
-  origen      String?
+  activo Boolean @default(true)
 
-  contacts Contact[]
+  ejecutivoId String?
+
+  ejecutivo User? @relation("CompanyExecutive", fields: [ejecutivoId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([rut])
   @@index([ejecutivoId])
-}
-
-model Contact {
-  id String @id @default(cuid())
-
-  nombre   String
-  apellido String?
-  cargo    String?
-
-  email    String?
-  telefono String?
-  celular  String?
-  whatsapp String?
-
-  principal          Boolean @default(false)
-  recibeCotizaciones Boolean @default(true)
-  recibeFacturas     Boolean @default(false)
-
-  observaciones String?
-
-  companyId String
-  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([companyId])
 }
