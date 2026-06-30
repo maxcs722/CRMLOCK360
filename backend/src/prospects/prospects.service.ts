@@ -110,6 +110,22 @@ export class ProspectsService {
         proximaAccion: dto.proximaAccion
           ? new Date(dto.proximaAccion)
           : undefined,
+
+        ...(dto.companyId && {
+          company: {
+            connect: {
+              id: dto.companyId,
+            },
+          },
+        }),
+
+        ...(dto.ejecutivoId && {
+          ejecutivo: {
+            connect: {
+              id: dto.ejecutivoId,
+            },
+          },
+        }),
       },
 
       include: {
@@ -127,5 +143,57 @@ export class ProspectsService {
         id,
       },
     });
+  }
+
+  async getPipeline() {
+    const prospects = await this.prisma.prospect.findMany({
+      include: {
+        company: true,
+        ejecutivo: true,
+        activities: {
+          orderBy: {
+            fecha: 'asc',
+          },
+        },
+      },
+
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+
+    return {
+      NUEVO: prospects.filter(
+        (p) => p.status === 'NUEVO',
+      ),
+
+      CONTACTADO: prospects.filter(
+        (p) => p.status === 'CONTACTADO',
+      ),
+
+      VISITA_AGENDADA: prospects.filter(
+        (p) => p.status === 'VISITA_AGENDADA',
+      ),
+
+      LEVANTAMIENTO: prospects.filter(
+        (p) => p.status === 'LEVANTAMIENTO',
+      ),
+
+      COTIZANDO: prospects.filter(
+        (p) => p.status === 'COTIZANDO',
+      ),
+
+      NEGOCIACION: prospects.filter(
+        (p) => p.status === 'NEGOCIACION',
+      ),
+
+      GANADO: prospects.filter(
+        (p) => p.status === 'GANADO',
+      ),
+
+      PERDIDO: prospects.filter(
+        (p) => p.status === 'PERDIDO',
+      ),
+    };
   }
 }

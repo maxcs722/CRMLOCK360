@@ -19,9 +19,7 @@ export class ProspectsController {
   ) {}
 
   @Post()
-  create(
-    @Body() dto: CreateProspectDto,
-  ) {
+  create(@Body() dto: CreateProspectDto) {
     return this.prospectsService.create(dto);
   }
 
@@ -30,10 +28,14 @@ export class ProspectsController {
     return this.prospectsService.findAll();
   }
 
+  // ← AGREGAR ESTE MÉTODO
+  @Get('pipeline')
+  getPipeline() {
+    return this.prospectsService.getPipeline();
+  }
+
   @Get(':id')
-  findOne(
-    @Param('id') id: string,
-  ) {
+  findOne(@Param('id') id: string) {
     return this.prospectsService.findOne(id);
   }
 
@@ -46,9 +48,7 @@ export class ProspectsController {
   }
 
   @Delete(':id')
-  remove(
-    @Param('id') id: string,
-  ) {
+  remove(@Param('id') id: string) {
     return this.prospectsService.remove(id);
   }
 }
