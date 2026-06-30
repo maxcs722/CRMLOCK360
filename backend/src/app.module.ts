@@ -11,6 +11,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { CalendarController } from './calendar/calendar.controller';
+import { CalendarService } from './calendar/calendar.service';
+import { CalendarModule } from './calendar/calendar.module';
 
 
 @Module({
@@ -23,8 +26,9 @@ import { AppService } from './app.service';
     ProspectsModule,
     ActivitiesModule,
     DashboardModule,
+    CalendarModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, CalendarController],
+  providers: [AppService, CalendarService],
 })
 export class AppModule {}
