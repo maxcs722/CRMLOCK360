@@ -1,23 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-import { companyService } from "@/services/company.service";
+import {
+  companyService,
+  Company,
+} from "@/services/company.service";
 
-interface CompanyFormProps {
+ interface CompanyFormProps {
+  company?: Company | null;
   onSuccess?: () => void;
 }
 
 export default function CompanyForm({
+  company,
   onSuccess,
 }: CompanyFormProps) {
   const [loading, setLoading] = useState(false);
 
-  const [form, setForm] = useState({
+  const emptyForm = {
     razonSocial: "",
     nombreFantasia: "",
     rut: "",
@@ -30,17 +35,43 @@ export default function CompanyForm({
     sitioWeb: "",
     tipo: "PROSPECTO",
     observaciones: "",
-  });
+  };
+
+  const [form, setForm] = useState(emptyForm);
+
+  useEffect(() => {
+    if (!company) {
+      setForm(emptyForm);
+      return;
+    }
+
+    setForm({
+      razonSocial: company.razonSocial ?? "",
+      nombreFantasia: company.nombreFantasia ?? "",
+      rut: company.rut ?? "",
+      giro: company.giro ?? "",
+      direccion: company.direccion ?? "",
+      comuna: company.comuna ?? "",
+      region: company.region ?? "",
+      telefono: company.telefono ?? "",
+      email: company.email ?? "",
+      sitioWeb: company.sitioWeb ?? "",
+      tipo: company.tipo ?? "PROSPECTO",
+      observaciones: company.observaciones ?? "",
+    });
+  }, [company]);
 
   function handleChange(
     e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      HTMLInputElement |
+      HTMLTextAreaElement |
+      HTMLSelectElement
     >,
   ) {
-    setForm({
-      ...form,
+    setForm((old) => ({
+      ...old,
       [e.target.name]: e.target.value,
-    });
+    }));
   }
 
   async function handleSubmit(
@@ -61,47 +92,34 @@ export default function CompanyForm({
     try {
       setLoading(true);
 
-      await companyService.createCompany({
-        razonSocial: form.razonSocial,
-        nombreFantasia: form.nombreFantasia,
-        rut: form.rut,
-        giro: form.giro,
-        direccion: form.direccion,
-        comuna: form.comuna,
-        region: form.region,
-        telefono: form.telefono,
-        email: form.email,
-        sitioWeb: form.sitioWeb,
-        tipo: form.tipo,
-        observaciones: form.observaciones,
-      });
+      if (company) {
+        await companyService.updateCompany(
+          company.id,
+          form,
+        );
+      } else {
+        await companyService.createCompany(form);
+      }
 
-      setForm({
-        razonSocial: "",
-        nombreFantasia: "",
-        rut: "",
-        giro: "",
-        direccion: "",
-        comuna: "",
-        region: "",
-        telefono: "",
-        email: "",
-        sitioWeb: "",
-        tipo: "PROSPECTO",
-        observaciones: "",
-      });
+      setForm(emptyForm);
 
       onSuccess?.();
 
     } catch (error) {
       console.error(error);
-      alert("No fue posible crear la empresa.");
+
+      alert(
+        company
+          ? "No fue posible actualizar la empresa."
+          : "No fue posible crear la empresa."
+      );
+
     } finally {
       setLoading(false);
     }
   }
 
-  return (
+    return (
     <form
       onSubmit={handleSubmit}
       className="space-y-6"
@@ -202,7 +220,7 @@ export default function CompanyForm({
           </select>
         </div>
 
-        <div className="col-span-2">
+                <div className="col-span-2">
           <Textarea
             name="observaciones"
             placeholder="Observaciones"
@@ -214,18 +232,25 @@ export default function CompanyForm({
 
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
 
         <Button
           type="submit"
           disabled={loading}
         >
           {loading
-            ? "Guardando..."
-            : "Guardar Empresa"}
+            ? company
+              ? "Actualizando..."
+              : "Guardando..."
+            : company
+              ? "Actualizar Empresa"
+              : "Guardar Empresa"}
         </Button>
 
       </div>
+
     </form>
   );
 }
+
+    

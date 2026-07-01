@@ -10,14 +10,24 @@ import {
 
 import CompanyForm from "./CompanyForm";
 
+import {
+  Company,
+} from "@/services/company.service";
+
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+
+  company?: Company | null;
+
+  onSuccess?: () => void;
 }
 
 export default function CompanyDialog({
   open,
   onOpenChange,
+  company,
+  onSuccess,
 }: Props) {
   return (
     <Dialog
@@ -27,18 +37,27 @@ export default function CompanyDialog({
       <DialogContent className="sm:max-w-4xl">
 
         <DialogHeader>
+
           <DialogTitle>
-            Nueva Empresa
+            {company
+              ? "Editar Empresa"
+              : "Nueva Empresa"}
           </DialogTitle>
 
           <DialogDescription>
-            Complete la información de la empresa.
+            {company
+              ? "Modifique la información de la empresa."
+              : "Complete la información de la empresa."}
           </DialogDescription>
+
         </DialogHeader>
 
         <CompanyForm
+          company={company}
           onSuccess={() => {
             onOpenChange(false);
+
+            onSuccess?.();
           }}
         />
 
