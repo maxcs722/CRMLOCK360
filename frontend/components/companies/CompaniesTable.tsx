@@ -10,6 +10,12 @@ import {
   Company,
 } from "@/services/company.service";
 
+import {
+  Eye,
+  Pencil,
+  Trash2,
+} from "lucide-react";
+
 export default function CompaniesTable() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
