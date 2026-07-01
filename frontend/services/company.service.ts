@@ -2,12 +2,24 @@ import { api } from "./api";
 
 export interface Company {
   id: string;
-  nombre: string;
+
+  razonSocial: string;
+  nombreFantasia: string;
+
   rut: string;
+
   giro?: string;
+
+  direccion?: string;
+  comuna?: string;
+  region?: string;
+
   telefono?: string;
   email?: string;
-  ciudad?: string;
+  sitioWeb?: string;
+
+  tipo: string;
+
   activo: boolean;
 }
 
