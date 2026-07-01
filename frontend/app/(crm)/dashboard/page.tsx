@@ -1,29 +1,36 @@
-export default function DashboardPage() {
+import { dashboardService } from "@/services/dashboard.service";
+
+export default async function DashboardPage() {
+  const dashboard = await dashboardService.getDashboard();
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Dashboard</h1>
-
         <p className="text-muted-foreground">
-          Bienvenido a LOCK360 Enterprise CRM
+          LOCK360 Enterprise
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-4 gap-6">
         <div className="rounded-xl border p-6">
-          Empresas
+          <h2 className="text-sm text-muted-foreground">Empresas</h2>
+          <p className="text-4xl font-bold">{dashboard.empresas}</p>
         </div>
 
         <div className="rounded-xl border p-6">
-          Prospectos
+          <h2 className="text-sm text-muted-foreground">Prospectos</h2>
+          <p className="text-4xl font-bold">{dashboard.prospectos}</p>
         </div>
 
         <div className="rounded-xl border p-6">
-          Actividades
+          <h2 className="text-sm text-muted-foreground">Actividades</h2>
+          <p className="text-4xl font-bold">{dashboard.actividades}</p>
         </div>
 
         <div className="rounded-xl border p-6">
-          Pipeline
+          <h2 className="text-sm text-muted-foreground">Usuarios</h2>
+          <p className="text-4xl font-bold">{dashboard.usuarios}</p>
         </div>
       </div>
     </div>
