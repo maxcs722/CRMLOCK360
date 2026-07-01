@@ -16,6 +16,8 @@ enum UserRole {
   GERENTE
   EJECUTIVO
   TECNICO
+  ASEO
+  SUPERVISOR_ASEO
 }
 
 enum CompanyType {
