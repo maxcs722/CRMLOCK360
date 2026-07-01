@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { Reflector } from '@nestjs/core';
 
 import { PrismaModule } from '../prisma/prisma.module';
 
@@ -30,6 +31,7 @@ import { RolesGuard } from './guards/roles.guard';
   ],
 
   providers: [
+    Reflector,
     AuthService,
     JwtStrategy,
     RolesGuard,
@@ -39,6 +41,7 @@ import { RolesGuard } from './guards/roles.guard';
     PassportModule,
     JwtModule,
     AuthService,
+    RolesGuard,
   ],
 })
 export class AuthModule {}
