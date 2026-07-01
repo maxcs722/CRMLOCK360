@@ -63,9 +63,6 @@ export default function CompaniesTable() {
       <CompanyToolbar
         search={search}
         onSearch={setSearch}
-        onCreate={() => {
-          alert("Próximamente: Nueva Empresa");
-        }}
       />
 
       <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
