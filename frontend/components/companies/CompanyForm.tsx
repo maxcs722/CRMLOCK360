@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,7 +13,7 @@ import {
   Company,
 } from "@/services/company.service";
 
- interface CompanyFormProps {
+interface CompanyFormProps {
   company?: Company | null;
   onSuccess?: () => void;
 }
@@ -80,25 +82,37 @@ export default function CompanyForm({
     e.preventDefault();
 
     if (!form.razonSocial.trim()) {
-      alert("Debe ingresar la Razón Social.");
+      toast.error("Debe ingresar la Razón Social.");
       return;
     }
 
     if (!form.rut.trim()) {
-      alert("Debe ingresar el RUT.");
+      toast.error("Debe ingresar el RUT.");
       return;
     }
 
     try {
       setLoading(true);
 
+      // ========= DEBUG =========
+      console.log("ENVIANDO:", form);
+      // =========================
+
       if (company) {
         await companyService.updateCompany(
           company.id,
           form,
         );
+
+        toast.success(
+          "Empresa actualizada correctamente."
+        );
       } else {
         await companyService.createCompany(form);
+
+        toast.success(
+          "Empresa creada correctamente."
+        );
       }
 
       setForm(emptyForm);
@@ -108,18 +122,23 @@ export default function CompanyForm({
     } catch (error) {
       console.error(error);
 
-      alert(
-        company
-          ? "No fue posible actualizar la empresa."
-          : "No fue posible crear la empresa."
-      );
+      if (axios.isAxiosError(error)) {
+        console.log("STATUS:", error.response?.status);
+        console.log("DATA:", error.response?.data);
+
+        toast.error(
+          JSON.stringify(error.response?.data)
+        );
+      } else {
+        toast.error("Error desconocido.");
+      }
 
     } finally {
       setLoading(false);
     }
   }
 
-    return (
+  return (
     <form
       onSubmit={handleSubmit}
       className="space-y-6"
@@ -220,7 +239,7 @@ export default function CompanyForm({
           </select>
         </div>
 
-                <div className="col-span-2">
+        <div className="col-span-2">
           <Textarea
             name="observaciones"
             placeholder="Observaciones"
@@ -248,9 +267,6 @@ export default function CompanyForm({
         </Button>
 
       </div>
-
     </form>
   );
 }
-
-    
