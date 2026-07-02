@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 
 import CompanyToolbar from "./CompanyToolbar";
 import CompanyDialog from "./CompanyDialog";
@@ -146,13 +147,18 @@ export default function CompaniesTable() {
                 >
 
                   <td className="p-4">
-                    <div className="font-semibold">
-                      {company.nombreFantasia || "-"}
-                    </div>
+
+                    <Link
+                      href={`/companies/${company.id}`}
+                      className="font-semibold text-blue-600 hover:underline"
+                    >
+                      {company.nombreFantasia || company.razonSocial}
+                    </Link>
 
                     <div className="text-xs text-gray-500">
                       {company.razonSocial}
                     </div>
+
                   </td>
 
                   <td className="p-4">

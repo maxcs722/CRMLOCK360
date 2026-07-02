@@ -50,6 +50,16 @@ export const companyService = {
     return data;
   },
 
+  async getCompany(
+    id: string,
+  ): Promise<Company> {
+    const { data } = await api.get(
+      `/companies/${id}`,
+    );
+
+    return data;
+  },
+
   async createCompany(dto: CreateCompanyDto) {
     const { data } = await api.post(
       "/companies",
