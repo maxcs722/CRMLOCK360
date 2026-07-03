@@ -13,23 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 
 import ContactDialog from "@/components/contacts/ContactDialog";
+import type { Contact } from "@/components/contacts/ContactForm";
 
-export interface Contact {
-  id?: string;
-
-  nombre: string;
-  apellido?: string;
-
-  cargo?: string;
-
-  telefono?: string;
-
-  email?: string;
-
-  whatsapp?: string;
-
-  observaciones?: string;
-}
 
 interface CompanyContactsCardProps {
   contacts?: Contact[];
