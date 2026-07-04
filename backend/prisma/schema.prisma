@@ -228,7 +228,7 @@ model Contact {
 model Activity {
   id String @id @default(cuid())
 
-  titulo      String
+  titulo String
   descripcion String?
 
   tipo ActivityType
@@ -237,19 +237,23 @@ model Activity {
 
   fecha DateTime @default(now())
 
-  prospectId String
-  prospect   Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  // Ahora es opcional
+  prospectId String?
+  prospect Prospect? @relation(fields: [prospectId], references: [id], onDelete: Cascade)
 
+  // Usuario que realizó o creó la actividad
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 
+  // Empresa asociada
   companyId String?
-  company   Company? @relation(fields: [companyId], references: [id])
+  company Company? @relation(fields: [companyId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([prospectId])
+  @@index([companyId])
   @@index([userId])
   @@index([fecha])
 }

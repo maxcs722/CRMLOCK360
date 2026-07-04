@@ -1,167 +1,185 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import {
-  User,
+  Plus,
   Phone,
   Mail,
-  Plus,
+  MessageCircle,
+  Calendar,
+  ClipboardList,
+  FileText,
+  Car,
+  StickyNote,
+  MoreHorizontal,
   Pencil,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-import ContactDialog from "@/components/contacts/ContactDialog";
-import { Contact } from "@/components/contacts/ContactForm";
+import ActivityDialog from "@/components/activities/ActivityDialog";
 
-interface CompanyContactsCardProps {
-  contacts?: Contact[];
+import {
+  activityService,
+  Activity,
+} from "@/services/activity.service";
+
+interface Props {
+  companyId: string;
+
+  userId: string;
+
+  activities?: Activity[];
+
+  onActivitiesChanged?: () => Promise<void>;
 }
 
-export default function CompanyContactsCard({
-  contacts = [],
-}: CompanyContactsCardProps) {
-
-  const [items, setItems] =
-    useState<Contact[]>(contacts);
+export default function CompanyActivitiesCard({
+  companyId,
+  userId,
+  activities = [],
+  onActivitiesChanged,
+}: Props) {
 
   const [dialogOpen, setDialogOpen] =
     useState(false);
 
-  const [selectedContact, setSelectedContact] =
-    useState<Contact | null>(null);
+  const [selectedActivity, setSelectedActivity] =
+    useState<Activity | null>(null);
 
-  useEffect(() => {
-    setItems(contacts);
-  }, [contacts]);
+  function icon(tipo: string) {
 
-  function handleNewContact() {
-    setSelectedContact(null);
-    setDialogOpen(true);
+    switch (tipo) {
+
+      case "LLAMADA":
+        return <Phone size={18} />;
+
+      case "EMAIL":
+        return <Mail size={18} />;
+
+      case "WHATSAPP":
+        return <MessageCircle size={18} />;
+
+      case "REUNION":
+        return <Calendar size={18} />;
+
+      case "VISITA":
+        return <Car size={18} />;
+
+      case "TAREA":
+        return <ClipboardList size={18} />;
+
+      case "COTIZACION":
+        return <FileText size={18} />;
+
+      case "NOTA":
+        return <StickyNote size={18} />;
+
+      default:
+        return <MoreHorizontal size={18} />;
+    }
+
   }
 
-  function handleEditContact(
-    contact: Contact,
-  ) {
-    setSelectedContact(contact);
-    setDialogOpen(true);
-  }
+  async function handleSave(activity: any) {
 
-  function handleSave(contact: Contact) {
+    if (activity.id) {
 
-    if (selectedContact) {
+      const { id, ...dto } = activity;
 
-      setItems((old) =>
-        old.map((c) =>
-          c.id === selectedContact.id
-            ? {
-                ...selectedContact,
-                ...contact,
-              }
-            : c,
-        ),
+      await activityService.updateActivity(
+        id,
+        dto,
       );
 
     } else {
 
-      setItems((old) => [
-        ...old,
-        {
-          ...contact,
-          id: Date.now().toString(),
-        },
-      ]);
+      await activityService.createActivity({
+        ...activity,
+        companyId,
+        userId,
+      });
 
     }
 
     setDialogOpen(false);
+
+    if (onActivitiesChanged) {
+      await onActivitiesChanged();
+    }
+
   }
 
   return (
     <>
+
       <div className="rounded-xl border bg-white p-6 shadow-sm">
 
-        <div className="mb-5 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-between">
 
           <h2 className="text-lg font-bold">
-            Contactos
+            Actividades
           </h2>
 
           <Button
-            size="sm"
-            onClick={handleNewContact}
+            onClick={() => {
+              setSelectedActivity(null);
+              setDialogOpen(true);
+            }}
           >
             <Plus className="mr-2 h-4 w-4" />
-            Nuevo Contacto
+            Nueva Actividad
           </Button>
 
         </div>
 
-        {items.length === 0 ? (
+        {activities.length === 0 ? (
 
           <div className="rounded-lg border border-dashed p-10 text-center">
 
-            <User className="mx-auto mb-3 h-10 w-10 text-slate-400" />
-
-            <p className="font-semibold">
-              No existen contactos
-            </p>
-
-            <p className="mt-2 text-sm text-slate-500">
-              Esta empresa todavía no tiene contactos registrados.
+            <p className="text-slate-500">
+              No existen actividades.
             </p>
 
           </div>
 
         ) : (
 
-          <div className="space-y-3">
+          <div className="space-y-4">
 
-            {items.map((contact) => (
+            {activities.map((activity) => (
 
               <div
-                key={contact.id}
-                className="flex items-center justify-between rounded-lg border p-4 hover:bg-slate-50"
+                key={activity.id}
+                className="flex items-start justify-between rounded-lg border p-4"
               >
 
-                <div className="flex items-center gap-4">
+                <div className="flex gap-4">
 
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
+                  <div className="mt-1 rounded-full bg-blue-100 p-2">
 
-                    <User className="h-6 w-6 text-blue-700" />
+                    {icon(activity.tipo)}
 
                   </div>
 
                   <div>
 
                     <p className="font-semibold">
-                      {contact.nombre} {contact.apellido}
+                      {activity.titulo}
                     </p>
 
-                    <p className="text-sm text-slate-500">
-                      {contact.cargo}
+                    <p className="text-sm text-slate-600">
+                      {activity.descripcion}
                     </p>
 
-                    <div className="mt-2 flex gap-4 text-sm text-slate-600">
+                    <p className="mt-2 text-xs text-slate-400">
 
-                      <div className="flex items-center gap-1">
+                      {new Date(
+                        activity.fecha,
+                      ).toLocaleString()}
 
-                        <Phone size={14} />
-
-                        {contact.telefono || "-"}
-
-                      </div>
-
-                      <div className="flex items-center gap-1">
-
-                        <Mail size={14} />
-
-                        {contact.email || "-"}
-
-                      </div>
-
-                    </div>
+                    </p>
 
                   </div>
 
@@ -170,9 +188,10 @@ export default function CompanyContactsCard({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() =>
-                    handleEditContact(contact)
-                  }
+                  onClick={() => {
+                    setSelectedActivity(activity);
+                    setDialogOpen(true);
+                  }}
                 >
                   <Pencil className="mr-2 h-4 w-4" />
                   Editar
@@ -188,13 +207,14 @@ export default function CompanyContactsCard({
 
       </div>
 
-      <ContactDialog
+      <ActivityDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
-        contact={selectedContact}
+        activity={selectedActivity}
         onSave={handleSave}
       />
 
     </>
   );
+
 }

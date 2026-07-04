@@ -21,7 +21,15 @@ export class ActivitiesService {
         descripcion: dto.descripcion,
         tipo: dto.tipo,
         realizada: dto.realizada ?? false,
-        fecha: dto.fecha ? new Date(dto.fecha) : new Date(),
+        fecha: dto.fecha
+          ? new Date(dto.fecha)
+          : new Date(),
+
+        company: {
+          connect: {
+            id: dto.companyId,
+          },
+        },
 
         prospect: {
           connect: {
@@ -34,20 +42,12 @@ export class ActivitiesService {
             id: dto.userId,
           },
         },
-
-        ...(dto.companyId && {
-          company: {
-            connect: {
-              id: dto.companyId,
-            },
-          },
-        }),
       },
 
       include: {
+        company: true,
         prospect: true,
         user: true,
-        company: true,
       },
     });
   }
@@ -55,10 +55,11 @@ export class ActivitiesService {
   async findAll() {
     return this.prisma.activity.findMany({
       include: {
+        company: true,
         prospect: true,
         user: true,
-        company: true,
       },
+
       orderBy: {
         fecha: 'desc',
       },
@@ -66,14 +67,18 @@ export class ActivitiesService {
   }
 
   async findOne(id: string) {
-    const activity = await this.prisma.activity.findUnique({
-      where: { id },
-      include: {
-        prospect: true,
-        user: true,
-        company: true,
-      },
-    });
+    const activity =
+      await this.prisma.activity.findUnique({
+        where: {
+          id,
+        },
+
+        include: {
+          company: true,
+          prospect: true,
+          user: true,
+        },
+      });
 
     if (!activity) {
       throw new NotFoundException(
@@ -84,24 +89,73 @@ export class ActivitiesService {
     return activity;
   }
 
-  async update(id: string, dto: UpdateActivityDto) {
+  async findByCompany(companyId: string) {
+    return this.prisma.activity.findMany({
+      where: {
+        companyId,
+      },
+
+      include: {
+        user: true,
+        prospect: true,
+      },
+
+      orderBy: {
+        fecha: 'desc',
+      },
+    });
+  }
+
+  async update(
+    id: string,
+    dto: UpdateActivityDto,
+  ) {
     await this.findOne(id);
 
     return this.prisma.activity.update({
-      where: { id },
+      where: {
+        id,
+      },
+
       data: {
         titulo: dto.titulo,
         descripcion: dto.descripcion,
         tipo: dto.tipo,
         realizada: dto.realizada,
-        fecha: dto.fecha
-          ? new Date(dto.fecha)
-          : undefined,
+
+        ...(dto.fecha && {
+          fecha: new Date(dto.fecha),
+        }),
+
+        ...(dto.companyId && {
+          company: {
+            connect: {
+              id: dto.companyId,
+            },
+          },
+        }),
+
+        ...(dto.prospectId && {
+          prospect: {
+            connect: {
+              id: dto.prospectId,
+            },
+          },
+        }),
+
+        ...(dto.userId && {
+          user: {
+            connect: {
+              id: dto.userId,
+            },
+          },
+        }),
       },
+
       include: {
+        company: true,
         prospect: true,
         user: true,
-        company: true,
       },
     });
   }
@@ -110,7 +164,9 @@ export class ActivitiesService {
     await this.findOne(id);
 
     return this.prisma.activity.delete({
-      where: { id },
+      where: {
+        id,
+      },
     });
   }
 }

@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import CompanyHeader from "@/components/companies/detail/CompanyHeader";
 import CompanyInfoCard from "@/components/companies/detail/CompanyInfoCard";
 import CompanyContactsCard from "@/components/companies/detail/CompanyContactsCard";
+import CompanyActivitiesCard from "@/components/companies/detail/CompanyActivitiesCard";
 import CompanyDialog from "@/components/companies/CompanyDialog";
 
 import {
@@ -18,8 +19,13 @@ import {
   Contact,
 } from "@/services/contact.service";
 
+import {
+  activityService,
+  Activity,
+} from "@/services/activity.service";
 
 export default function CompanyDetailPage() {
+
   const router = useRouter();
   const params = useParams();
 
@@ -31,41 +37,76 @@ export default function CompanyDetailPage() {
 
   const [dialogOpen, setDialogOpen] =
     useState(false);
-  
+
   const [contacts, setContacts] =
     useState<Contact[]>([]);
 
+  const [activities, setActivities] =
+    useState<Activity[]>([]);
+
   async function loadCompany() {
     try {
+
       setLoading(true);
 
-      const data = await companyService.getCompany(
-        params.id as string,
-      );
+      const data =
+        await companyService.getCompany(
+          params.id as string,
+        );
 
       setCompany(data);
+
     } catch (error) {
+
       console.error(error);
+
     } finally {
+
       setLoading(false);
+
     }
   }
 
   async function loadContacts() {
     try {
-      const data = await contactService.getCompanyContacts(
-        params.id as string,
-      );
+
+      const data =
+        await contactService.getCompanyContacts(
+          params.id as string,
+        );
 
       setContacts(data);
+
     } catch (error) {
+
       console.error(error);
+
+    }
+  }
+
+  async function loadActivities() {
+    try {
+
+      const data =
+        await activityService.getCompanyActivities(
+          params.id as string,
+        );
+
+      setActivities(data);
+
+    } catch (error) {
+
+      console.error(error);
+
     }
   }
 
   useEffect(() => {
+
     loadCompany();
     loadContacts();
+    loadActivities();
+
   }, [params]);
 
   if (loading) {
@@ -83,8 +124,6 @@ export default function CompanyDetailPage() {
       </div>
     );
   }
-
-  
 
   return (
     <>
@@ -120,6 +159,13 @@ export default function CompanyDetailPage() {
           companyId={company.id}
           contacts={contacts}
           onContactsChanged={loadContacts}
+        />
+
+        <CompanyActivitiesCard
+          companyId={company.id}
+          userId="cmqzg8b450000g42ehnt1ky65"
+          activities={activities}
+          onActivitiesChanged={loadActivities}
         />
 
       </div>

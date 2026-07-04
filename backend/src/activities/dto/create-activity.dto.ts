@@ -28,12 +28,11 @@ export class CreateActivityDto {
   fecha?: string;
 
   @IsString()
+  companyId!: string;
+
+  @IsString()
   prospectId!: string;
 
   @IsString()
   userId!: string;
-
-  @IsOptional()
-  @IsString()
-  companyId?: string;
 }

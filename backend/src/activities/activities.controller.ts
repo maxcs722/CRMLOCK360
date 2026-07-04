@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 
 import { ActivitiesService } from './activities.service';
+
 import { CreateActivityDto } from './dto/create-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
 
@@ -19,7 +20,9 @@ export class ActivitiesController {
   ) {}
 
   @Post()
-  create(@Body() dto: CreateActivityDto) {
+  create(
+    @Body() dto: CreateActivityDto,
+  ) {
     return this.activitiesService.create(dto);
   }
 
@@ -28,8 +31,19 @@ export class ActivitiesController {
     return this.activitiesService.findAll();
   }
 
+  @Get('company/:companyId')
+  findByCompany(
+    @Param('companyId') companyId: string,
+  ) {
+    return this.activitiesService.findByCompany(
+      companyId,
+    );
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(
+    @Param('id') id: string,
+  ) {
     return this.activitiesService.findOne(id);
   }
 
@@ -38,11 +52,16 @@ export class ActivitiesController {
     @Param('id') id: string,
     @Body() dto: UpdateActivityDto,
   ) {
-    return this.activitiesService.update(id, dto);
+    return this.activitiesService.update(
+      id,
+      dto,
+    );
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(
+    @Param('id') id: string,
+  ) {
     return this.activitiesService.remove(id);
   }
 }
