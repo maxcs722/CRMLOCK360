@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import {
-  Plus,
   Phone,
   Mail,
   MessageCircle,
@@ -13,7 +12,10 @@ import {
   Car,
   StickyNote,
   MoreHorizontal,
+  Plus,
   Pencil,
+  CheckCircle2,
+  Circle,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -48,36 +50,37 @@ export default function CompanyActivitiesCard({
   const [selectedActivity, setSelectedActivity] =
     useState<Activity | null>(null);
 
-  function icon(tipo: string) {
+  function getIcon(tipo: string) {
 
     switch (tipo) {
 
       case "LLAMADA":
-        return <Phone size={18} />;
+        return <Phone className="h-5 w-5 text-blue-600" />;
 
       case "EMAIL":
-        return <Mail size={18} />;
+        return <Mail className="h-5 w-5 text-purple-600" />;
 
       case "WHATSAPP":
-        return <MessageCircle size={18} />;
+        return <MessageCircle className="h-5 w-5 text-green-600" />;
 
       case "REUNION":
-        return <Calendar size={18} />;
+        return <Calendar className="h-5 w-5 text-cyan-600" />;
 
       case "VISITA":
-        return <Car size={18} />;
+        return <Car className="h-5 w-5 text-orange-600" />;
 
       case "TAREA":
-        return <ClipboardList size={18} />;
+        return <ClipboardList className="h-5 w-5 text-indigo-600" />;
 
       case "COTIZACION":
-        return <FileText size={18} />;
+        return <FileText className="h-5 w-5 text-slate-700" />;
 
       case "NOTA":
-        return <StickyNote size={18} />;
+        return <StickyNote className="h-5 w-5 text-yellow-600" />;
 
       default:
-        return <MoreHorizontal size={18} />;
+        return <MoreHorizontal className="h-5 w-5" />;
+
     }
 
   }
@@ -103,99 +106,154 @@ export default function CompanyActivitiesCard({
 
     }
 
-    setDialogOpen(false);
-
     if (onActivitiesChanged) {
       await onActivitiesChanged();
     }
+
+    setDialogOpen(false);
 
   }
 
   return (
     <>
 
-      <div className="rounded-xl border bg-white p-6 shadow-sm">
+      <div className="rounded-xl border bg-white shadow-sm">
 
-        <div className="mb-6 flex items-center justify-between">
+        <div className="flex items-center justify-between border-b p-6">
 
-          <h2 className="text-lg font-bold">
-            Actividades
-          </h2>
+          <div>
+
+            <h2 className="text-xl font-bold">
+              Timeline Comercial
+            </h2>
+
+            <p className="text-sm text-slate-500">
+              Historial de todas las actividades de la empresa
+            </p>
+
+          </div>
 
           <Button
-            onClick={() => {
+            onClick={()=>{
               setSelectedActivity(null);
               setDialogOpen(true);
             }}
           >
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 h-4 w-4"/>
             Nueva Actividad
           </Button>
 
         </div>
 
-        {activities.length === 0 ? (
+        {activities.length===0 ? (
 
-          <div className="rounded-lg border border-dashed p-10 text-center">
+          <div className="p-10 text-center">
 
             <p className="text-slate-500">
-              No existen actividades.
+              Todavía no existen actividades.
             </p>
 
           </div>
 
         ) : (
 
-          <div className="space-y-4">
+          <div className="p-6">
 
-            {activities.map((activity) => (
+            {activities.map((activity)=>(
 
               <div
                 key={activity.id}
-                className="flex items-start justify-between rounded-lg border p-4"
+                className="relative pl-12 pb-10 last:pb-0"
               >
 
-                <div className="flex gap-4">
+                <div
+                  className="absolute left-5 top-0 h-full border-l border-slate-300"
+                />
 
-                  <div className="mt-1 rounded-full bg-blue-100 p-2">
+                <div
+                  className="absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-full border bg-white shadow"
+                >
 
-                    {icon(activity.tipo)}
+                  {activity.realizada
+                    ? <CheckCircle2 className="h-6 w-6 text-green-600"/>
+                    : <Circle className="h-6 w-6 text-slate-400"/>}
+
+                </div>
+
+                <div className="rounded-xl border bg-slate-50 p-5">
+
+                  <div className="flex items-center justify-between">
+
+                    <div className="flex items-center gap-3">
+
+                      {getIcon(activity.tipo)}
+
+                      <div>
+
+                        <h3 className="font-bold">
+
+                          {activity.titulo}
+
+                        </h3>
+
+                        <p className="text-xs text-slate-500">
+
+                          {new Date(
+                            activity.fecha,
+                          ).toLocaleString()}
+
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={()=>{
+                        setSelectedActivity(activity);
+                        setDialogOpen(true);
+                      }}
+                    >
+
+                      <Pencil className="mr-2 h-4 w-4"/>
+
+                      Editar
+
+                    </Button>
 
                   </div>
 
-                  <div>
+                  {activity.descripcion && (
 
-                    <p className="font-semibold">
-                      {activity.titulo}
-                    </p>
+                    <p className="mt-4 text-slate-700">
 
-                    <p className="text-sm text-slate-600">
                       {activity.descripcion}
-                    </p>
-
-                    <p className="mt-2 text-xs text-slate-400">
-
-                      {new Date(
-                        activity.fecha,
-                      ).toLocaleString()}
 
                     </p>
+
+                  )}
+
+                  <div className="mt-5 flex items-center justify-between text-sm">
+
+                    <span className="rounded-full bg-slate-200 px-3 py-1">
+
+                      {activity.tipo}
+
+                    </span>
+
+                    <span>
+
+                      {activity.realizada
+                        ? "✅ Realizada"
+                        : "⏳ Pendiente"}
+
+                    </span>
 
                   </div>
 
                 </div>
-
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setSelectedActivity(activity);
-                    setDialogOpen(true);
-                  }}
-                >
-                  <Pencil className="mr-2 h-4 w-4" />
-                  Editar
-                </Button>
 
               </div>
 
@@ -215,6 +273,7 @@ export default function CompanyActivitiesCard({
       />
 
     </>
+
   );
 
 }

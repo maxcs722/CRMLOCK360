@@ -25,17 +25,21 @@ export class ActivitiesService {
           ? new Date(dto.fecha)
           : new Date(),
 
-        company: {
-          connect: {
-            id: dto.companyId,
+        ...(dto.companyId && {
+          company: {
+            connect: {
+              id: dto.companyId,
+            },
           },
-        },
+        }),
 
-        prospect: {
-          connect: {
-            id: dto.prospectId,
+        ...(dto.prospectId && {
+          prospect: {
+            connect: {
+              id: dto.prospectId,
+            },
           },
-        },
+        }),
 
         user: {
           connect: {
@@ -55,9 +59,28 @@ export class ActivitiesService {
   async findAll() {
     return this.prisma.activity.findMany({
       include: {
-        company: true,
-        prospect: true,
-        user: true,
+        company: {
+          select: {
+            id: true,
+            razonSocial: true,
+            nombreFantasia: true,
+          },
+        },
+
+        prospect: {
+          select: {
+            id: true,
+            titulo: true,
+          },
+        },
+
+        user: {
+          select: {
+            id: true,
+            nombre: true,
+            apellido: true,
+          },
+        },
       },
 
       orderBy: {
@@ -74,9 +97,28 @@ export class ActivitiesService {
         },
 
         include: {
-          company: true,
-          prospect: true,
-          user: true,
+          company: {
+            select: {
+              id: true,
+              razonSocial: true,
+              nombreFantasia: true,
+            },
+          },
+
+          prospect: {
+            select: {
+              id: true,
+              titulo: true,
+            },
+          },
+
+          user: {
+            select: {
+              id: true,
+              nombre: true,
+              apellido: true,
+            },
+          },
         },
       });
 
@@ -96,8 +138,28 @@ export class ActivitiesService {
       },
 
       include: {
-        user: true,
-        prospect: true,
+        company: {
+          select: {
+            id: true,
+            razonSocial: true,
+            nombreFantasia: true,
+          },
+        },
+
+        prospect: {
+          select: {
+            id: true,
+            titulo: true,
+          },
+        },
+
+        user: {
+          select: {
+            id: true,
+            nombre: true,
+            apellido: true,
+          },
+        },
       },
 
       orderBy: {
