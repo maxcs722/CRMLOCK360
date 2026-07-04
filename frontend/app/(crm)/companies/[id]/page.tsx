@@ -13,7 +13,11 @@ import {
   Company,
 } from "@/services/company.service";
 
-import { Contact } from "@/components/contacts/ContactForm";
+import {
+  contactService,
+  Contact,
+} from "@/services/contact.service";
+
 
 export default function CompanyDetailPage() {
   const router = useRouter();
@@ -27,28 +31,41 @@ export default function CompanyDetailPage() {
 
   const [dialogOpen, setDialogOpen] =
     useState(false);
+  
+  const [contacts, setContacts] =
+    useState<Contact[]>([]);
 
   async function loadCompany() {
     try {
       setLoading(true);
 
-      const data =
-        await companyService.getCompany(
-          params.id as string,
-        );
+      const data = await companyService.getCompany(
+        params.id as string,
+      );
 
       setCompany(data);
-
     } catch (error) {
       console.error(error);
-
     } finally {
       setLoading(false);
     }
   }
 
+  async function loadContacts() {
+    try {
+      const data = await contactService.getCompanyContacts(
+        params.id as string,
+      );
+
+      setContacts(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     loadCompany();
+    loadContacts();
   }, [params]);
 
   if (loading) {
@@ -67,28 +84,7 @@ export default function CompanyDetailPage() {
     );
   }
 
-  const contacts: Contact[] = [
-    {
-      id: "1",
-      nombre: "Juan",
-      apellido: "Pérez",
-      cargo: "Gerente General",
-      telefono: "+56 9 9876 5432",
-      whatsapp: "+56 9 9876 5432",
-      email: "juan@empresa.cl",
-      observaciones: "",
-    },
-    {
-      id: "2",
-      nombre: "María",
-      apellido: "González",
-      cargo: "Jefa de Operaciones",
-      telefono: "+56 9 9123 4567",
-      whatsapp: "+56 9 9123 4567",
-      email: "maria@empresa.cl",
-      observaciones: "",
-    },
-  ];
+  
 
   return (
     <>
@@ -121,7 +117,9 @@ export default function CompanyDetailPage() {
         />
 
         <CompanyContactsCard
+          companyId={company.id}
           contacts={contacts}
+          onContactsChanged={loadContacts}
         />
 
       </div>

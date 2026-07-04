@@ -93,6 +93,7 @@ model User {
 
   companies Company[]  @relation("CompanyExecutive")
   prospects Prospect[] @relation("ProspectExecutive")
+  
 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -139,6 +140,8 @@ model Company {
   prospects Prospect[]
 
   activities Activity[]
+
+  contacts Contact[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -193,6 +196,33 @@ model Prospect {
   @@index([status])
   @@index([companyId])
   @@index([ejecutivoId])
+}
+
+model Contact {
+  id String @id @default(cuid())
+
+  nombre String
+  apellido String
+
+  cargo String?
+
+  telefono String?
+  whatsapp String?
+
+  email String?
+
+  observaciones String?
+
+  activo Boolean @default(true)
+
+  companyId String
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
 }
 
 model Activity {

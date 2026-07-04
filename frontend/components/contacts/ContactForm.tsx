@@ -49,6 +49,11 @@ export default function ContactForm({
     useState<Contact>(emptyForm);
 
   useEffect(() => {
+    console.log("=================================");
+    console.log("CONTACT RECIBIDO EN FORM:");
+    console.log(contact);
+    console.log("=================================");
+
     if (contact) {
       setForm(contact);
     } else {
@@ -72,6 +77,11 @@ export default function ContactForm({
     e: React.FormEvent
   ) {
     e.preventDefault();
+
+    console.log("=================================");
+    console.log("FORM ENVIADO:");
+    console.log(form);
+    console.log("=================================");
 
     if (!form.nombre.trim()) {
       alert("Ingrese el nombre.");

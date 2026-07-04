@@ -18,7 +18,7 @@ interface ContactDialogProps {
 
   contact?: Contact | null;
 
-  onSave: (contact: Contact) => void;
+  onSave: (contact: Contact) => Promise<void>;
 }
 
 export default function ContactDialog({
@@ -33,28 +33,23 @@ export default function ContactDialog({
       onOpenChange={onOpenChange}
     >
       <DialogContent className="max-w-2xl">
-
         <DialogHeader>
-
           <DialogTitle>
             {contact
               ? "Editar Contacto"
               : "Nuevo Contacto"}
           </DialogTitle>
-
         </DialogHeader>
 
         <ContactForm
           contact={contact}
-          onSave={(data) => {
-            onSave(data);
-            onOpenChange(false);
+          onSave={async (data) => {
+            await onSave(data);
           }}
           onCancel={() =>
             onOpenChange(false)
           }
         />
-
       </DialogContent>
     </Dialog>
   );

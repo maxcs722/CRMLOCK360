@@ -25,6 +25,8 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       transform: true,
+
+      // SOLO PARA DIAGNÓSTICO
       forbidNonWhitelisted: true,
     }),
   );
@@ -34,16 +36,16 @@ async function bootstrap() {
     .setDescription('API del CRM LOCK360')
     .setVersion('1.0')
     .addBearerAuth(
-  {
-    type: 'http',
-    scheme: 'bearer',
-    bearerFormat: 'JWT',
-    in: 'header',
-    name: 'Authorization',
-    description: 'Ingrese: Bearer <token>',
-  },
-  'JWT',
-)
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        in: 'header',
+        name: 'Authorization',
+        description: 'Ingrese: Bearer <token>',
+      },
+      'JWT',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
