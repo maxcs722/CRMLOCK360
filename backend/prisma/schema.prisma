@@ -66,6 +66,14 @@ enum Priority {
   URGENTE
 }
 
+enum QuoteStatus {
+  BORRADOR
+  ENVIADA
+  ACEPTADA
+  RECHAZADA
+  ANULADA
+}
+
 //////////////////////////////////////////////////////
 // USER
 //////////////////////////////////////////////////////
@@ -73,15 +81,15 @@ enum Priority {
 model User {
   id String @id @default(cuid())
 
-  nombre   String
+  nombre String
   apellido String
 
-  email    String @unique
+  email String @unique
   password String
 
   telefono String?
-  cargo    String?
-  avatar   String?
+  cargo String?
+  avatar String?
 
   color String @default("#2563EB")
 
@@ -91,13 +99,17 @@ model User {
 
   ultimoLogin DateTime?
 
-  companies Company[]  @relation("CompanyExecutive")
-  prospects Prospect[] @relation("ProspectExecutive")
-  
+  companies Company[] @relation("CompanyExecutive")
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Activity  Activity[]
+  prospects Prospect[] @relation("ProspectExecutive")
+
+  Activity Activity[]
+
+  quotes Quote[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
 
   @@index([email])
 }
@@ -118,11 +130,15 @@ model Company {
   giro String?
 
   direccion String?
-  comuna    String?
-  region    String?
+
+  comuna String?
+
+  region String?
 
   telefono String?
-  email    String?
+
+  email String?
+
   sitioWeb String?
 
   tipo CompanyType @default(PROSPECTO)
@@ -143,10 +159,14 @@ model Company {
 
   contacts Contact[]
 
+  quotes Quote[]
+
   createdAt DateTime @default(now())
+
   updatedAt DateTime @updatedAt
 
   @@index([rut])
+
   @@index([ejecutivoId])
 }
 
@@ -256,4 +276,66 @@ model Activity {
   @@index([companyId])
   @@index([userId])
   @@index([fecha])
+}
+
+model Quote {
+
+  id String @id @default(cuid())
+
+  numero Int @unique
+
+  estado QuoteStatus @default(BORRADOR)
+
+  fecha DateTime @default(now())
+
+  observaciones String?
+
+  subtotal Decimal @default(0) @db.Decimal(12,2)
+
+  descuento Decimal @default(0) @db.Decimal(12,2)
+
+  iva Decimal @default(0) @db.Decimal(12,2)
+
+  total Decimal @default(0) @db.Decimal(12,2)
+
+  companyId String
+
+  company Company @relation(fields: [companyId], references: [id])
+  
+  userId String
+
+  user User @relation(fields: [userId], references: [id])
+
+  items QuoteItem[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId])
+
+  @@index([userId])
+
+}
+
+model QuoteItem {
+
+  id String @id @default(cuid())
+
+  descripcion String
+
+  cantidad Decimal @db.Decimal(12,2)
+
+  precio Decimal @db.Decimal(12,2)
+
+  descuento Decimal @default(0) @db.Decimal(12,2)
+
+  subtotal Decimal @db.Decimal(12,2)
+
+  quoteId String
+
+ quote Quote @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+
+  @@index([quoteId])
+
 }
