@@ -24,6 +24,7 @@ import {
   Activity,
 } from "@/services/activity.service";
 
+
 export default function CompanyDetailPage() {
 
   const router = useRouter();
@@ -84,6 +85,38 @@ export default function CompanyDetailPage() {
     }
   }
 
+  async function handleDeleteCompany() {
+
+  const ok = window.confirm(
+    `¿Está seguro de eliminar la empresa "${company?.razonSocial}"?\n\n` +
+    "También se eliminarán los contactos y actividades asociadas.\n\n" +
+    "Esta acción no se puede deshacer."
+  );
+
+  if (!ok || !company) return;
+
+  try {
+
+    await companyService.deleteCompany(
+      company.id,
+    );
+
+    alert("Empresa eliminada correctamente.");
+
+    router.push("/companies");
+
+  } catch (error: any) {
+
+    console.error(error);
+
+    alert(
+      "No fue posible eliminar la empresa."
+    );
+
+  }
+
+}
+
   async function loadActivities() {
     try {
 
@@ -131,17 +164,18 @@ export default function CompanyDetailPage() {
 
         <CompanyHeader
           companyName={
-            company.nombreFantasia ||
-            company.razonSocial
-          }
+          company.nombreFantasia ||
+          company.razonSocial
+   }
           companyType={company.tipo}
           onBack={() =>
-            router.push("/companies")
-          }
+          router.push("/companies")
+  }
           onEdit={() =>
-            setDialogOpen(true)
-          }
-        />
+          setDialogOpen(true)
+  }
+          onDelete={handleDeleteCompany}
+          />
 
         <CompanyInfoCard
           razonSocial={company.razonSocial}

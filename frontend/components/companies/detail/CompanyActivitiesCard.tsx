@@ -141,31 +141,41 @@ export default function CompanyActivitiesCard({
 
   async function handleDelete(id: string) {
 
-    const ok = window.confirm(
-      "¿Está seguro de eliminar esta actividad?\n\nEsta acción no se puede deshacer."
-    );
+  console.log("1 CLICK");
 
-    if (!ok) return;
+  const ok = window.confirm(
+    "¿Está seguro de eliminar esta actividad?"
+  );
 
-    try {
+  console.log("2 CONFIRM", ok);
 
-      await activityService.deleteActivity(id);
+  if (!ok) return;
 
-      if (onActivitiesChanged) {
-        await onActivitiesChanged();
-      }
+  console.log("3 ANTES SERVICE");
 
-    } catch (error) {
+  try {
 
-      console.log(error);
+    const resp = await activityService.deleteActivity(id);
 
-      alert(
-        "No fue posible eliminar la actividad."
-      );
+    console.log("4 RESPUESTA");
+    console.log(resp);
 
+    if (onActivitiesChanged) {
+      await onActivitiesChanged();
     }
 
+  } catch (error: any) {
+
+    console.log("5 ERROR");
+    console.log(error);
+
+    console.log(error.response);
+
+    console.log(error.response?.data);
+
   }
+
+}
 
     return (
     <>

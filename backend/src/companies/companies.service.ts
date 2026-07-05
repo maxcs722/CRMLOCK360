@@ -60,16 +60,24 @@ export class CompaniesService {
   }
 
   async findAll() {
-    return this.prisma.company.findMany({
-      include: {
-        ejecutivo: true,
-      },
 
-      orderBy: {
-        razonSocial: 'asc',
-      },
-    });
-  }
+  return this.prisma.company.findMany({
+
+    where: {
+      activo: true,
+    },
+
+    include: {
+      ejecutivo: true,
+    },
+
+    orderBy: {
+      razonSocial: "asc",
+    },
+
+  });
+
+}
 
   async findOne(id: string) {
     const company = await this.prisma.company.findUnique({

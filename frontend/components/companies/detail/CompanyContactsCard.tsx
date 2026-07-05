@@ -101,31 +101,41 @@ export default function CompanyContactsCard({
 
   async function handleDelete(id: string) {
 
-    const ok = window.confirm(
-      "¿Está seguro de eliminar este contacto?\n\nEsta acción no se puede deshacer."
-    );
+  console.log("1 CLICK CONTACT");
 
-    if (!ok) return;
+  const ok = window.confirm(
+    "¿Está seguro de eliminar este contacto?"
+  );
 
-    try {
+  console.log("2 CONFIRM", ok);
 
-      await contactService.deleteContact(id);
+  if (!ok) return;
 
-      if (onContactsChanged) {
-        await onContactsChanged();
-      }
+  console.log("3 ANTES SERVICE");
 
-    } catch (error) {
+  try {
 
-      console.error(error);
+    const resp = await contactService.deleteContact(id);
 
-      alert(
-        "No fue posible eliminar el contacto."
-      );
+    console.log("4 RESPUESTA");
+    console.log(resp);
 
+    if (onContactsChanged) {
+      await onContactsChanged();
     }
 
+  } catch (error: any) {
+
+    console.log("5 ERROR");
+    console.log(error);
+
+    console.log(error.response);
+
+    console.log(error.response?.data);
+
   }
+
+}
 
     return (
     <>

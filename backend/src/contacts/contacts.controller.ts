@@ -39,7 +39,9 @@ export class ContactsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(
+    @Param('id') id: string,
+  ) {
     return this.contactsService.findOne(id);
   }
 
@@ -55,7 +57,18 @@ export class ContactsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.contactsService.remove(id);
+  remove(
+    @Param('id') id: string,
+  ) {
+
+    console.log(
+      'DELETE CONTACT:',
+      id,
+    );
+
+    return this.contactsService.remove(
+      id,
+    );
+
   }
 }
