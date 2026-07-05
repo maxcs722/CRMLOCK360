@@ -1,38 +1,105 @@
-import { dashboardService } from "@/services/dashboard.service";
+"use client";
 
-export default async function DashboardPage() {
-  const dashboard = await dashboardService.getDashboard();
+import { useEffect, useState } from "react";
+
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import DashboardStats from "@/components/dashboard/DashboardStats";
+import DashboardPipeline from "@/components/dashboard/DashboardPipeline";
+import DashboardActivities from "@/components/dashboard/DashboardActivities";
+import DashboardRecentCompanies from "@/components/dashboard/DashboardRecentCompanies";
+
+import {
+  dashboardService,
+  DashboardResponse,
+} from "@/services/dashboard.service";
+
+export default function DashboardPage() {
+
+  const [dashboard, setDashboard] =
+    useState<DashboardResponse | null>(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  async function loadDashboard() {
+
+    try {
+
+      const data =
+        await dashboardService.getDashboard();
+
+      setDashboard(data);
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  }
+
+  useEffect(() => {
+
+    loadDashboard();
+
+  }, []);
+
+  if (loading) {
+
+    return (
+
+      <div className="p-8">
+
+        Cargando Dashboard...
+
+      </div>
+
+    );
+
+  }
+
+  if (!dashboard) {
+
+    return (
+
+      <div className="p-8">
+
+        No fue posible cargar el Dashboard.
+
+      </div>
+
+    );
+
+  }
 
   return (
+
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground">
-          LOCK360 Enterprise
-        </p>
+
+      <DashboardHeader />
+
+      <DashboardStats
+        stats={dashboard.stats}
+      />
+
+      <DashboardPipeline
+        pipeline={dashboard.pipeline}
+      />
+
+      <div className="grid gap-6 lg:grid-cols-2">
+
+        <DashboardActivities
+          activities={dashboard.proximasActividades}
+        />
+
+        <DashboardRecentCompanies
+          companies={dashboard.ultimasEmpresas}
+        />
+
       </div>
 
-      <div className="grid grid-cols-4 gap-6">
-        <div className="rounded-xl border p-6">
-          <h2 className="text-sm text-muted-foreground">Empresas</h2>
-          <p className="text-4xl font-bold">{dashboard.empresas}</p>
-        </div>
-
-        <div className="rounded-xl border p-6">
-          <h2 className="text-sm text-muted-foreground">Prospectos</h2>
-          <p className="text-4xl font-bold">{dashboard.prospectos}</p>
-        </div>
-
-        <div className="rounded-xl border p-6">
-          <h2 className="text-sm text-muted-foreground">Actividades</h2>
-          <p className="text-4xl font-bold">{dashboard.actividades}</p>
-        </div>
-
-        <div className="rounded-xl border p-6">
-          <h2 className="text-sm text-muted-foreground">Usuarios</h2>
-          <p className="text-4xl font-bold">{dashboard.usuarios}</p>
-        </div>
-      </div>
     </div>
+
   );
+
 }
