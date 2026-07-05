@@ -14,11 +14,13 @@ import {
   MoreHorizontal,
   Plus,
   Pencil,
+  Trash2,
   CheckCircle2,
   Circle,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+
 import ActivityDialog from "@/components/activities/ActivityDialog";
 
 import {
@@ -90,8 +92,6 @@ export default function CompanyActivitiesCard({
 
       if (activity.id) {
 
-        console.log("EDITANDO ACTIVIDAD");
-
         await activityService.updateActivity(
           activity.id,
           {
@@ -107,8 +107,6 @@ export default function CompanyActivitiesCard({
         );
 
       } else {
-
-        console.log("CREANDO ACTIVIDAD");
 
         await activityService.createActivity({
           titulo: activity.titulo,
@@ -131,18 +129,42 @@ export default function CompanyActivitiesCard({
 
     } catch (error: any) {
 
-      console.log("========== ERROR ACTIVIDAD ==========");
-      console.log(error.response?.data);
-      console.log("====================================");
+      console.log(error);
 
       alert(
-        JSON.stringify(
-          error.response?.data,
-          null,
-          2,
-        ),
+        "No fue posible guardar la actividad."
       );
+
     }
+
+  }
+
+  async function handleDelete(id: string) {
+
+    const ok = window.confirm(
+      "¿Está seguro de eliminar esta actividad?\n\nEsta acción no se puede deshacer."
+    );
+
+    if (!ok) return;
+
+    try {
+
+      await activityService.deleteActivity(id);
+
+      if (onActivitiesChanged) {
+        await onActivitiesChanged();
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert(
+        "No fue posible eliminar la actividad."
+      );
+
+    }
+
   }
 
     return (
@@ -235,17 +257,32 @@ export default function CompanyActivitiesCard({
 
                     </div>
 
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        setSelectedActivity(activity);
-                        setDialogOpen(true);
-                      }}
-                    >
-                      <Pencil className="mr-2 h-4 w-4" />
-                      Editar
-                    </Button>
+                    <div className="flex gap-2">
+
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setSelectedActivity(activity);
+                          setDialogOpen(true);
+                        }}
+                      >
+                        <Pencil className="mr-2 h-4 w-4" />
+                        Editar
+                      </Button>
+
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() =>
+                          handleDelete(activity.id)
+                        }
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Eliminar
+                      </Button>
+
+                    </div>
 
                   </div>
 
