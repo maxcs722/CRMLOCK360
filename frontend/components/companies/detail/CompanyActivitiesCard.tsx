@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-
 import ActivityDialog from "@/components/activities/ActivityDialog";
 
 import {
@@ -87,34 +86,66 @@ export default function CompanyActivitiesCard({
 
   async function handleSave(activity: any) {
 
-    if (activity.id) {
+    try {
 
-      const { id, ...dto } = activity;
+      if (activity.id) {
 
-      await activityService.updateActivity(
-        id,
-        dto,
+        console.log("EDITANDO ACTIVIDAD");
+
+        await activityService.updateActivity(
+          activity.id,
+          {
+            titulo: activity.titulo,
+            descripcion: activity.descripcion,
+            tipo: activity.tipo,
+            realizada: activity.realizada,
+            fecha: activity.fecha,
+            companyId: activity.companyId,
+            prospectId: activity.prospectId,
+            userId: activity.userId,
+          },
+        );
+
+      } else {
+
+        console.log("CREANDO ACTIVIDAD");
+
+        await activityService.createActivity({
+          titulo: activity.titulo,
+          descripcion: activity.descripcion,
+          tipo: activity.tipo,
+          realizada: activity.realizada,
+          fecha: activity.fecha,
+          companyId,
+          prospectId: activity.prospectId,
+          userId,
+        });
+
+      }
+
+      if (onActivitiesChanged) {
+        await onActivitiesChanged();
+      }
+
+      setDialogOpen(false);
+
+    } catch (error: any) {
+
+      console.log("========== ERROR ACTIVIDAD ==========");
+      console.log(error.response?.data);
+      console.log("====================================");
+
+      alert(
+        JSON.stringify(
+          error.response?.data,
+          null,
+          2,
+        ),
       );
-
-    } else {
-
-      await activityService.createActivity({
-        ...activity,
-        companyId,
-        userId,
-      });
-
     }
-
-    if (onActivitiesChanged) {
-      await onActivitiesChanged();
-    }
-
-    setDialogOpen(false);
-
   }
 
-  return (
+    return (
     <>
 
       <div className="rounded-xl border bg-white shadow-sm">
@@ -134,18 +165,18 @@ export default function CompanyActivitiesCard({
           </div>
 
           <Button
-            onClick={()=>{
+            onClick={() => {
               setSelectedActivity(null);
               setDialogOpen(true);
             }}
           >
-            <Plus className="mr-2 h-4 w-4"/>
+            <Plus className="mr-2 h-4 w-4" />
             Nueva Actividad
           </Button>
 
         </div>
 
-        {activities.length===0 ? (
+        {activities.length === 0 ? (
 
           <div className="p-10 text-center">
 
@@ -159,7 +190,7 @@ export default function CompanyActivitiesCard({
 
           <div className="p-6">
 
-            {activities.map((activity)=>(
+            {activities.map((activity) => (
 
               <div
                 key={activity.id}
@@ -174,9 +205,11 @@ export default function CompanyActivitiesCard({
                   className="absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-full border bg-white shadow"
                 >
 
-                  {activity.realizada
-                    ? <CheckCircle2 className="h-6 w-6 text-green-600"/>
-                    : <Circle className="h-6 w-6 text-slate-400"/>}
+                  {activity.realizada ? (
+                    <CheckCircle2 className="h-6 w-6 text-green-600" />
+                  ) : (
+                    <Circle className="h-6 w-6 text-slate-400" />
+                  )}
 
                 </div>
 
@@ -191,17 +224,11 @@ export default function CompanyActivitiesCard({
                       <div>
 
                         <h3 className="font-bold">
-
                           {activity.titulo}
-
                         </h3>
 
                         <p className="text-xs text-slate-500">
-
-                          {new Date(
-                            activity.fecha,
-                          ).toLocaleString()}
-
+                          {new Date(activity.fecha).toLocaleString()}
                         </p>
 
                       </div>
@@ -211,16 +238,13 @@ export default function CompanyActivitiesCard({
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={()=>{
+                      onClick={() => {
                         setSelectedActivity(activity);
                         setDialogOpen(true);
                       }}
                     >
-
-                      <Pencil className="mr-2 h-4 w-4"/>
-
+                      <Pencil className="mr-2 h-4 w-4" />
                       Editar
-
                     </Button>
 
                   </div>
@@ -228,9 +252,7 @@ export default function CompanyActivitiesCard({
                   {activity.descripcion && (
 
                     <p className="mt-4 text-slate-700">
-
                       {activity.descripcion}
-
                     </p>
 
                   )}
@@ -238,17 +260,13 @@ export default function CompanyActivitiesCard({
                   <div className="mt-5 flex items-center justify-between text-sm">
 
                     <span className="rounded-full bg-slate-200 px-3 py-1">
-
                       {activity.tipo}
-
                     </span>
 
                     <span>
-
                       {activity.realizada
                         ? "✅ Realizada"
                         : "⏳ Pendiente"}
-
                     </span>
 
                   </div>
@@ -265,7 +283,7 @@ export default function CompanyActivitiesCard({
 
       </div>
 
-      <ActivityDialog
+            <ActivityDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
         activity={selectedActivity}
@@ -273,7 +291,6 @@ export default function CompanyActivitiesCard({
       />
 
     </>
-
   );
 
 }

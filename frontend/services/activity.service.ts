@@ -80,17 +80,49 @@ export const activityService = {
     id: string,
     dto: Partial<CreateActivityDto>,
   ) {
-    const { data } = await api.patch(
-      `/activities/${id}`,
-      dto,
-    );
 
-    return data;
+    console.log("==================================");
+    console.log("PATCH ID:", id);
+    console.log("PATCH DTO:", dto);
+    console.log("==================================");
+
+    try {
+
+      const { data } = await api.patch(
+        `/activities/${id}`,
+        dto,
+      );
+
+      console.log("PATCH OK");
+      console.log(data);
+
+      return data;
+
+    } catch (error: any) {
+
+      console.log("==================================");
+      console.log("PATCH ERROR");
+      console.log("STATUS:", error.response?.status);
+
+      console.log("OBJETO:");
+      console.dir(error.response?.data);
+
+      alert(
+        JSON.stringify(
+          error.response?.data,
+          null,
+          2,
+        )
+      );
+
+      throw error;
+    }
   },
 
   async deleteActivity(
     id: string,
   ) {
+
     const { data } = await api.delete(
       `/activities/${id}`,
     );
