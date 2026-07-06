@@ -9,6 +9,7 @@ import {
   Users,
   FileText,
   Activity,
+  ReceiptText,
 } from "lucide-react";
 
 import { Logo } from "./Logo";
@@ -50,6 +51,12 @@ export function Sidebar() {
           href="/calendar"
           icon={<CalendarDays size={20} />}
           title="Calendario"
+        />
+
+        <MenuItem
+          href="/quotes"
+          icon={<ReceiptText size={20} />}
+          title="Cotizaciones"
         />
 
         <MenuItem
