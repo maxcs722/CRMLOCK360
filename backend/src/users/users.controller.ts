@@ -26,8 +26,6 @@ export class UsersController {
     return this.usersService.create(dto);
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles('ADMIN')
   @Get()
   findAll() {
     return this.usersService.findAll();
