@@ -98,14 +98,67 @@ export default function QuoteDetailPage() {
 
           </h1>
 
-          <p className="text-slate-500">
+          <div className="mt-2 flex items-center gap-3">
 
-            Estado:
-            <strong className="ml-2">
-              {quote.estado}
-            </strong>
+  <span className="text-slate-500">
+    Estado
+  </span>
 
-          </p>
+  <select
+    value={quote.estado}
+    className="rounded-lg border p-2"
+    onChange={async (e) => {
+
+      const estado = e.target.value;
+
+      try {
+
+        await quoteService.updateStatus(
+          quote.id,
+          estado,
+        );
+
+        setQuote({
+          ...quote,
+          estado,
+        });
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "No fue posible actualizar el estado.",
+        );
+
+      }
+
+    }}
+  >
+
+    <option value="BORRADOR">
+      BORRADOR
+    </option>
+
+    <option value="ENVIADA">
+      ENVIADA
+    </option>
+
+    <option value="ACEPTADA">
+      ACEPTADA
+    </option>
+
+    <option value="RECHAZADA">
+      RECHAZADA
+    </option>
+
+    <option value="ANULADA">
+      ANULADA
+    </option>
+
+  </select>
+
+</div>
 
         </div>
 

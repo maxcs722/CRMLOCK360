@@ -5,7 +5,10 @@ import {
 
 import { PrismaService } from '../prisma/prisma.service';
 
-import { Prisma } from '@prisma/client';
+import {
+  Prisma,
+  QuoteStatus,
+} from "@prisma/client";
 
 import { CreateQuoteDto } from './dto/create-quote.dto';
 import { UpdateQuoteDto } from './dto/update-quote.dto';
@@ -387,6 +390,43 @@ export class QuotesService {
     });
 
   }
+
+  async updateStatus(
+  id: string,
+  estado: QuoteStatus,
+) {
+
+  await this.findOne(id);
+
+  return this.prisma.quote.update({
+
+    where: {
+      id,
+    },
+
+    data: {
+      estado,
+    },
+
+    include: {
+
+      company: true,
+
+      user: {
+        select: {
+          id: true,
+          nombre: true,
+          apellido: true,
+        },
+      },
+
+      items: true,
+
+    },
+
+  });
+
+}
 
     async remove(id: string) {
 

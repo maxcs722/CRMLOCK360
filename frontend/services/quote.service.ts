@@ -124,4 +124,20 @@ export const quoteService = {
 
   },
 
+  async updateStatus(
+  id: string,
+  estado: string,
+) {
+
+  const res = await api.patch(
+    `/quotes/${id}/status`,
+    {
+      estado,
+    },
+  );
+
+  return res.data;
+
+  },
+
 };

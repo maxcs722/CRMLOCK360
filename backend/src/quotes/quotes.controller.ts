@@ -12,6 +12,7 @@ import { QuotesService } from './quotes.service';
 
 import { Res } from '@nestjs/common';
 import { Response } from 'express';
+import { UpdateStatusDto } from './dto/update-status.dto';
 
 @Controller('quotes')
 export class QuotesController {
@@ -59,6 +60,21 @@ async pdf(
       dto,
     );
   }
+
+  @Patch(':id/status')
+updateStatus(
+  @Param('id') id: string,
+  @Body() dto: UpdateStatusDto,
+) {
+
+  console.log("==== UPDATE STATUS ====");
+  console.log(dto);
+
+  return this.quotesService.updateStatus(
+    id,
+    dto.estado,
+  );
+}
 
   @Delete(':id')
   remove(
