@@ -10,6 +10,9 @@ import {
 
 import { QuotesService } from './quotes.service';
 
+import { Res } from '@nestjs/common';
+import { Response } from 'express';
+
 @Controller('quotes')
 export class QuotesController {
   constructor(
@@ -34,6 +37,17 @@ export class QuotesController {
   ) {
     return this.quotesService.findOne(id);
   }
+
+  @Get(':id/pdf')
+async pdf(
+  @Param('id') id: string,
+  @Res() res: Response,
+) {
+  return this.quotesService.generatePdf(
+    id,
+    res,
+  );
+}
 
   @Patch(':id')
   update(

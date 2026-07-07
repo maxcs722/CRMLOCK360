@@ -10,6 +10,9 @@ import { Prisma } from '@prisma/client';
 import { CreateQuoteDto } from './dto/create-quote.dto';
 import { UpdateQuoteDto } from './dto/update-quote.dto';
 
+import PDFDocument from "pdfkit";
+import { Response } from "express";
+
 @Injectable()
 export class QuotesService {
   constructor(
@@ -398,5 +401,130 @@ export class QuotesService {
     });
 
   }
+
+
+  async generatePdf(
+  id: string,
+  res: Response,
+) {
+  const quote = await this.findOne(id);
+
+  const doc = new PDFDocument({
+    margin: 50,
+    size: 'A4',
+  });
+
+  res.setHeader(
+    'Content-Type',
+    'application/pdf',
+  );
+
+  res.setHeader(
+    'Content-Disposition',
+    `inline; filename=Cotizacion-${quote.numero}.pdf`,
+  );
+
+  doc.pipe(res);
+
+  doc
+    .fontSize(24)
+    .text('LOCK360 CRM');
+
+  doc.moveDown();
+
+  doc
+    .fontSize(18)
+    .text(`Cotización Nº ${quote.numero}`);
+
+  doc.moveDown();
+
+  doc
+    .fontSize(12)
+    .text(
+      `Cliente: ${
+        quote.company.nombreFantasia ||
+        quote.company.razonSocial
+      }`,
+    );
+
+  doc.text(
+    `Ejecutivo: ${quote.user.nombre} ${quote.user.apellido}`,
+  );
+
+  doc.text(
+    `Fecha: ${new Date(
+      quote.fecha,
+    ).toLocaleDateString('es-CL')}`,
+  );
+
+  doc.moveDown();
+
+  doc
+    .fontSize(16)
+    .text('Ítems');
+
+  doc.moveDown(0.5);
+
+  quote.items.forEach((item) => {
+
+    doc.text(
+      `${item.descripcion}`,
+    );
+
+    doc.text(
+      `${item.cantidad} x $${Number(
+        item.precio,
+      ).toLocaleString('es-CL')}`,
+    );
+
+    doc.text(
+      `Subtotal: $${Number(
+        item.subtotal,
+      ).toLocaleString('es-CL')}`,
+    );
+
+    doc.moveDown();
+
+  });
+
+  doc.moveDown();
+
+  doc.text(
+    `Subtotal: $${Number(
+      quote.subtotal,
+    ).toLocaleString('es-CL')}`,
+  );
+
+  doc.text(
+    `IVA: $${Number(
+      quote.iva,
+    ).toLocaleString('es-CL')}`,
+  );
+
+  doc
+    .fontSize(16)
+    .text(
+      `TOTAL: $${Number(
+        quote.total,
+      ).toLocaleString('es-CL')}`,
+    );
+
+  if (quote.observaciones) {
+
+    doc.moveDown();
+
+    doc
+      .fontSize(14)
+      .text('Observaciones');
+
+    doc
+      .fontSize(12)
+      .text(quote.observaciones);
+
+  }
+
+  doc.end();
+}
+
 
 }
