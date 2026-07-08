@@ -140,4 +140,11 @@ export const quoteService = {
 
   },
 
+  openPdf(id: string) {
+  window.open(
+    `http://localhost:3001/api/quotes/${id}/pdf`,
+    "_blank",
+  ); 
+  },
+
 };

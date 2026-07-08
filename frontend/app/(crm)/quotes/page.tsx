@@ -192,13 +192,14 @@ export default function QuotesPage() {
                     </Link>
 
                     <Button
-                      size="icon"
-                      variant="outline"
-                    >
-
-                      <FileText className="h-4 w-4" />
-
-                    </Button>
+  size="icon"
+  variant="outline"
+  onClick={() =>
+    quoteService.openPdf(quote.id)
+  }
+>
+  <FileText className="h-4 w-4" />
+</Button>
 
                     <Button
                       size="icon"

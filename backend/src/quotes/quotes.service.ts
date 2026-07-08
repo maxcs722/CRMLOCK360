@@ -466,66 +466,165 @@ export class QuotesService {
 
   doc.pipe(res);
 
-  doc
-    .fontSize(24)
-    .text('LOCK360 CRM');
+  // ================================
+// ENCABEZADO
+// ================================
 
-  doc.moveDown();
-
-  doc
-    .fontSize(18)
-    .text(`Cotización Nº ${quote.numero}`);
-
-  doc.moveDown();
-
-  doc
-    .fontSize(12)
-    .text(
-      `Cliente: ${
-        quote.company.nombreFantasia ||
-        quote.company.razonSocial
-      }`,
-    );
-
-  doc.text(
-    `Ejecutivo: ${quote.user.nombre} ${quote.user.apellido}`,
-  );
-
-  doc.text(
-    `Fecha: ${new Date(
-      quote.fecha,
-    ).toLocaleDateString('es-CL')}`,
-  );
-
-  doc.moveDown();
-
-  doc
-    .fontSize(16)
-    .text('Ítems');
-
-  doc.moveDown(0.5);
-
-  quote.items.forEach((item) => {
-
-    doc.text(
-      `${item.descripcion}`,
-    );
-
-    doc.text(
-      `${item.cantidad} x $${Number(
-        item.precio,
-      ).toLocaleString('es-CL')}`,
-    );
-
-    doc.text(
-      `Subtotal: $${Number(
-        item.subtotal,
-      ).toLocaleString('es-CL')}`,
-    );
-
-    doc.moveDown();
-
+doc
+  .fontSize(28)
+  .font("Helvetica-Bold")
+  .text("LOCK360", {
+    align: "center",
   });
+
+doc
+  .fontSize(12)
+  .font("Helvetica")
+  .text(
+    "Soluciones Tecnológicas y Seguridad Electrónica",
+    {
+      align: "center",
+    },
+  );
+
+doc.moveDown();
+
+doc
+  .lineWidth(1)
+  .moveTo(50, doc.y)
+  .lineTo(545, doc.y)
+  .stroke();
+
+doc.moveDown();
+
+doc
+  .fontSize(22)
+  .font("Helvetica-Bold")
+  .text(
+    `COTIZACIÓN N° ${String(quote.numero).padStart(6, "0")}`,
+  );
+
+doc.moveDown();
+
+doc
+  .font("Helvetica")
+  .fontSize(11);
+
+doc.text(
+  `Cliente: ${
+    quote.company.nombreFantasia ??
+    quote.company.razonSocial
+  }`,
+);
+
+doc.text(
+  `Razón Social: ${quote.company.razonSocial}`,
+);
+
+doc.text(
+  `Ejecutivo: ${quote.user.nombre} ${quote.user.apellido}`,
+);
+
+doc.text(
+  `Fecha: ${new Date(
+    quote.fecha,
+  ).toLocaleDateString("es-CL")}`,
+);
+
+doc.moveDown();
+
+doc
+  .moveTo(50, doc.y)
+  .lineTo(545, doc.y)
+  .stroke();
+
+doc.moveDown();
+
+  doc
+   // ===================================
+// TABLA DE PRODUCTOS
+// ===================================
+
+doc
+  .fontSize(16)
+  .font("Helvetica-Bold")
+  .text("DETALLE DE LA COTIZACIÓN");
+
+doc.moveDown();
+
+const xDescripcion = 50;
+const xCantidad = 310;
+const xPrecio = 380;
+const xTotal = 490;
+
+// Encabezado
+doc
+  .fontSize(11)
+  .font("Helvetica-Bold");
+
+doc.text("Descripción", xDescripcion);
+doc.text("Cant.", xCantidad);
+doc.text("Precio", xPrecio);
+doc.text("Total", xTotal);
+
+doc.moveDown(0.5);
+
+doc
+  .moveTo(50, doc.y)
+  .lineTo(545, doc.y)
+  .stroke();
+
+doc.moveDown(0.8);
+
+// Filas
+doc
+  .font("Helvetica")
+  .fontSize(10);
+
+quote.items.forEach((item) => {
+
+  doc.text(
+    item.descripcion,
+    xDescripcion,
+    doc.y,
+    {
+      width: 240,
+    },
+  );
+
+  doc.text(
+    Number(item.cantidad).toString(),
+    xCantidad,
+  );
+
+  doc.text(
+    "$" +
+      Number(item.precio).toLocaleString(
+        "es-CL",
+      ),
+    xPrecio,
+  );
+
+  doc.text(
+    "$" +
+      Number(item.subtotal).toLocaleString(
+        "es-CL",
+      ),
+    xTotal,
+  );
+
+  doc.moveDown();
+
+});
+
+doc.moveDown();
+
+doc
+  .moveTo(50, doc.y)
+  .lineTo(545, doc.y)
+  .stroke();
+
+doc.moveDown();
 
   doc.moveDown();
 
