@@ -16,6 +16,9 @@ import { UpdateQuoteDto } from './dto/update-quote.dto';
 import PDFDocument from "pdfkit";
 import { Response } from "express";
 
+import path from "path";
+import * as fs from "fs";
+
 @Injectable()
 export class QuotesService {
   constructor(
@@ -447,223 +450,1112 @@ export class QuotesService {
   id: string,
   res: Response,
 ) {
+
   const quote = await this.findOne(id);
 
   const doc = new PDFDocument({
-    margin: 50,
-    size: 'A4',
+    size: "A4",
+    margin: 35,
+    bufferPages: true,
   });
 
   res.setHeader(
-    'Content-Type',
-    'application/pdf',
+    "Content-Type",
+    "application/pdf",
   );
 
   res.setHeader(
-    'Content-Disposition',
+    "Content-Disposition",
     `inline; filename=Cotizacion-${quote.numero}.pdf`,
   );
 
   doc.pipe(res);
 
-  // ================================
-// ENCABEZADO
-// ================================
+  //-------------------------------------------------
+  // CONFIGURACIÓN
+  //-------------------------------------------------
 
-doc
-  .fontSize(28)
-  .font("Helvetica-Bold")
-  .text("LOCK360", {
-    align: "center",
-  });
+  const PAGE_WIDTH = 595;
+  const PAGE_HEIGHT = 842;
 
-doc
-  .fontSize(12)
-  .font("Helvetica")
-  .text(
-    "Soluciones Tecnológicas y Seguridad Electrónica",
-    {
-      align: "center",
-    },
-  );
+  const LEFT = 40;
+  const RIGHT = 555;
 
-doc.moveDown();
+  let y = 40;
 
-doc
-  .lineWidth(1)
-  .moveTo(50, doc.y)
-  .lineTo(545, doc.y)
-  .stroke();
+  //-------------------------------------------------
+  // LOGO
+  //-------------------------------------------------
 
-doc.moveDown();
+  try {
 
-doc
-  .fontSize(22)
-  .font("Helvetica-Bold")
-  .text(
-    `COTIZACIÓN N° ${String(quote.numero).padStart(6, "0")}`,
-  );
-
-doc.moveDown();
-
-doc
-  .font("Helvetica")
-  .fontSize(11);
-
-doc.text(
-  `Cliente: ${
-    quote.company.nombreFantasia ??
-    quote.company.razonSocial
-  }`,
-);
-
-doc.text(
-  `Razón Social: ${quote.company.razonSocial}`,
-);
-
-doc.text(
-  `Ejecutivo: ${quote.user.nombre} ${quote.user.apellido}`,
-);
-
-doc.text(
-  `Fecha: ${new Date(
-    quote.fecha,
-  ).toLocaleDateString("es-CL")}`,
-);
-
-doc.moveDown();
-
-doc
-  .moveTo(50, doc.y)
-  .lineTo(545, doc.y)
-  .stroke();
-
-doc.moveDown();
-
-  doc
-   // ===================================
-// TABLA DE PRODUCTOS
-// ===================================
-
-doc
-  .fontSize(16)
-  .font("Helvetica-Bold")
-  .text("DETALLE DE LA COTIZACIÓN");
-
-doc.moveDown();
-
-const xDescripcion = 50;
-const xCantidad = 310;
-const xPrecio = 380;
-const xTotal = 490;
-
-// Encabezado
-doc
-  .fontSize(11)
-  .font("Helvetica-Bold");
-
-doc.text("Descripción", xDescripcion);
-doc.text("Cant.", xCantidad);
-doc.text("Precio", xPrecio);
-doc.text("Total", xTotal);
-
-doc.moveDown(0.5);
-
-doc
-  .moveTo(50, doc.y)
-  .lineTo(545, doc.y)
-  .stroke();
-
-doc.moveDown(0.8);
-
-// Filas
-doc
-  .font("Helvetica")
-  .fontSize(10);
-
-quote.items.forEach((item) => {
-
-  doc.text(
-    item.descripcion,
-    xDescripcion,
-    doc.y,
-    {
-      width: 240,
-    },
-  );
-
-  doc.text(
-    Number(item.cantidad).toString(),
-    xCantidad,
-  );
-
-  doc.text(
-    "$" +
-      Number(item.precio).toLocaleString(
-        "es-CL",
-      ),
-    xPrecio,
-  );
-
-  doc.text(
-    "$" +
-      Number(item.subtotal).toLocaleString(
-        "es-CL",
-      ),
-    xTotal,
-  );
-
-  doc.moveDown();
-
-});
-
-doc.moveDown();
-
-doc
-  .moveTo(50, doc.y)
-  .lineTo(545, doc.y)
-  .stroke();
-
-doc.moveDown();
-
-  doc.moveDown();
-
-  doc.text(
-    `Subtotal: $${Number(
-      quote.subtotal,
-    ).toLocaleString('es-CL')}`,
-  );
-
-  doc.text(
-    `IVA: $${Number(
-      quote.iva,
-    ).toLocaleString('es-CL')}`,
-  );
-
-  doc
-    .fontSize(16)
-    .text(
-      `TOTAL: $${Number(
-        quote.total,
-      ).toLocaleString('es-CL')}`,
+    const logo = path.join(
+      process.cwd(),
+      "assets",
+      "logo-lock360.png",
     );
 
-  if (quote.observaciones) {
+   console.log(process.cwd());
 
-    doc.moveDown();
+   console.log(logo);
+
+   console.log(fs.existsSync(logo));
+
+    if (fs.existsSync(logo)) {
+
+      doc.image(
+        logo,
+        30,
+        20,
+        {
+         width: 220,
+      },
+    );
+
+    }
+
+  } catch {}
+
+  //-------------------------------------------------
+  // TITULO
+  //-------------------------------------------------
+
+  doc
+
+    .font("Helvetica-Bold")
+
+    .fontSize(24)
+
+    .fillColor("#0D5CAB")
+
+    .text(
+
+      "COTIZACIÓN",
+
+      330,
+
+      45,
+
+      {
+
+        width: 190,
+
+        align: "center",
+
+      },
+
+    );
+
+  doc
+
+    .roundedRect(
+      360,
+      82,
+      150,
+      34,
+      4,
+    )
+
+    .fill("#0D5CAB");
+
+  doc
+
+    .fillColor("white")
+
+    .fontSize(16)
+
+    .text(
+
+      `N° ${String(
+        quote.numero,
+      ).padStart(6, "0")}`,
+
+      360,
+
+      91,
+
+      {
+
+        width: 150,
+
+        align: "center",
+
+      },
+
+    );
+
+  doc.fillColor("black");
+
+  //-------------------------------------------------
+  // DATOS EMPRESA
+  //-------------------------------------------------
+
+  y = 135;
+
+  doc
+
+    .font("Helvetica")
+
+    .fontSize(10);
+
+  doc.text(
+    "AGENDA TUS TRABAJOS AQUI:",
+    LEFT,
+    y,
+  );
+
+  doc.text(
+    "WWW.LOCK360.CL",
+    LEFT,
+    y + 15,
+  );
+
+  doc.text(
+    "WSP +569 2016 7487",
+    LEFT,
+    y + 30,
+  );
+
+  //-------------------------------------------------
+  // FECHA
+  //-------------------------------------------------
+
+  doc.text(
+
+    `Fecha : ${new Date(
+      quote.fecha,
+    ).toLocaleDateString("es-CL")}`,
+
+    350,
+
+    y,
+
+  );
+
+  doc.text(
+
+    `Estado : ${quote.estado}`,
+
+    350,
+
+    y + 15,
+
+  );
+
+  //-------------------------------------------------
+  // LINEA
+  //-------------------------------------------------
+
+  doc
+
+    .moveTo(
+      LEFT,
+      190,
+    )
+
+    .lineTo(
+      RIGHT,
+      190,
+    )
+
+    .lineWidth(2)
+
+    .strokeColor("#0D5CAB")
+
+    .stroke();
+
+  //-------------------------------------------------
+  // DATOS CLIENTE
+  //-------------------------------------------------
+
+  y = 205;
+
+  doc
+
+    .roundedRect(
+      LEFT,
+      y,
+      515,
+      120,
+      4,
+    )
+
+    .stroke("#D9D9D9");
+
+  doc
+
+    .rect(
+      LEFT,
+      y,
+      515,
+      28,
+    )
+
+    .fill("#0D5CAB");
+
+  doc
+
+    .fillColor("white")
+
+    .font("Helvetica-Bold")
+
+    .fontSize(12)
+
+    .text(
+      "DATOS DEL CLIENTE",
+      LEFT + 10,
+      y + 8,
+    );
+
+  doc.fillColor("black");
+
+  doc
+
+    .font("Helvetica")
+
+    .fontSize(10);
+
+  let row = y + 42;
+
+  doc.text(
+    "Cliente:",
+    55,
+    row,
+  );
+
+  doc.text(
+    quote.company.nombreFantasia ??
+      quote.company.razonSocial,
+    130,
+    row,
+  );
+
+  row += 18;
+
+  doc.text(
+    "Razón Social:",
+    55,
+    row,
+  );
+
+  doc.text(
+    quote.company.razonSocial,
+    130,
+    row,
+  );
+
+  row += 18;
+
+  doc.text(
+    "Dirección:",
+    55,
+    row,
+  );
+
+  doc.text(
+    quote.company.direccion ?? "-",
+    130,
+    row,
+  );
+
+  row = y + 42;
+
+  doc.text(
+    "Comuna:",
+    320,
+    row,
+  );
+
+  doc.text(
+    quote.company.comuna ?? "-",
+    390,
+    row,
+  );
+
+  row += 18;
+
+  doc.text(
+    "Teléfono:",
+    320,
+    row,
+  );
+
+  doc.text(
+    quote.company.telefono ?? "-",
+    390,
+    row,
+  );
+
+  row += 18;
+
+  doc.text(
+    "Ejecutivo:",
+    320,
+    row,
+  );
+
+  doc.text(
+    `${quote.user.nombre} ${quote.user.apellido}`,
+    390,
+    row,
+  );
+
+  //-------------------------------------------------
+  // POSICIÓN INICIAL
+  //-------------------------------------------------
+
+  let currentY = 350;
+
+ //-------------------------------------------------
+// TABLA DE PRODUCTOS
+//-------------------------------------------------
+
+doc
+
+  .roundedRect(
+    LEFT,
+    currentY,
+    515,
+    26,
+    3,
+  )
+
+  .fill("#0D5CAB");
+
+doc
+
+  .fillColor("white")
+
+  .font("Helvetica-Bold")
+
+  .fontSize(10);
+
+doc.text("Descripción", 50, currentY + 8);
+
+doc.text("Cant.", 320, currentY + 8);
+
+doc.text("Precio", 365, currentY + 8);
+
+doc.text("Desc.", 435, currentY + 8);
+
+doc.text("Total", 495, currentY + 8);
+
+currentY += 30;
+
+doc
+
+  .fillColor("black")
+
+  .font("Helvetica")
+
+  .fontSize(10);
+
+for (const item of quote.items) {
+
+  //-------------------------------------------------
+  // SI NO CABE LA FILA SE CREA OTRA PÁGINA
+  //-------------------------------------------------
+
+  if (currentY > 690) {
+
+    doc.addPage();
+
+    currentY = 50;
 
     doc
-      .fontSize(14)
-      .text('Observaciones');
+
+      .roundedRect(
+        LEFT,
+        currentY,
+        515,
+        26,
+        3,
+      )
+
+      .fill("#0D5CAB");
 
     doc
-      .fontSize(12)
-      .text(quote.observaciones);
+
+      .fillColor("white")
+
+      .font("Helvetica-Bold")
+
+      .fontSize(10);
+
+    doc.text(
+      "Descripción",
+      50,
+      currentY + 8,
+    );
+
+    doc.text(
+      "Cant.",
+      320,
+      currentY + 8,
+    );
+
+    doc.text(
+      "Precio",
+      365,
+      currentY + 8,
+    );
+
+    doc.text(
+      "Desc.",
+      435,
+      currentY + 8,
+    );
+
+    doc.text(
+      "Total",
+      495,
+      currentY + 8,
+    );
+
+    currentY += 30;
+
+    doc
+
+      .fillColor("black")
+
+      .font("Helvetica")
+
+      .fontSize(10);
 
   }
 
-  doc.end();
+  doc
+
+    .rect(
+      LEFT,
+      currentY,
+      515,
+      24,
+    )
+
+    .strokeColor("#E5E7EB")
+
+    .stroke();
+
+  doc.text(
+
+    item.descripcion,
+
+    50,
+
+    currentY + 7,
+
+    {
+
+      width: 240,
+
+    },
+
+  );
+
+  doc.text(
+
+    Number(
+      item.cantidad,
+    ).toLocaleString("es-CL"),
+
+    315,
+
+    currentY + 7,
+
+    {
+
+      width: 35,
+
+      align: "center",
+
+    },
+
+  );
+
+  doc.text(
+
+    "$ " +
+
+      Number(
+        item.precio,
+      ).toLocaleString("es-CL"),
+
+    355,
+
+    currentY + 7,
+
+    {
+
+      width: 60,
+
+      align: "right",
+
+    },
+
+  );
+
+  doc.text(
+
+    "$ " +
+
+      Number(
+        item.descuento,
+      ).toLocaleString("es-CL"),
+
+    425,
+
+    currentY + 7,
+
+    {
+
+      width: 55,
+
+      align: "right",
+
+    },
+
+  );
+
+  doc.text(
+
+    "$ " +
+
+      Number(
+        item.subtotal,
+      ).toLocaleString("es-CL"),
+
+    485,
+
+    currentY + 7,
+
+    {
+
+      width: 60,
+
+      align: "right",
+
+    },
+
+  );
+
+  currentY += 24;
+
 }
 
+//-------------------------------------------------
+// ESPACIO DESPUÉS DE LA TABLA
+//-------------------------------------------------
 
+currentY += 20;
+
+ //-------------------------------------------------
+// RESUMEN ECONÓMICO
+//-------------------------------------------------
+
+// Si no cabe el resumen
+if (currentY > 610) {
+
+  doc.addPage();
+
+  currentY = 50;
+
+}
+
+const resumenX = 300;
+const resumenWidth = 255;
+const tituloX = 310;
+const textoX = 315;
+const valorX = 430;
+const valorWidth = 105;
+
+doc
+
+  .roundedRect(
+    resumenX,
+    currentY,
+    resumenWidth,
+    110,
+    4,
+  )
+
+  .strokeColor("#D5D5D5")
+
+  .stroke();
+
+doc
+
+  .rect(
+    resumenX,
+    currentY,
+    resumenWidth,
+    28,
+  )
+
+  .fill("#0D5CAB");
+
+doc
+
+  .fillColor("white")
+
+  .font("Helvetica-Bold")
+
+  .fontSize(11)
+
+  .text(
+    "RESUMEN ECONÓMICO",
+    tituloX,
+    currentY + 8,
+  );
+
+doc.fillColor("black");
+
+let resumenY = currentY + 42;
+
+doc
+
+  .font("Helvetica")
+
+  .fontSize(11);
+
+//---------------------------
+// SUBTOTAL
+//---------------------------
+
+doc.text(
+  "Subtotal",
+  textoX,
+  resumenY,
+);
+
+doc.text(
+  `$ ${Number(
+    quote.subtotal,
+  ).toLocaleString("es-CL")}`,
+  valorX,
+  resumenY,
+  {
+    width: valorWidth,
+    align: "right",
+  },
+);
+
+resumenY += 22;
+
+//---------------------------
+// IVA
+//---------------------------
+
+doc.text(
+  "IVA (19%)",
+  textoX,
+  resumenY,
+);
+
+doc.text(
+  `$ ${Number(
+    quote.iva,
+  ).toLocaleString("es-CL")}`,
+  valorX,
+  resumenY,
+  {
+    width: valorWidth,
+    align: "right",
+  },
+);
+
+resumenY += 24;
+
+//---------------------------
+// Línea
+//---------------------------
+
+doc
+
+  .moveTo(
+    textoX,
+    resumenY,
+  )
+
+  .lineTo(
+    545,
+    resumenY,
+  )
+
+  .strokeColor("#CCCCCC")
+
+  .stroke();
+
+resumenY += 10;
+
+//---------------------------
+// TOTAL
+//---------------------------
+
+doc
+
+  .font("Helvetica-Bold")
+
+  .fontSize(16);
+
+doc.text(
+  "TOTAL",
+  textoX,
+  resumenY,
+);
+
+doc.text(
+  `$ ${Number(
+    quote.total,
+  ).toLocaleString("es-CL")}`,
+  valorX,
+  resumenY,
+  {
+    width: valorWidth,
+    align: "right",
+  },
+);
+
+currentY += 130;
+
+ //-------------------------------------------------
+// OBSERVACIONES
+//-------------------------------------------------
+
+const observaciones =
+
+  quote.observaciones?.trim() ||
+
+  "Sin observaciones.";
+
+// Calculamos la altura real del texto
+const textHeight = doc.heightOfString(
+  observaciones,
+  {
+    width: 495,
+  },
+);
+
+// Altura mínima de la caja
+const boxHeight = Math.max(
+  60,
+  textHeight + 35,
+);
+
+// Si no cabe en la hoja
+if (currentY + boxHeight > 690) {
+
+  doc.addPage();
+
+  currentY = 50;
+
+}
+
+doc
+
+  .roundedRect(
+    40,
+    currentY,
+    515,
+    boxHeight,
+    4,
+  )
+
+  .strokeColor("#D8D8D8")
+
+  .stroke();
+
+doc
+
+  .rect(
+    40,
+    currentY,
+    515,
+    28,
+  )
+
+  .fill("#0D5CAB");
+
+doc
+
+  .fillColor("white")
+
+  .font("Helvetica-Bold")
+
+  .fontSize(11)
+
+  .text(
+    "OBSERVACIONES",
+    50,
+    currentY + 8,
+  );
+
+doc
+
+  .fillColor("black")
+
+  .font("Helvetica")
+
+  .fontSize(10)
+
+  .text(
+
+    observaciones,
+
+    50,
+
+    currentY + 38,
+
+    {
+
+      width: 495,
+
+      align: "left",
+
+    },
+
+  );
+
+// Dejamos la posición justo debajo
+currentY += boxHeight + 20;
+
+ //-------------------------------------------------
+// CONDICIONES COMERCIALES y DATOS PARA ORDEN DE COMPRA
+//-------------------------------------------------
+
+const condiciones = [
+
+  "• Oferta válida por 15 días.",
+
+  "• Garantía: 12 meses contra fallas de fabricación.",
+
+  "• Forma de pago según acuerdo comercial.",
+
+  "• DATOS PARA ORDEN DE COMPRA.",
+
+  "• LOCK360 SpA.",
+
+  "• 78.453.977-6",
+
+  "• Giro: Telecomunicaciones y servicios",
+
+  "• Antonio Bellet 193,Of.1210 Providencia Santiago, Chile.",
+
+  
+
+];
+
+// Calculamos la altura necesaria
+const condicionesHeight =
+  35 + condiciones.length * 18;
+
+// Si no alcanza el espacio disponible
+if (currentY + condicionesHeight > 690) {
+
+  doc.addPage();
+
+  currentY = 50;
+
+}
+
+doc
+
+  .roundedRect(
+    40,
+    currentY,
+    515,
+    condicionesHeight,
+    4,
+  )
+
+  .strokeColor("#D8D8D8")
+
+  .stroke();
+
+doc
+
+  .rect(
+    40,
+    currentY,
+    515,
+    28,
+  )
+
+  .fill("#0D5CAB");
+
+doc
+
+  .fillColor("white")
+
+  .font("Helvetica-Bold")
+
+  .fontSize(11)
+
+  .text(
+    "CONDICIONES COMERCIALES Y DATOS PARA ORDEN DE COMPRA",
+    50,
+    currentY + 8,
+  );
+
+doc
+
+  .fillColor("black")
+
+  .font("Helvetica")
+
+  .fontSize(10);
+
+let condicionesY = currentY + 40;
+
+for (const linea of condiciones) {
+
+  doc.text(
+    linea,
+    55,
+    condicionesY,
+  );
+
+  condicionesY += 18;
+
+}
+
+currentY += condicionesHeight + 20;
+
+//-------------------------------------------------
+// FIRMA
+//-------------------------------------------------
+
+const firmaHeight = 90;
+
+// Si no cabe la firma, la enviamos a la página siguiente
+if (currentY + firmaHeight > 730) {
+
+  doc.addPage();
+
+  currentY = 60;
+
+}
+
+doc
+
+  .moveTo(
+    70,
+    currentY + 30,
+  )
+
+  .lineTo(
+    260,
+    currentY + 30,
+  )
+
+  .strokeColor("#777777")
+
+  .stroke();
+
+doc
+
+  .font("Helvetica-Bold")
+
+  .fontSize(11)
+
+  .fillColor("black")
+
+  .text(
+    "Victor Figueroa",
+    90,
+    currentY + 38,
+  );
+
+doc
+
+  .font("Helvetica")
+
+  .fontSize(10)
+
+  .fillColor("#555555")
+
+  .text(
+    "Ejecutivo Comercial",
+    90,
+    currentY + 54,
+  );
+
+doc.text(
+  "LOCK360",
+  90,
+  currentY + 68,
+);
+
+//-------------------------------------------------
+// PIE DE PÁGINA
+//-------------------------------------------------
+
+const pages = doc.bufferedPageRange();
+
+for (
+  let i = 0;
+  i < pages.count;
+  i++
+) {
+
+  doc.switchToPage(i);
+
+  const footerY = 795;
+
+  doc
+
+    .moveTo(
+      40,
+      footerY - 12,
+    )
+
+    .lineTo(
+      555,
+      footerY - 12,
+    )
+
+    .strokeColor("#DDDDDD")
+
+    .stroke();
+
+  doc
+
+    .font("Helvetica")
+
+    .fontSize(9)
+
+    .fillColor("#666666");
+
+  doc.text(
+    "WWW.LOCK360.CL",
+    40,
+    footerY,
+  );
+
+  doc.text(
+    "AGENDA TUS TRABAJOS AL WHATSAPP +56 9 2016 7487",
+    200,
+    footerY,
+  );
+
+  doc.text(
+    `Página ${i + 1} de ${pages.count}`,
+    440,
+    footerY,
+    {
+      width: 100,
+      align: "right",
+    },
+  );
+
+}
+
+//-------------------------------------------------
+// FINALIZAR PDF
+//-------------------------------------------------
+
+doc.end();
+
+
+  }
 }
