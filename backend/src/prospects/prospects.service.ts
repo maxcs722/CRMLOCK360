@@ -196,4 +196,41 @@ export class ProspectsService {
       ),
     };
   }
+
+      async updateStatus(
+
+        id: string,
+
+        status: any,
+
+      ) {
+
+        await this.findOne(id);
+
+        return this.prisma.prospect.update({
+
+          where: {
+
+            id,
+
+          },
+
+           data: {
+
+             status,
+
+          },
+
+          include: {
+
+             company: true,
+
+             ejecutivo: true,
+
+          },
+
+   });
+
+ }
+
 }

@@ -11,6 +11,7 @@ import {
 import { ProspectsService } from './prospects.service';
 import { CreateProspectDto } from './dto/create-prospect.dto';
 import { UpdateProspectDto } from './dto/update-prospect.dto';
+import { UpdateProspectStatusDto } from "./dto/update-status.dto";
 
 @Controller('prospects')
 export class ProspectsController {
@@ -46,6 +47,25 @@ export class ProspectsController {
   ) {
     return this.prospectsService.update(id, dto);
   }
+
+  @Patch(":id/status")
+updateStatus(
+
+  @Param("id") id: string,
+
+  @Body() dto: UpdateProspectStatusDto,
+
+) {
+
+  return this.prospectsService.updateStatus(
+
+    id,
+
+    dto.status,
+
+  );
+
+}
 
   @Delete(':id')
   remove(@Param('id') id: string) {
