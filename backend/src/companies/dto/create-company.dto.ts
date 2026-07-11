@@ -18,6 +18,8 @@ export class CreateCompanyDto {
   @IsString()
   nombreFantasia?: string;
 
+  // Ahora el RUT es opcional
+  @IsOptional()
   @IsString()
   rut!: string;
 

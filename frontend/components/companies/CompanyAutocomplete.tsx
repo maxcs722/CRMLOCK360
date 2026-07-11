@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import { companyService } from "@/services/company.service";
+
 interface Company {
   id: string;
   razonSocial: string;
@@ -20,31 +22,47 @@ export default function CompanyAutocomplete({
   onChange,
 }: Props) {
 
-  const [search, setSearch] = useState("");
-  const [open, setOpen] = useState(false);
+  const [items, setItems] =
+    useState<Company[]>(companies);
+
+  const [search, setSearch] =
+    useState("");
+
+  const [open, setOpen] =
+    useState(false);
 
   useEffect(() => {
-    const company = companies.find(
+    setItems(companies);
+  }, [companies]);
+
+  useEffect(() => {
+
+    const company = items.find(
       (c) => c.id === value,
     );
 
     if (company) {
+
       setSearch(
-        company.nombreFantasia ||
-        company.razonSocial,
+        company.nombreFantasia?.trim()
+          ? company.nombreFantasia
+          : company.razonSocial,
       );
+
     }
-  }, [value, companies]);
+
+  }, [value, items]);
 
   const filtered = useMemo(() => {
 
-    if (!search.trim()) return companies;
+    if (!search.trim()) return items;
 
-    return companies.filter((company) => {
+    return items.filter((company) => {
 
       const text = (
-        company.nombreFantasia ||
-        company.razonSocial
+        company.nombreFantasia?.trim()
+          ? company.nombreFantasia
+          : company.razonSocial
       ).toLowerCase();
 
       return text.includes(
@@ -53,7 +71,61 @@ export default function CompanyAutocomplete({
 
     });
 
-  }, [search, companies]);
+  }, [search, items]);
+
+  const exists = filtered.some((company) => {
+
+    const text = (
+      company.nombreFantasia?.trim()
+        ? company.nombreFantasia
+        : company.razonSocial
+    ).toLowerCase();
+
+    return (
+      text === search.toLowerCase()
+    );
+
+  });
+
+  async function createCompany() {
+
+  try {
+
+    const company =
+      await companyService.createCompany({
+
+        razonSocial: search.trim(),
+
+        nombreFantasia: "",
+
+        rut: `TEMP-${Date.now()}`,
+
+        tipo: "PROSPECTO",
+
+      });
+
+    setItems((old) => [
+      ...old,
+      company,
+    ]);
+
+    setSearch(company.razonSocial);
+
+    onChange(company.id);
+
+    setOpen(false);
+
+  } catch (error: any) {
+
+    console.log(error.response?.data);
+
+    alert(
+      JSON.stringify(error.response?.data)
+    );
+
+  }
+
+}
 
   return (
 
@@ -72,7 +144,7 @@ export default function CompanyAutocomplete({
 
       {open && (
 
-        <div className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg border bg-white shadow">
+        <div className="absolute z-50 mt-1 max-h-64 w-full overflow-auto rounded-lg border bg-white shadow">
 
           {filtered.map((company) => (
 
@@ -83,8 +155,9 @@ export default function CompanyAutocomplete({
               onClick={() => {
 
                 setSearch(
-                  company.nombreFantasia ||
-                  company.razonSocial,
+                  company.nombreFantasia?.trim()
+                    ? company.nombreFantasia
+                    : company.razonSocial,
                 );
 
                 onChange(company.id);
@@ -94,12 +167,27 @@ export default function CompanyAutocomplete({
               }}
             >
 
-              {company.nombreFantasia ||
-                company.razonSocial}
+              {company.nombreFantasia?.trim()
+                ? company.nombreFantasia
+                : company.razonSocial}
 
             </button>
 
           ))}
+
+          {!exists && search.trim() !== "" && (
+
+            <button
+              type="button"
+              onClick={createCompany}
+              className="block w-full border-t bg-blue-50 px-3 py-2 text-left font-semibold text-blue-700 hover:bg-blue-100"
+            >
+
+              ➕ Crear "{search}"
+
+            </button>
+
+          )}
 
         </div>
 

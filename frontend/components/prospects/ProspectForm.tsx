@@ -283,23 +283,28 @@ export default function ProspectForm({
           </label>
 
           <input
+  type="text"
+  inputMode="numeric"
+  value={
+    form.valorEstimado
+      ? `$ ${Number(form.valorEstimado).toLocaleString("es-CL")}`
+      : ""
+  }
+  onChange={(e) => {
 
-            type="number"
+    const onlyNumbers = e.target.value.replace(/\D/g, "");
 
-            value={form.valorEstimado}
+    update(
+      "valorEstimado",
+      onlyNumbers === ""
+        ? 0
+        : Number(onlyNumbers),
+    );
 
-            onChange={(e) =>
-              update(
-                "valorEstimado",
-                Number(
-                  e.target.value,
-                ),
-              )
-            }
-
-            className="w-full rounded-lg border p-2"
-
-          />
+  }}
+  placeholder="$ 0"
+  className="w-full rounded-lg border p-2"
+/>
 
         </div>
 
