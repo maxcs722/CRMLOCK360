@@ -11,7 +11,6 @@ import {
 } from "@/services/prospect.service";
 
 export default function ProspectsPage() {
-
   const [pipeline, setPipeline] =
     useState<Pipeline | null>(null);
 
@@ -21,21 +20,12 @@ export default function ProspectsPage() {
   const [search, setSearch] =
     useState("");
 
-  const [view, setView] =
-    useState<"pipeline" | "list">(
-      "pipeline",
-    );
-
   useEffect(() => {
-
-    loadPipeline();
-
+    loadProspects();
   }, []);
 
-  async function loadPipeline() {
-
+  async function loadProspects() {
     try {
-
       const data =
         await prospectService.getPipeline();
 
@@ -50,7 +40,6 @@ export default function ProspectsPage() {
       setLoading(false);
 
     }
-
   }
 
   async function handleDelete(
@@ -58,18 +47,16 @@ export default function ProspectsPage() {
   ) {
 
     const ok = window.confirm(
-      "¿Eliminar este prospecto?",
+      "¿Desea eliminar este prospecto?",
     );
 
     if (!ok) return;
 
     try {
 
-      await prospectService.deleteProspect(
-        id,
-      );
+      await prospectService.deleteProspect(id);
 
-      await loadPipeline();
+      await loadProspects();
 
     } catch (error) {
 
@@ -80,85 +67,51 @@ export default function ProspectsPage() {
       );
 
     }
-
   }
 
   if (loading) {
-
     return (
-
       <div className="p-8">
-
         Cargando prospectos...
-
       </div>
-
     );
-
   }
 
   if (!pipeline) {
-
     return (
-
       <div className="p-8">
-
         Error cargando prospectos.
-
       </div>
-
     );
-
   }
 
   return (
-
     <div className="space-y-6">
 
       <div>
 
         <h1 className="text-3xl font-bold">
-
           Prospectos
-
         </h1>
 
         <p className="text-slate-500">
-
           Gestión Comercial
-
         </p>
 
       </div>
 
       <ProspectToolbar
-
         search={search}
-
         onSearch={setSearch}
-
-        view={view}
-
-        onChangeView={setView}
-
       />
 
       <ProspectsView
-
         pipeline={pipeline}
-
-        view={view}
-
         search={search}
-
         loading={loading}
-
         onDelete={handleDelete}
-
       />
 
     </div>
-
   );
-
 }

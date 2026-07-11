@@ -50,29 +50,29 @@ export default function EditProspectPage() {
   }
 
   async function handleSubmit(
-    values: CreateProspectDto,
-  ) {
+  values: CreateProspectDto,
+) {
+  try {
+    await prospectService.updateProspect(
+      id,
+      values,
+    );
 
-    try {
+    // Redirige al listado de prospectos
+    router.push("/prospects");
 
-      await prospectService.updateProspect(
-        id,
-        values,
-      );
+    // Opcional: fuerza la recarga de la lista
+    router.refresh();
 
-      router.push("/prospects");
+  } catch (error: any) {
+    console.log(error.response);
+    console.log(error.response?.data);
 
-    } catch (error) {
-
-      console.error(error);
-
-      alert(
-        "No fue posible actualizar el prospecto.",
-      );
-
-    }
-
+    alert(
+      JSON.stringify(error.response?.data)
+    );
   }
+}
 
   if (loading) {
 

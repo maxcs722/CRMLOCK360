@@ -5,8 +5,6 @@ import Link from "next/link";
 import {
   Search,
   Plus,
-  LayoutList,
-  KanbanSquare,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -14,21 +12,16 @@ import { Button } from "@/components/ui/button";
 interface Props {
   search: string;
   onSearch(value: string): void;
-  view: "list" | "pipeline";
-  onChangeView(
-    view: "list" | "pipeline",
-  ): void;
 }
 
 export default function ProspectToolbar({
   search,
   onSearch,
-  view,
-  onChangeView,
 }: Props) {
   return (
     <div className="flex flex-col gap-4 rounded-xl border bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
 
+      {/* Buscador */}
       <div className="relative w-full lg:w-96">
 
         <Search
@@ -38,53 +31,25 @@ export default function ProspectToolbar({
 
         <input
           value={search}
-          onChange={(e) =>
-            onSearch(e.target.value)
-          }
+          onChange={(e) => onSearch(e.target.value)}
           placeholder="Buscar prospecto..."
           className="w-full rounded-lg border py-2 pl-10 pr-4 outline-none focus:border-blue-500"
         />
 
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      {/* Botón Nuevo Prospecto */}
+      <Button asChild>
 
-        <Button
-          variant={
-            view === "list"
-              ? "default"
-              : "outline"
-          }
-          onClick={() =>
-            onChangeView("list")
-          }
-        >
-          <LayoutList className="mr-2 h-4 w-4" />
-          Lista
-        </Button>
+        <Link href="/prospects/new">
 
-        <Button
-          variant={
-            view === "pipeline"
-              ? "default"
-              : "outline"
-          }
-          onClick={() =>
-            onChangeView("pipeline")
-          }
-        >
-          <KanbanSquare className="mr-2 h-4 w-4" />
-          Pipeline
-        </Button>
+          <Plus className="mr-2 h-4 w-4" />
 
-        <Button asChild>
-          <Link href="/prospects/new">
-            <Plus className="mr-2 h-4 w-4" />
-            Nuevo Prospecto
-          </Link>
-        </Button>
+          Nuevo Prospecto
 
-      </div>
+        </Link>
+
+      </Button>
 
     </div>
   );

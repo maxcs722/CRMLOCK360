@@ -10,6 +10,7 @@ import {
 
 import { companyService } from "@/services/company.service";
 import { usersService } from "@/services/users.service";
+import CompanyAutocomplete from "@/components/companies/CompanyAutocomplete";
 
 interface Props {
 
@@ -106,44 +107,49 @@ export default function ProspectForm({
   }
 
   async function handleSubmit(
-    e: React.FormEvent,
-  ) {
+  e: React.FormEvent,
+) {
 
-    e.preventDefault();
+  e.preventDefault();
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
+  try {
 
-      const payload: CreateProspectDto = {
-  ...form,
-};
+    const payload: any = {
+      ...form,
+    };
 
-if (!payload.fechaContacto) {
-  delete payload.fechaContacto;
-}
+    payload.valorEstimado = Number(
+      payload.valorEstimado || 0,
+    );
 
-if (!payload.proximaAccion) {
-  delete payload.proximaAccion;
-}
-
-if (!payload.companyId) {
-  delete payload.companyId;
-}
-
-if (!payload.ejecutivoId) {
-  delete payload.ejecutivoId;
-}
-
-
-
-    } finally {
-
-      setLoading(false);
-
+    if (!payload.fechaContacto) {
+      delete payload.fechaContacto;
     }
 
+    if (!payload.proximaAccion) {
+      delete payload.proximaAccion;
+    }
+
+    if (!payload.companyId) {
+      delete payload.companyId;
+    }
+
+    if (!payload.ejecutivoId) {
+      delete payload.ejecutivoId;
+    }
+
+    await onSubmit(payload);
+
+  } finally {
+
+    setLoading(false);
+
   }
+
+}
+
 
   return (
 
@@ -184,48 +190,16 @@ if (!payload.ejecutivoId) {
         <div>
 
           <label className="mb-2 block font-medium">
+  Empresa
+</label>
 
-            Empresa
-
-          </label>
-
-          <select
-
-            value={form.companyId}
-
-            onChange={(e) =>
-              update(
-                "companyId",
-                e.target.value,
-              )
-            }
-
-            className="w-full rounded-lg border p-2"
-
-          >
-
-            <option value="">
-
-              Seleccione...
-
-            </option>
-
-            {companies.map((company) => (
-
-              <option
-                key={company.id}
-                value={company.id}
-              >
-
-                {company.nombreFantasia ||
-
-                  company.razonSocial}
-
-              </option>
-
-            ))}
-
-          </select>
+<CompanyAutocomplete
+  companies={companies}
+  value={form.companyId}
+  onChange={(companyId) =>
+    update("companyId", companyId)
+  }
+/>
 
         </div>
 
