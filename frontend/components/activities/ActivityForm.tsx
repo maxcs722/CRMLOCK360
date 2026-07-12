@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuthContext } from "@/lib/auth/AuthProvider";
 
 export interface Activity {
   id?: string;
@@ -60,6 +61,8 @@ export default function ActivityForm({
     userId: "",
   };
 
+  const { user } = useAuthContext();
+
   const [form, setForm] =
     useState<Activity>(emptyForm);
 
@@ -99,7 +102,10 @@ export default function ActivityForm({
       return;
     }
 
-    onSave(form);
+    onSave({
+    ...form,
+    userId: user?.id ?? "",
+   });
   }
 
   return (

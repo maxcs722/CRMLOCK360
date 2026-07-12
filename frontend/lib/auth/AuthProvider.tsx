@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   createContext,
@@ -6,17 +6,15 @@ import {
   useEffect,
   useState,
   ReactNode,
-} from 'react';
+} from "react";
 
-import {
-  getProfile,
-} from '@/lib/api';
+import { getProfile } from "@/lib/api";
 
 import {
   getToken,
   removeToken,
   saveToken,
-} from './auth-storage';
+} from "./auth-storage";
 
 interface User {
   id: string;
@@ -30,20 +28,26 @@ interface AuthContextData {
   user: User | null;
   loading: boolean;
 
-  login: (token: string, user: User) => Promise<void>;
+  login: (
+    token: string,
+    user: User,
+  ) => Promise<void>;
 
   logout: () => void;
 }
 
 const AuthContext =
-  createContext<AuthContextData | null>(null);
+  createContext<AuthContextData | null>(
+    null,
+  );
 
 export function AuthProvider({
   children,
 }: {
   children: ReactNode;
 }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] =
+    useState<User | null>(null);
 
   const [loading, setLoading] =
     useState(true);
@@ -53,15 +57,44 @@ export function AuthProvider({
       try {
         const token = getToken();
 
+        console.log(
+          "========== AUTH ==========",
+        );
+        console.log("TOKEN:", token);
+
         if (!token) {
+          console.warn(
+            "No existe access_token.",
+          );
+
           setLoading(false);
           return;
         }
 
-        const profile = await getProfile();
+        console.log(
+          "Consultando perfil...",
+        );
+
+        const profile =
+          await getProfile();
+
+        console.log(
+          "PROFILE:",
+          profile,
+        );
 
         setUser(profile);
-      } catch {
+
+        console.log(
+          "Usuario autenticado:",
+          profile.id,
+        );
+      } catch (error) {
+        console.error(
+          "Error obteniendo perfil:",
+          error,
+        );
+
         removeToken();
       } finally {
         setLoading(false);
@@ -75,12 +108,19 @@ export function AuthProvider({
     token: string,
     user: User,
   ) {
+    console.log(
+      "LOGIN OK",
+      user,
+    );
+
     saveToken(token);
 
     setUser(user);
   }
 
   function logout() {
+    console.log("LOGOUT");
+
     removeToken();
 
     setUser(null);
@@ -106,7 +146,7 @@ export function useAuthContext() {
 
   if (!context) {
     throw new Error(
-      'useAuth debe usarse dentro de AuthProvider',
+      "useAuth debe usarse dentro de AuthProvider",
     );
   }
 

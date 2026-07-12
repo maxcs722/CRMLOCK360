@@ -9,11 +9,13 @@ import {
 interface Props {
   date: Date;
   activities: Activity[];
+  onClick(): void;
 }
 
 export default function CalendarDay({
   date,
   activities,
+  onClick,
 }: Props) {
 
   const dayActivities = activities.filter((activity) =>
@@ -25,7 +27,10 @@ export default function CalendarDay({
 
   return (
 
-    <div className="h-32 overflow-hidden rounded-xl border bg-white p-2 shadow-sm transition hover:border-blue-500 hover:shadow-md">
+    <div
+      onClick={onClick}
+      className="cursor-pointer h-32 overflow-hidden rounded-xl border bg-white p-2 shadow-sm transition hover:border-blue-500 hover:shadow-md"
+    >
 
       <div className="flex items-center justify-between">
 
