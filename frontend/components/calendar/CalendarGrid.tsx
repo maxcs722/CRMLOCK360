@@ -17,13 +17,19 @@ import {
 interface Props {
   currentMonth: Date;
   activities: Activity[];
+
   onDayClick(date: Date): void;
+
+  onActivityClick(
+    activity: Activity,
+  ): void;
 }
 
 export default function CalendarGrid({
   currentMonth,
   activities,
   onDayClick,
+  onActivityClick,
 }: Props) {
 
   const days = eachDayOfInterval({
@@ -67,6 +73,7 @@ export default function CalendarGrid({
             date={day}
             activities={activities}
             onClick={() => onDayClick(day)}
+            onActivityClick={onActivityClick}
           />
 
         ))}

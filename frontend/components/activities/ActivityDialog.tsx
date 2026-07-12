@@ -5,7 +5,10 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from "@/components/ui/dialog";
+
+import { Button } from "@/components/ui/button";
 
 import ActivityForm, {
   Activity,
@@ -19,6 +22,8 @@ interface ActivityDialogProps {
   activity?: Activity | null;
 
   onSave: (activity: Activity) => Promise<void>;
+
+  onDelete?: (id: string) => Promise<void>;
 }
 
 export default function ActivityDialog({
@@ -26,9 +31,11 @@ export default function ActivityDialog({
   onOpenChange,
   activity,
   onSave,
+  onDelete,
 }: ActivityDialogProps) {
 
   return (
+
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
@@ -40,7 +47,7 @@ export default function ActivityDialog({
 
           <DialogTitle>
 
-            {activity
+            {activity?.id
               ? "Editar Actividad"
               : "Nueva Actividad"}
 
@@ -58,8 +65,37 @@ export default function ActivityDialog({
           }
         />
 
+        {activity?.id && onDelete && (
+
+          <DialogFooter>
+
+            <Button
+              variant="destructive"
+              onClick={async () => {
+
+                if (
+                  !confirm(
+                    "¿Desea eliminar esta actividad?"
+                  )
+                ) return;
+
+                await onDelete(activity.id!);
+
+              }}
+            >
+
+              🗑️ Eliminar actividad
+
+            </Button>
+
+          </DialogFooter>
+
+        )}
+
       </DialogContent>
 
     </Dialog>
+
   );
+
 }

@@ -6,16 +6,24 @@ import {
   Activity,
 } from "@/services/activity.service";
 
+import CalendarEvent from "./CalendarEvent";
+
 interface Props {
   date: Date;
   activities: Activity[];
+
   onClick(): void;
+
+  onActivityClick(
+    activity: Activity,
+  ): void;
 }
 
 export default function CalendarDay({
   date,
   activities,
   onClick,
+  onActivityClick,
 }: Props) {
 
   const dayActivities = activities.filter((activity) =>
@@ -54,15 +62,18 @@ export default function CalendarDay({
 
         {dayActivities.slice(0, 3).map((activity) => (
 
-          <div
+          <CalendarEvent
             key={activity.id}
-            className="truncate rounded-md bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700"
-            title={activity.titulo}
-          >
+            activity={activity}
+            onClick={(activity) => {
 
-            {activity.titulo}
+              // evita abrir el diálogo del día
+              event?.stopPropagation();
 
-          </div>
+              onActivityClick(activity);
+
+            }}
+          />
 
         ))}
 
