@@ -1,3 +1,7 @@
-export default function DashboardPage() {
-  return <h1>En construcción</h1>;
+import ReportsDashboard from "@/components/reports/ReportsDashboard";
+
+export default function ReportsPage() {
+
+  return <ReportsDashboard />;
+
 }

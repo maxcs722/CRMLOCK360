@@ -15,6 +15,7 @@ import { CalendarController } from './calendar/calendar.controller';
 import { CalendarService } from './calendar/calendar.service';
 import { CalendarModule } from './calendar/calendar.module';
 import { QuotesModule } from './quotes/quotes.module';
+import { ReportsModule } from './reports/reports.module';
 
 
 @Module({
@@ -29,6 +30,7 @@ import { QuotesModule } from './quotes/quotes.module';
     DashboardModule,
     CalendarModule,
     QuotesModule,
+    ReportsModule,
   ],
   controllers: [AppController, CalendarController],
   providers: [AppService, CalendarService],
