@@ -47,11 +47,7 @@ export function Sidebar() {
           title="Actividades"
         />
 
-        <MenuItem
-          href="/calendar"
-          icon={<CalendarDays size={20} />}
-          title="Calendario"
-        />
+        
 
         <MenuItem
           href="/quotes"
