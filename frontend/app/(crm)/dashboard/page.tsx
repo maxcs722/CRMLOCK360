@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardStats from "@/components/dashboard/DashboardStats";
-import DashboardPipeline from "@/components/dashboard/DashboardPipeline";
 import DashboardActivities from "@/components/dashboard/DashboardActivities";
 import DashboardRecentCompanies from "@/components/dashboard/DashboardRecentCompanies";
+import DashboardDrawer from "@/components/dashboard/DashboardDrawer";
+import CompaniesDrawer from "@/components/dashboard/drawers/CompaniesDrawer";
+import ProspectsDrawer from "@/components/dashboard/drawers/ProspectsDrawer";
+import ActivitiesDrawer from "@/components/dashboard/drawers/ActivitiesDrawer";
 
 import {
   dashboardService,
@@ -20,6 +23,12 @@ export default function DashboardPage() {
 
   const [loading, setLoading] =
     useState(true);
+
+  const [drawerOpen, setDrawerOpen] =
+    useState(false);
+
+  const [selectedCard, setSelectedCard] =
+    useState("");
 
   async function loadDashboard() {
 
@@ -47,13 +56,9 @@ export default function DashboardPage() {
   if (loading) {
 
     return (
-
       <div className="p-8">
-
         Cargando Dashboard...
-
       </div>
-
     );
 
   }
@@ -61,44 +66,116 @@ export default function DashboardPage() {
   if (!dashboard) {
 
     return (
-
       <div className="p-8">
-
         No fue posible cargar el Dashboard.
-
       </div>
-
     );
 
   }
 
   return (
 
-    <div className="space-y-6">
+    <>
 
-      <DashboardHeader />
+      <div className="space-y-6">
 
-      <DashboardStats
-        stats={dashboard.stats}
-      />
+        <DashboardHeader />
 
-      <DashboardPipeline
-        pipeline={dashboard.pipeline}
-      />
+        <DashboardStats
+          stats={dashboard.stats}
+          onCardClick={(card) => {
 
-      <div className="grid gap-6 lg:grid-cols-2">
+            setSelectedCard(card);
 
-        <DashboardActivities
-          activities={dashboard.proximasActividades}
+            setDrawerOpen(true);
+
+          }}
         />
 
-        <DashboardRecentCompanies
-          companies={dashboard.ultimasEmpresas}
-        />
+        <div className="grid gap-6 lg:grid-cols-2">
+
+          <div className="rounded-xl border bg-white p-6 shadow-sm">
+
+            <h2 className="mb-2 text-lg font-bold">
+
+              Prospectos por Estado
+
+            </h2>
+
+            <p className="text-slate-500">
+
+              Próximamente gráfico comercial.
+
+            </p>
+
+          </div>
+
+          <div className="rounded-xl border bg-white p-6 shadow-sm">
+
+            <h2 className="mb-2 text-lg font-bold">
+
+              Cotizaciones por Estado
+
+            </h2>
+
+            <p className="text-slate-500">
+
+              Próximamente gráfico comercial.
+
+            </p>
+
+          </div>
+
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-2">
+
+          <DashboardActivities
+            activities={dashboard.proximasActividades}
+          />
+
+          <DashboardRecentCompanies
+            companies={dashboard.ultimasEmpresas}
+          />
+
+        </div>
 
       </div>
 
-    </div>
+      <DashboardDrawer
+        open={drawerOpen}
+        onOpenChange={setDrawerOpen}
+        title={selectedCard.toUpperCase()}
+      >
+
+        {selectedCard === "empresas" && (
+
+          <CompaniesDrawer />
+
+        )}
+
+
+        {selectedCard === "usuarios" && (
+
+          <p>Lista de usuarios.</p>
+
+        )}
+
+        {selectedCard === "prospectos" && (
+
+          <ProspectsDrawer />
+
+        )}
+
+         {selectedCard === "actividades" && (
+
+          <ActivitiesDrawer />
+
+        )}
+
+      </DashboardDrawer>
+
+    </>
 
   );
 

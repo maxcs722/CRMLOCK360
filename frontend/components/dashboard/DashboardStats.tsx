@@ -11,15 +11,18 @@ import { DashboardStats as Stats } from "@/services/dashboard.service";
 
 interface Props {
   stats: Stats;
+  onCardClick?: (card: string) => void;
 }
 
 export default function DashboardStats({
   stats,
+  onCardClick,
 }: Props) {
 
   const cards = [
 
     {
+      id: "empresas",
       title: "Empresas",
       value: stats.empresas,
       icon: Building2,
@@ -27,6 +30,7 @@ export default function DashboardStats({
     },
 
     {
+      id: "usuarios",
       title: "Usuarios",
       value: stats.usuarios,
       icon: Users,
@@ -34,6 +38,7 @@ export default function DashboardStats({
     },
 
     {
+      id: "prospectos",
       title: "Prospectos",
       value: stats.prospectos,
       icon: Briefcase,
@@ -41,6 +46,7 @@ export default function DashboardStats({
     },
 
     {
+      id: "actividades",
       title: "Actividades Pendientes",
       value: stats.actividadesPendientes,
       icon: CalendarClock,
@@ -59,9 +65,24 @@ export default function DashboardStats({
 
         return (
 
-          <div
-            key={card.title}
-            className="rounded-xl border bg-white p-6 shadow-sm transition hover:shadow-md"
+          <button
+            key={card.id}
+            type="button"
+            onClick={() => onCardClick?.(card.id)}
+            className="
+              rounded-xl
+              border
+              bg-white
+              p-6
+              text-left
+              shadow-sm
+              transition-all
+              duration-200
+              hover:-translate-y-1
+              hover:border-blue-500
+              hover:shadow-xl
+              active:scale-[0.98]
+            "
           >
 
             <div className="flex items-center justify-between">
@@ -69,11 +90,15 @@ export default function DashboardStats({
               <div>
 
                 <p className="text-sm text-slate-500">
+
                   {card.title}
+
                 </p>
 
                 <h2 className="mt-2 text-4xl font-bold">
+
                   {card.value}
+
                 </h2>
 
               </div>
@@ -81,12 +106,14 @@ export default function DashboardStats({
               <div
                 className={`flex h-14 w-14 items-center justify-center rounded-xl ${card.color}`}
               >
+
                 <Icon className="h-7 w-7" />
+
               </div>
 
             </div>
 
-          </div>
+          </button>
 
         );
 
