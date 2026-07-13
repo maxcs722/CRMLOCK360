@@ -2,29 +2,81 @@ import api from "@/lib/api/axios";
 
 export interface DashboardReport {
 
-  empresas: {
-    total: number;
-    activas: number;
+  kpis: {
+
+    empresas: {
+      total: number;
+      activas: number;
+    };
+
+    prospectos: {
+      total: number;
+      ganados: number;
+      perdidos: number;
+    };
+
+    actividades: {
+      total: number;
+      pendientes: number;
+      realizadas: number;
+    };
+
+    cotizaciones: {
+      total: number;
+      aceptadas: number;
+      pendientes: number;
+      rechazadas: number;
+    };
+
   };
 
-  prospectos: {
-    total: number;
-    ganados: number;
-    perdidos: number;
-  };
+  prospectosPorEstado: {
+    status: string;
+    _count: {
+      status: number;
+    };
+  }[];
 
-  actividades: {
-    total: number;
-    pendientes: number;
-    realizadas: number;
-  };
+  cotizacionesPorEstado: {
+    estado: string;
+    _count: {
+      estado: number;
+    };
+  }[];
 
-  cotizaciones: {
+  actividadesPorEstado: {
+    estado: string;
+    cantidad: number;
+  }[];
+
+  ultimasActividades: {
+    id: string;
+    titulo: string;
+    fecha: string;
+    realizada: boolean;
+    company?: {
+      nombre: string;
+    };
+    user?: {
+      nombre: string;
+      apellido: string;
+    };
+  }[];
+
+  ultimasCotizaciones: {
+    id: string;
+    numero: number;
+    estado: string;
+    fecha: string;
     total: number;
-    aceptadas: number;
-    pendientes: number;
-    rechazadas: number;
-  };
+    company?: {
+      nombre: string;
+    };
+    user?: {
+      nombre: string;
+      apellido: string;
+    };
+  }[];
 
 }
 
