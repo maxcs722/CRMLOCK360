@@ -321,7 +321,19 @@ npm run build
 
 ```bash
 npm run lint
-```
+```┌──(naethan㉿joker)-[~/CRMLOCK360]
+└─$ ls
+backend
+CRMLOCK360_RESUMEN.txt
+docker-compose.yml
+frontend
+installer
+package.json
+package-lock.json
+README.md
+
+┌──(naethan㉿joker)-[~/CRMLOCK360]
+└─$ 
 
 ---
 
@@ -478,3 +490,129 @@ LOCK360 CRM
 Chile
 
 ```
+
+
+---
+
+# 🚀 Instalación Automática (Recomendada)
+
+LOCK360 CRM incluye un instalador que automatiza gran parte de la configuración inicial.
+
+## 1. Entrar al proyecto
+
+```bash
+cd CRMLOCK360
+```
+
+## 2. Dar permisos de ejecución (solo Linux/macOS)
+
+```bash
+chmod +x installer/install.sh
+```
+
+## 3. Ejecutar el instalador
+
+```bash
+./installer/install.sh
+```
+
+El instalador realizará automáticamente las siguientes tareas:
+
+- ✔ Verifica que Node.js esté instalado.
+- ✔ Verifica que npm esté instalado.
+- ✔ Instala las dependencias del Backend.
+- ✔ Genera Prisma Client.
+- ✔ Ejecuta las migraciones de la Base de Datos.
+- ✔ Instala las dependencias del Frontend.
+- ✔ Muestra las direcciones de acceso al sistema.
+
+Al finalizar verás un resultado similar a:
+
+```
+========================================
+        LOCK360 CRM Installer
+========================================
+
+Instalación Finalizada
+
+Backend:
+http://localhost:3001
+
+Frontend:
+http://localhost:3000
+
+Swagger:
+http://localhost:3001/docs
+
+========================================
+```
+
+> **Nota:** El instalador prepara el proyecto, pero no inicia los servidores. Una vez finalizada la instalación, debes ejecutar el Backend y el Frontend siguiendo las instrucciones de las secciones siguientes.
+
+---
+
+## Iniciar el Backend
+
+```bash
+cd backend
+
+npm run start:dev
+```
+
+---
+
+## Iniciar el Frontend
+
+Abrir una nueva terminal:
+
+```bash
+cd frontend
+
+npm run dev
+```
+
+Luego abrir en el navegador:
+
+```
+http://localhost:3000
+```
+
+
+
+
+## Error
+
+```
+chmod: no se puede acceder a 'installer/install.sh'
+```
+
+### Causa
+
+La carpeta `installer` o el archivo `install.sh` no existen.
+
+### Solución
+
+Verificar que el proyecto fue clonado completamente:
+
+```bash
+ls
+```
+
+Debe existir la siguiente estructura:
+
+```
+CRMLOCK360/
+
+backend/
+frontend/
+installer/
+README.md
+```
+
+Si la carpeta `installer` no existe, actualice el repositorio:
+
+```bash
+git pull
+```
+
+o vuelva a clonar el proyecto.
