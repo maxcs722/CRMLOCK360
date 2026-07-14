@@ -5,7 +5,6 @@ import {
   CalendarDays,
   ClipboardList,
   LayoutDashboard,
-  Settings,
   Users,
   FileText,
   Activity,
@@ -61,11 +60,6 @@ export function Sidebar() {
           title="Reportes"
         />
 
-        <MenuItem
-          href="/settings"
-          icon={<Settings size={20} />}
-          title="Configuración"
-        />
 
         <MenuItem
           href="/users"

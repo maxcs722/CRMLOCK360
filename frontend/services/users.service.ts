@@ -38,6 +38,20 @@ export interface CreateUserDto {
 
 }
 
+export interface UpdateUserDto {
+
+  nombre?: string;
+
+  apellido?: string;
+
+  email?: string;
+
+  cargo?: string;
+
+  role?: string;
+
+}
+
 export const usersService = {
 
   async getUsers(): Promise<User[]> {
@@ -52,6 +66,30 @@ export const usersService = {
 
     const { data } = await api.post(
       "/users",
+      dto,
+    );
+
+    return data;
+
+  },
+
+  async deleteUser(id: string) {
+
+    const { data } = await api.delete(
+      `/users/${id}`,
+    );
+
+    return data;
+
+  },
+
+  async updateUser(
+    id: string,
+    dto: UpdateUserDto,
+  ) {
+
+    const { data } = await api.patch(
+      `/users/${id}`,
       dto,
     );
 
