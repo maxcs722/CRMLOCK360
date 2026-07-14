@@ -92,42 +92,7 @@ export default function DashboardPage() {
           }}
         />
 
-        <div className="grid gap-6 lg:grid-cols-2">
-
-          <div className="rounded-xl border bg-white p-6 shadow-sm">
-
-            <h2 className="mb-2 text-lg font-bold">
-
-              Prospectos por Estado
-
-            </h2>
-
-            <p className="text-slate-500">
-
-              Próximamente gráfico comercial.
-
-            </p>
-
-          </div>
-
-          <div className="rounded-xl border bg-white p-6 shadow-sm">
-
-            <h2 className="mb-2 text-lg font-bold">
-
-              Cotizaciones por Estado
-
-            </h2>
-
-            <p className="text-slate-500">
-
-              Próximamente gráfico comercial.
-
-            </p>
-
-          </div>
-
-        </div>
-
+      
         <div className="grid gap-6 lg:grid-cols-2">
 
           <DashboardActivities
