@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usersService } from "@/services/users.service";
 
 interface Props {
 
@@ -28,7 +29,7 @@ export default function UserDialog({
 
     cargo: "",
 
-    role: "USER",
+    role: "EJECUTIVO",
 
     password: "",
 
@@ -55,6 +56,56 @@ export default function UserDialog({
     });
 
   }
+
+  async function saveUser() {
+
+  if (form.password !== form.confirmPassword) {
+
+    alert("Las contraseñas no coinciden.");
+
+    return;
+
+  }
+
+  try {
+
+    await usersService.createUser({
+
+      nombre: form.nombre,
+
+      apellido: form.apellido,
+
+      email: form.email,
+
+      cargo: form.cargo,
+
+      role: form.role,
+
+      password: form.password,
+
+    });
+
+    alert("Usuario creado correctamente.");
+
+    onClose();
+
+    window.location.reload();
+
+  } catch (error: any) {
+
+    console.error(error);
+
+    alert(
+
+      error.response?.data?.message ??
+
+      "No fue posible crear el usuario.",
+
+    );
+
+  }
+
+}
 
   return (
 
@@ -164,13 +215,6 @@ export default function UserDialog({
                 Administrador
 
               </option>
-
-              <option value="USER">
-
-                Usuario
-
-              </option>
-
             </select>
 
           </div>
@@ -230,12 +274,13 @@ export default function UserDialog({
           </button>
 
           <button
-            className="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
-          >
+  onClick={saveUser}
+  className="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
+>
 
-            Guardar Usuario
+  Guardar Usuario
 
-          </button>
+</button>
 
         </div>
 
