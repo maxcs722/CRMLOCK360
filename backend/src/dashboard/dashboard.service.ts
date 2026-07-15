@@ -38,7 +38,11 @@ export class DashboardService {
         },
       }),
 
-      this.prisma.user.count(),
+      this.prisma.user.count({
+        where: {
+          activo: true,
+        },
+      }),
 
       this.prisma.activity.count(),
 

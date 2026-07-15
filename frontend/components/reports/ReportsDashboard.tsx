@@ -122,9 +122,9 @@ export default function ReportsDashboard() {
       <div className="grid gap-6 xl:grid-cols-4">
 
         <ReportCard
-          title="Empresas"
-          value={data.kpis.empresas.total}
-          subtitle={`${data.kpis.empresas.activas} activas`}
+          title="Empresas Activas"
+          value={data.kpis.empresas.activas}
+          subtitle={`${data.kpis.empresas.total} empresas registradas`}
         />
 
         <ReportCard
