@@ -616,3 +616,49 @@ git pull
 ```
 
 o vuelva a clonar el proyecto.
+
+Como ejecutar desde linux...
+
+
+CRM LOCK360
+
+intrucciones de uso 
+
+Abrir Bash y ejecutar 
+
+┌──(naethan㉿joker)-[~]
+└─$ cd CRMLOCK360
+
+┌──(naethan㉿joker)-[~/CRMLOCK360]
+cd backend
+
+─(naethan㉿joker)-[~/CRMLOCK360/backend]
+└─$  npm run start:dev
+
+dividir ventana 
+
+en la segunda ventana de bash ejecutar ──(naethan㉿joker)-[~/CRMLOCK360/backend]
+└─$ cd ..
+
+┌──(naethan㉿joker)-[~/CRMLOCK360]
+└─$ cd frontend
+
+┌──(naethan㉿joker)-[~/CRMLOCK360/frontend]
+└─$  npm run dev
+
+
+ventana 1 en bash dentro de la carpeta CRMLOCK360 ejecutar este comando
+ npm run start:dev
+
+ventana 2 en bash dentro de la carpera CRMLOCK360 ejecutar este comando
+ npm run dev
+
+
+luego de ejecutar estos comando ingresar al url: http://localhost:3000
+
+
+logearce con el siguiente user
+
+Usuario: lock360@lock360.cl
+Clave: Lock2026
+
