@@ -1,16 +1,14 @@
 # LOCK360 CRM
 
 <p align="center">
-
-<img src="docs/logo.png" width="150">
-
+<img src="docs/logo.png" width="180">
 </p>
 
 <p align="center">
 
-CRM Empresarial desarrollado con Next.js + NestJS + Prisma + PostgreSQL.
+CRM Empresarial desarrollado con **Next.js**, **NestJS**, **Prisma ORM** y **PostgreSQL**.
 
-Sistema orientado a empresas de Seguridad Electrónica, Servicios TI, Control de Acceso, CCTV, Networking y Servicios Profesionales.
+Orientado a empresas de Seguridad Electrónica, CCTV, Control de Acceso, Networking, Servicios TI y Mantenimiento.
 
 </p>
 
@@ -18,12 +16,11 @@ Sistema orientado a empresas de Seguridad Electrónica, Servicios TI, Control de
 
 # Características
 
-Actualmente el sistema incluye:
+Actualmente el sistema incorpora:
 
 - Dashboard Ejecutivo
 - Gestión de Empresas
 - Gestión de Prospectos
-- Pipeline Comercial
 - Gestión de Actividades
 - Gestión de Cotizaciones
 - Gestión de Usuarios
@@ -39,12 +36,11 @@ Actualmente el sistema incluye:
 
 ## Frontend
 
-- Next.js 15
+- Next.js
 - React
 - TypeScript
 - TailwindCSS
 - Axios
-- Lucide Icons
 
 ## Backend
 
@@ -59,25 +55,23 @@ Actualmente el sistema incluye:
 # Arquitectura
 
 ```
-               Frontend
-              (Next.js)
+Frontend (Next.js)
 
-                   │
+        │
 
-               Axios REST
+ REST API (Axios)
 
-                   │
+        │
 
-              Backend API
-                (NestJS)
+Backend (NestJS)
 
-                   │
+        │
 
-                Prisma ORM
+   Prisma ORM
 
-                   │
+        │
 
-             PostgreSQL
+ PostgreSQL
 ```
 
 ---
@@ -101,137 +95,133 @@ psql --version
 
 ---
 
-# Clonar el proyecto
+# Clonar el Proyecto
 
 ```bash
 git clone https://github.com/maxcs722/CRMLOCK360.git
-```
 
-Entrar al proyecto
-
-```bash
 cd CRMLOCK360
 ```
 
 ---
 
-# Instalación Backend
+# Instalación Automática (Recomendada)
 
-Entrar al backend
-
-```bash
-cd backend
-```
-
-Instalar dependencias
+Dar permisos al instalador:
 
 ```bash
-npm install
+chmod +x installer/install.sh
 ```
+
+Ejecutar:
+
+```bash
+./installer/install.sh
+```
+
+El instalador:
+
+- Instala dependencias
+- Genera Prisma Client
+- Ejecuta migraciones
+- Prepara Frontend
+- Prepara Backend
 
 ---
 
-## Variables de entorno
+# Instalación Manual
 
-Crear
+## Backend
+
+```bash
+cd backend
+
+npm install
+```
+
+Crear:
 
 ```
 backend/.env
 ```
 
-Ejemplo
-
 ```env
 DATABASE_URL="postgresql://postgres:password@localhost:5432/lock360"
 
-JWT_SECRET="cambiar_por_un_token_seguro"
+JWT_SECRET="CambiarPorUnaClaveSegura"
 
 PORT=3001
 ```
 
----
-
-## Prisma
-
-Generar cliente
+Generar Prisma:
 
 ```bash
 npx prisma generate
 ```
 
-Crear Base de Datos
+Ejecutar migraciones:
 
 ```bash
 npx prisma migrate dev
 ```
 
-Si ya existen migraciones
-
-```bash
-npx prisma migrate deploy
-```
-
-Ver datos
-
-```bash
-npx prisma studio
-```
-
 ---
 
-## Ejecutar Backend
+## Frontend
+
+Abrir otra terminal.
 
 ```bash
-npm run start:dev
-```
+cd frontend
 
-El backend quedará disponible en
-
-```
-http://localhost:3001
-```
-
----
-
-# Instalación Frontend
-
-Abrir otra terminal
-
-```bash
-cd CRMLOCK360/frontend
-```
-
-Instalar dependencias
-
-```bash
 npm install
 ```
 
----
-
-## Variables de entorno
-
-Crear
+Crear:
 
 ```
 frontend/.env.local
 ```
 
-Contenido
-
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ```
 
 ---
 
-## Ejecutar Frontend
+# Primer Inicio
+
+## Terminal 1
 
 ```bash
+cd backend
+
+npm run start:dev
+```
+
+Backend:
+
+```
+http://localhost:3001
+```
+
+Swagger:
+
+```
+http://localhost:3001/docs
+```
+
+---
+
+## Terminal 2
+
+```bash
+cd frontend
+
 npm run dev
 ```
 
-Abrir
+Frontend:
 
 ```
 http://localhost:3000
@@ -239,66 +229,147 @@ http://localhost:3000
 
 ---
 
-# Inicio de Sesión
+# Acceso al CRM
 
-Usuario administrador
-
-```
-admin@lock360.cl
-```
-
-Contraseña
+Abrir el navegador:
 
 ```
-********
+http://localhost:3000
 ```
 
-> Cambiar la contraseña después del primer inicio de sesión.
+Usuario:
+
+```
+lock360@lock360.cl
+```
+
+Contraseña:
+
+```
+Lock2026
+```
+
+> Se recomienda cambiar la contraseña después del primer inicio de sesión.
 
 ---
 
-# Estructura del Proyecto
+# Uso del CRM
+
+## Dashboard
+
+Muestra un resumen de:
+
+- Empresas
+- Prospectos
+- Actividades
+- Cotizaciones
+- Usuarios
+- Reportes
+
+---
+
+## Empresas
+
+Permite:
+
+- Crear empresas
+- Editarlas
+- Buscar empresas
+- Desactivarlas
+
+---
+
+## Prospectos
+
+Permite administrar clientes potenciales.
+
+Cada prospecto puede tener:
+
+- Empresa
+- Contacto
+- Estado
+- Ejecutivo
+- Observaciones
+
+---
+
+## Actividades
+
+Permite registrar:
+
+- Llamadas
+- Visitas
+- Reuniones
+- Correos
+- Seguimientos
+
+---
+
+## Cotizaciones
+
+Permite:
+
+- Crear cotizaciones
+- Editarlas
+- Cambiar estado
+
+---
+
+## Usuarios
+
+Solo Administradores.
+
+Permite:
+
+- Crear usuarios
+- Editarlos
+- Desactivarlos
+- Asignar roles
+
+---
+
+# Acceso desde otros equipos
+
+Si el servidor posee la IP:
 
 ```
-CRMLOCK360/
+192.168.1.201
+```
 
-backend/
+Los demás equipos podrán ingresar mediante:
 
-    prisma/
+```
+http://192.168.1.201:3000
+```
 
-    src/
+En el Backend:
 
-        auth/
+```ts
+await app.listen(3001, "0.0.0.0");
+```
 
-        users/
+En el Frontend:
 
-        companies/
+```
+frontend/.env.local
+```
 
-        prospects/
+```env
+NEXT_PUBLIC_API_URL=http://192.168.1.201:3001/api
+```
 
-        activities/
+En Next.js agregar:
 
-        quotes/
+```ts
+allowedDevOrigins: [
+  "192.168.1.201",
+]
+```
 
-        dashboard/
+Reiniciar el Frontend:
 
-        reports/
-
-frontend/
-
-    app/
-
-    components/
-
-    services/
-
-    hooks/
-
-    lib/
-
-docs/
-
-README.md
+```bash
+npm run dev
 ```
 
 ---
@@ -309,71 +380,31 @@ README.md
 
 ```bash
 npm run start
-```
 
-```bash
 npm run start:dev
-```
 
-```bash
 npm run build
+
+npm run start:prod
 ```
-
-```bash
-npm run lint
-```┌──(naethan㉿joker)-[~/CRMLOCK360]
-└─$ ls
-backend
-CRMLOCK360_RESUMEN.txt
-docker-compose.yml
-frontend
-installer
-package.json
-package-lock.json
-README.md
-
-┌──(naethan㉿joker)-[~/CRMLOCK360]
-└─$ 
-
----
 
 ## Frontend
 
 ```bash
 npm run dev
-```
 
-```bash
 npm run build
-```
 
-```bash
-npm run lint
+npm run start
 ```
 
 ---
 
 # Solución de Problemas
 
-## Error
+## Missing script start:dev
 
-```
-npm ERR! Missing script: start:dev
-```
-
-### Causa
-
-Se está ejecutando el comando desde la carpeta raíz.
-
-### Incorrecto
-
-```bash
-CRMLOCK360/
-
-npm run start:dev
-```
-
-### Correcto
+Ejecute el comando desde la carpeta correcta.
 
 ```bash
 cd backend
@@ -383,13 +414,7 @@ npm run start:dev
 
 ---
 
-## Error
-
-```
-Prisma Client is not generated
-```
-
-Solución
+## Prisma Client no generado
 
 ```bash
 npx prisma generate
@@ -397,15 +422,9 @@ npx prisma generate
 
 ---
 
-## Error
+## PostgreSQL no responde
 
-```
-P1001
-```
-
-Significa que PostgreSQL no está iniciado.
-
-Verificar
+Verificar:
 
 ```bash
 sudo systemctl status postgresql
@@ -413,13 +432,7 @@ sudo systemctl status postgresql
 
 ---
 
-## Error
-
-```
-relation does not exist
-```
-
-Ejecutar
+## Error de migraciones
 
 ```bash
 npx prisma migrate dev
@@ -427,51 +440,64 @@ npx prisma migrate dev
 
 ---
 
+## Error Next.js
+
+Si aparece:
+
+```
+Blocked cross-origin request to Next.js dev resource
+```
+
+Agregar la IP del servidor en:
+
+```ts
+allowedDevOrigins: [
+    "192.168.1.201",
+]
+```
+
+---
+
+# Estructura del Proyecto
+
+```
+CRMLOCK360/
+
+backend/
+frontend/
+docs/
+installer/
+README.md
+```
+
+---
+
 # Roadmap
 
 - Dashboard Ejecutivo
-- Empresas
-- Prospectos
-- Pipeline Comercial
-- Actividades
-- Cotizaciones
-- Usuarios
-- Reportes
-- Exportación PDF
-- Exportación Excel
 - Agenda Comercial
 - Calendario
-- Envío de Correos
-- Firma Digital
-- Multiempresa
-- API Pública
+- Exportación PDF
+- Exportación Excel
+- Órdenes de Trabajo
+- Inventario
+- Facturación
+- WhatsApp Business
 - Aplicación Móvil
 
 ---
 
 # Contribuir
 
-1. Crear un Fork
-
-2. Crear una rama
-
 ```bash
 git checkout -b feature/nueva-funcionalidad
-```
 
-3. Commit
-
-```bash
 git commit -m "feat: nueva funcionalidad"
-```
 
-4. Push
-
-```bash
 git push origin feature/nueva-funcionalidad
 ```
 
-5. Crear Pull Request
+Luego crear un Pull Request.
 
 ---
 
@@ -488,177 +514,3 @@ MIT License
 LOCK360 CRM
 
 Chile
-
-```
-
-
----
-
-# 🚀 Instalación Automática (Recomendada)
-
-LOCK360 CRM incluye un instalador que automatiza gran parte de la configuración inicial.
-
-## 1. Entrar al proyecto
-
-```bash
-cd CRMLOCK360
-```
-
-## 2. Dar permisos de ejecución (solo Linux/macOS)
-
-```bash
-chmod +x installer/install.sh
-```
-
-## 3. Ejecutar el instalador
-
-```bash
-./installer/install.sh
-```
-
-El instalador realizará automáticamente las siguientes tareas:
-
-- ✔ Verifica que Node.js esté instalado.
-- ✔ Verifica que npm esté instalado.
-- ✔ Instala las dependencias del Backend.
-- ✔ Genera Prisma Client.
-- ✔ Ejecuta las migraciones de la Base de Datos.
-- ✔ Instala las dependencias del Frontend.
-- ✔ Muestra las direcciones de acceso al sistema.
-
-Al finalizar verás un resultado similar a:
-
-```
-========================================
-        LOCK360 CRM Installer
-========================================
-
-Instalación Finalizada
-
-Backend:
-http://localhost:3001
-
-Frontend:
-http://localhost:3000
-
-Swagger:
-http://localhost:3001/docs
-
-========================================
-```
-
-> **Nota:** El instalador prepara el proyecto, pero no inicia los servidores. Una vez finalizada la instalación, debes ejecutar el Backend y el Frontend siguiendo las instrucciones de las secciones siguientes.
-
----
-
-## Iniciar el Backend
-
-```bash
-cd backend
-
-npm run start:dev
-```
-
----
-
-## Iniciar el Frontend
-
-Abrir una nueva terminal:
-
-```bash
-cd frontend
-
-npm run dev
-```
-
-Luego abrir en el navegador:
-
-```
-http://localhost:3000
-```
-
-
-
-
-## Error
-
-```
-chmod: no se puede acceder a 'installer/install.sh'
-```
-
-### Causa
-
-La carpeta `installer` o el archivo `install.sh` no existen.
-
-### Solución
-
-Verificar que el proyecto fue clonado completamente:
-
-```bash
-ls
-```
-
-Debe existir la siguiente estructura:
-
-```
-CRMLOCK360/
-
-backend/
-frontend/
-installer/
-README.md
-```
-
-Si la carpeta `installer` no existe, actualice el repositorio:
-
-```bash
-git pull
-```
-
-o vuelva a clonar el proyecto.
-
-C""omo ejecutar desde linux...
-
-
-CRM LOCK360
-
-intrucciones de uso 
-
-Abrir Bash y ejecutar 
-
-┌──(naethan㉿joker)-[~]
-└─$ cd CRMLOCK360
-
-┌──(naethan㉿joker)-[~/CRMLOCK360]
-cd backend
-
-─(naethan㉿joker)-[~/CRMLOCK360/backend]
-└─$  npm run start:dev
-
-dividir ventana 
-
-en la segunda ventana de bash ejecutar ──(naethan㉿joker)-[~/CRMLOCK360/backend]
-└─$ cd ..
-
-┌──(naethan㉿joker)-[~/CRMLOCK360]
-└─$ cd frontend
-
-┌──(naethan㉿joker)-[~/CRMLOCK360/frontend]
-└─$  npm run dev
-
-
-ventana 1 en bash dentro de la carpeta CRMLOCK360 ejecutar este comando
- npm run start:dev
-
-ventana 2 en bash dentro de la carpera CRMLOCK360 ejecutar este comando
- npm run dev
-
-
-luego de ejecutar estos comando ingresar al url: http://localhost:3000
-
-
-logearce con el siguiente user
-
-Usuario: lock360@lock360.cl
-Clave: Lock2026
-
