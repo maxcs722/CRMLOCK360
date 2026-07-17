@@ -15,9 +15,9 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    origin: ['http://localhost:3000'],
-    credentials: true,
-  });
+  origin: true,
+  credentials: true,
+});
 
   app.setGlobalPrefix('api');
 
@@ -52,7 +52,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(3001);
+  await app.listen(3001, "0.0.0.0");
 
   console.log('🚀 LOCK360 API');
   console.log('🌐 http://localhost:3001');

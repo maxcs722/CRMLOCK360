@@ -617,7 +617,7 @@ git pull
 
 o vuelva a clonar el proyecto.
 
-Como ejecutar desde linux...
+C""omo ejecutar desde linux...
 
 
 CRM LOCK360

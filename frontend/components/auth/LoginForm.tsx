@@ -18,7 +18,6 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState("");
 
   async function handleSubmit(
@@ -26,25 +25,47 @@ export default function LoginForm() {
   ) {
     e.preventDefault();
 
+    console.log("==================================");
+    console.log("LOGIN PRESIONADO");
+    console.log("EMAIL:", email);
+    console.log("PASSWORD:", password);
+    console.log("==================================");
+
     setLoading(true);
     setError("");
 
     try {
+      console.log("Llamando API LOGIN...");
+
       const data = await login({
         email,
         password,
       });
+
+      console.log("RESPUESTA LOGIN:");
+      console.log(data);
 
       await signIn(
         data.access_token,
         data.user,
       );
 
+      console.log("TOKEN GUARDADO");
+      console.log("REDIRIGIENDO...");
+
       router.push("/dashboard");
-    } catch {
+
+    } catch (err) {
+
+      console.error("ERROR LOGIN:");
+      console.error(err);
+
       setError("Correo o contraseña incorrectos.");
+
     } finally {
+
       setLoading(false);
+
     }
   }
 
@@ -77,14 +98,13 @@ export default function LoginForm() {
         </p>
       )}
 
-      <Button
-        className="w-full"
-        disabled={loading}
-      >
-        {loading
-          ? "Ingresando..."
-          : "Iniciar sesión"}
-      </Button>
+      <button
+  type="submit"
+  className="w-full rounded-lg bg-black py-3 text-white"
+  onClick={() => console.log("CLICK HTML")}
+>
+  Iniciar sesión
+</button>
     </form>
   );
 }

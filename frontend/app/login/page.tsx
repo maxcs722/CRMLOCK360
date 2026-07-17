@@ -9,9 +9,8 @@ export default function LoginPage() {
             LOCK360 CRM
           </h1>
 
-          <p className="text-gray-500 mt-2">
-            Seguridad Electrónica y
-            Servicios Integrales
+          <p className="mt-2 text-gray-500">
+            Seguridad Electrónica y Servicios Integrales
           </p>
         </div>
 
