@@ -59,7 +59,7 @@ export default function QuotesPage() {
             Cotizaciones
           </h1>
 
-          <p className="text-slate-500">
+          <p className="text-muted-foreground">
             Administración de cotizaciones
           </p>
 
@@ -79,11 +79,11 @@ export default function QuotesPage() {
 
       </div>
 
-      <div className="overflow-hidden rounded-xl border bg-white">
+      <div className="overflow-hidden rounded-xl border bg-card">
 
         <table className="w-full">
 
-          <thead className="bg-slate-100">
+          <thead className="bg-background">
 
             <tr>
 

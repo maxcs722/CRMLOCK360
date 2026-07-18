@@ -58,7 +58,7 @@ export default function CompaniesDrawer() {
 
         <div
           key={company.id}
-          className="rounded-lg border p-4 hover:bg-slate-50"
+          className="rounded-lg border p-4 hover:bg-muted"
         >
 
           <h3 className="font-semibold">
@@ -69,7 +69,7 @@ export default function CompaniesDrawer() {
 
           {company.nombreFantasia && (
 
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-muted-foreground">
 
               {company.nombreFantasia}
 
@@ -77,7 +77,7 @@ export default function CompaniesDrawer() {
 
           )}
 
-          <div className="mt-2 text-sm text-slate-600">
+          <div className="mt-2 text-sm text-muted-foreground">
 
             <p>RUT: {company.rut}</p>
 

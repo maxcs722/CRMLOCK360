@@ -124,7 +124,7 @@ export default function ProspectDetailPage() {
 
           </h1>
 
-          <p className="text-slate-500">
+          <p className="text-muted-foreground">
 
             Estado: {prospect.status}
 
@@ -153,7 +153,7 @@ export default function ProspectDetailPage() {
 
         <div className="space-y-6">
 
-          <div className="rounded-xl border bg-white p-6">
+          <div className="rounded-xl border bg-card p-6">
 
             <h2 className="mb-4 text-xl font-bold">
 
@@ -269,7 +269,7 @@ export default function ProspectDetailPage() {
 
           </div>
 
-          <div className="rounded-xl border bg-white p-6">
+          <div className="rounded-xl border bg-card p-6">
 
             <h2 className="mb-4 text-xl font-bold">
 
@@ -293,7 +293,7 @@ export default function ProspectDetailPage() {
 
       {activeTab === "activities" && (
 
-        <div className="rounded-xl border bg-white p-12 text-center">
+        <div className="rounded-xl border bg-card p-12 text-center">
 
           <h2 className="text-xl font-bold">
 
@@ -301,7 +301,7 @@ export default function ProspectDetailPage() {
 
           </h2>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-muted-foreground">
 
             Próximamente podrás registrar llamadas, reuniones, visitas y seguimientos.
 
@@ -313,7 +313,7 @@ export default function ProspectDetailPage() {
 
       {activeTab === "quotes" && (
 
-        <div className="rounded-xl border bg-white p-12 text-center">
+        <div className="rounded-xl border bg-card p-12 text-center">
 
           <h2 className="text-xl font-bold">
 
@@ -321,7 +321,7 @@ export default function ProspectDetailPage() {
 
           </h2>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-muted-foreground">
 
             Aquí aparecerán las cotizaciones asociadas al prospecto.
 
@@ -333,7 +333,7 @@ export default function ProspectDetailPage() {
 
       {activeTab === "notes" && (
 
-        <div className="rounded-xl border bg-white p-12 text-center">
+        <div className="rounded-xl border bg-card p-12 text-center">
 
           <h2 className="text-xl font-bold">
 
@@ -341,7 +341,7 @@ export default function ProspectDetailPage() {
 
           </h2>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-muted-foreground">
 
             Aquí podrás registrar notas comerciales.
 
@@ -353,7 +353,7 @@ export default function ProspectDetailPage() {
 
       {activeTab === "history" && (
 
-        <div className="rounded-xl border bg-white p-12 text-center">
+        <div className="rounded-xl border bg-card p-12 text-center">
 
           <h2 className="text-xl font-bold">
 
@@ -361,7 +361,7 @@ export default function ProspectDetailPage() {
 
           </h2>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-muted-foreground">
 
             Aquí se mostrará el historial completo del prospecto.
 

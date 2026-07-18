@@ -66,7 +66,7 @@ export default function CompaniesTable() {
 
   if (loading) {
     return (
-      <div className="rounded-xl border bg-white p-6">
+      <div className="rounded-xl border bg-card p-6">
         Cargando empresas...
       </div>
     );
@@ -84,11 +84,11 @@ export default function CompaniesTable() {
         }}
       />
 
-      <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
 
         <table className="w-full">
 
-          <thead className="border-b bg-slate-50">
+          <thead className="border-b bg-muted">
             <tr>
               <th className="p-4 text-left">
                 Empresa
@@ -131,7 +131,7 @@ export default function CompaniesTable() {
               <tr>
                 <td
                   colSpan={8}
-                  className="p-8 text-center text-gray-500"
+                  className="p-8 text-center text-muted-foreground"
                 >
                   No se encontraron empresas.
                 </td>
@@ -143,7 +143,7 @@ export default function CompaniesTable() {
 
                 <tr
                   key={company.id}
-                  className="border-b transition-colors hover:bg-slate-50"
+                  className="border-b transition-colors hover:bg-muted"
                 >
 
                   <td className="p-4">
@@ -155,7 +155,7 @@ export default function CompaniesTable() {
                       {company.nombreFantasia || company.razonSocial}
                     </Link>
 
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-muted-foreground">
                       {company.razonSocial}
                     </div>
 

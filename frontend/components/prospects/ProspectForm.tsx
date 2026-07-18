@@ -155,7 +155,7 @@ export default function ProspectForm({
 
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 rounded-xl border bg-white p-6"
+      className="space-y-6 rounded-xl border bg-card p-6"
     >
 
       <div className="grid grid-cols-2 gap-6">

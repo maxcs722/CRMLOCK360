@@ -24,13 +24,13 @@ export default function QuoteToolbar({
 
   return (
 
-    <div className="flex flex-col gap-4 rounded-xl border bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-4 rounded-xl border bg-card p-4 shadow-sm md:flex-row md:items-center md:justify-between">
 
       <div className="relative w-full md:w-96">
 
         <Search
           size={18}
-          className="absolute left-3 top-3 text-slate-400"
+          className="absolute left-3 top-3 text-muted-foreground"
         />
 
         <input

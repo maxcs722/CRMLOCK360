@@ -73,11 +73,11 @@ export default function UsersTable() {
 
   return (
 
-    <div className="rounded-xl border bg-white shadow-sm">
+    <div className="rounded-xl border bg-card shadow-sm">
 
       <table className="w-full">
 
-        <thead className="border-b bg-slate-50">
+        <thead className="border-b bg-muted">
 
           <tr>
 
@@ -121,7 +121,7 @@ export default function UsersTable() {
 
             <tr
               key={user.id}
-              className="border-b hover:bg-slate-50"
+              className="border-b hover:bg-muted"
             >
 
               <td className="p-4">

@@ -14,7 +14,7 @@ export default function ActivitiesPage() {
           Calendario
         </h1>
 
-        <p className="text-slate-500">
+        <p className="text-muted-foreground">
           Gestión de actividades comerciales.
         </p>
 

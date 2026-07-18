@@ -140,7 +140,7 @@ export default function CompanyContactsCard({
     return (
     <>
 
-      <div className="rounded-xl border bg-white p-6 shadow-sm">
+      <div className="rounded-xl border bg-card p-6 shadow-sm">
 
         <div className="mb-5 flex items-center justify-between">
 
@@ -162,13 +162,13 @@ export default function CompanyContactsCard({
 
           <div className="rounded-lg border border-dashed p-10 text-center">
 
-            <User className="mx-auto mb-3 h-10 w-10 text-slate-400" />
+            <User className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
 
             <p className="font-semibold">
               No existen contactos
             </p>
 
-            <p className="mt-2 text-sm text-slate-500">
+            <p className="mt-2 text-sm text-muted-foreground">
               Esta empresa todavía no tiene contactos registrados.
             </p>
 
@@ -182,7 +182,7 @@ export default function CompanyContactsCard({
 
               <div
                 key={contact.id}
-                className="flex items-center justify-between rounded-lg border p-4 hover:bg-slate-50"
+                className="flex items-center justify-between rounded-lg border p-4 hover:bg-muted"
               >
 
                 <div className="flex items-center gap-4">
@@ -199,11 +199,11 @@ export default function CompanyContactsCard({
                       {contact.nombre} {contact.apellido}
                     </p>
 
-                    <p className="text-sm text-slate-500">
+                    <p className="text-sm text-muted-foreground">
                       {contact.cargo || "-"}
                     </p>
 
-                    <div className="mt-2 flex gap-6 text-sm text-slate-600">
+                    <div className="mt-2 flex gap-6 text-sm text-muted-foreground">
 
                       <div className="flex items-center gap-1">
 

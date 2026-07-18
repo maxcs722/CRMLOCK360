@@ -37,12 +37,12 @@ export default function CalendarDay({
 
     <div
       onClick={onClick}
-      className="cursor-pointer h-32 overflow-hidden rounded-xl border bg-white p-2 shadow-sm transition hover:border-blue-500 hover:shadow-md"
+      className="cursor-pointer h-32 overflow-hidden rounded-xl border bg-card p-2 shadow-sm transition hover:border-blue-500 hover:shadow-md"
     >
 
       <div className="flex items-center justify-between">
 
-        <span className="text-sm font-semibold text-slate-700">
+        <span className="text-sm font-semibold text-foreground">
           {format(date, "d")}
         </span>
 
@@ -79,7 +79,7 @@ export default function CalendarDay({
 
         {dayActivities.length > 3 && (
 
-          <div className="text-center text-xs font-medium text-slate-500">
+          <div className="text-center text-xs font-medium text-muted-foreground">
 
             +{dayActivities.length - 3} más
 

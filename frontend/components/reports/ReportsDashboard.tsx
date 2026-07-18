@@ -59,7 +59,7 @@ export default function ReportsDashboard() {
 
           <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
 
-          <p className="text-slate-500">
+          <p className="text-muted-foreground">
 
             Cargando Dashboard Ejecutivo...
 
@@ -101,13 +101,13 @@ export default function ReportsDashboard() {
 
         <div>
 
-          <h1 className="text-4xl font-bold text-slate-800">
+          <h1 className="text-4xl font-bold text-foreground">
 
             Dashboard Ejecutivo
 
           </h1>
 
-          <p className="mt-2 text-slate-500">
+          <p className="mt-2 text-muted-foreground">
 
             Indicadores comerciales de LOCK360 CRM
 
@@ -177,7 +177,7 @@ export default function ReportsDashboard() {
 
         {/* Prospectos */}
 
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
+        <div className="rounded-xl border bg-card p-6 shadow-sm">
 
           <div className="mb-6">
 
@@ -187,7 +187,7 @@ export default function ReportsDashboard() {
 
             </h2>
 
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-muted-foreground">
 
               Distribución de oportunidades comerciales
 
@@ -207,13 +207,13 @@ export default function ReportsDashboard() {
 
               <div className="text-center">
 
-                <p className="font-semibold text-slate-500">
+                <p className="font-semibold text-muted-foreground">
 
                   Sin datos disponibles
 
                 </p>
 
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-muted-foreground">
 
                   Cree prospectos para visualizar este gráfico.
 
@@ -227,7 +227,7 @@ export default function ReportsDashboard() {
 
         </div>
 
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
+        <div className="rounded-xl border bg-card p-6 shadow-sm">
 
   <div className="mb-6">
 
@@ -237,7 +237,7 @@ export default function ReportsDashboard() {
 
     </h2>
 
-    <p className="text-sm text-slate-500">
+    <p className="text-sm text-muted-foreground">
 
       Cotizaciones aceptadas por mes
 
@@ -253,7 +253,7 @@ export default function ReportsDashboard() {
 
         {/* Cotizaciones */}
 
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
+        <div className="rounded-xl border bg-card p-6 shadow-sm">
 
           <div className="mb-6">
 
@@ -263,7 +263,7 @@ export default function ReportsDashboard() {
 
             </h2>
 
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-muted-foreground">
 
               Estado actual de las cotizaciones emitidas
 
@@ -283,13 +283,13 @@ export default function ReportsDashboard() {
 
               <div className="text-center">
 
-                <p className="font-semibold text-slate-500">
+                <p className="font-semibold text-muted-foreground">
 
                   Sin cotizaciones
 
                 </p>
 
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-muted-foreground">
 
                   Cuando existan cotizaciones aparecerá el gráfico.
 
@@ -311,7 +311,7 @@ export default function ReportsDashboard() {
 
         {/* ACTIVIDADES */}
 
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
+        <div className="rounded-xl border bg-card p-6 shadow-sm">
 
           <div className="mb-6 flex items-center justify-between">
 
@@ -321,7 +321,7 @@ export default function ReportsDashboard() {
 
             </h2>
 
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+            <span className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
 
               {data.ultimasActividades.length}
 
@@ -335,7 +335,7 @@ export default function ReportsDashboard() {
 
               <div className="rounded-lg border border-dashed p-8 text-center">
 
-                <p className="font-medium text-slate-500">
+                <p className="font-medium text-muted-foreground">
 
                   No existen actividades.
 
@@ -349,7 +349,7 @@ export default function ReportsDashboard() {
 
                 <div
                   key={item.id}
-                  className="rounded-lg border p-4 transition hover:bg-slate-50"
+                  className="rounded-lg border p-4 transition hover:bg-muted"
                 >
 
                   <div className="flex items-start justify-between">
@@ -362,19 +362,19 @@ export default function ReportsDashboard() {
 
                       </p>
 
-                      <p className="mt-1 text-sm text-slate-500">
+                      <p className="mt-1 text-sm text-muted-foreground">
 
                         🏢 {item.company?.nombre ?? "Sin empresa"}
 
                       </p>
 
-                      <p className="text-sm text-slate-500">
+                      <p className="text-sm text-muted-foreground">
 
                         👤 {item.user?.nombre} {item.user?.apellido}
 
                       </p>
 
-                      <p className="text-xs text-slate-400 mt-1">
+                      <p className="text-xs text-muted-foreground mt-1">
 
                         {new Date(item.fecha).toLocaleDateString("es-CL")}
 
@@ -410,7 +410,7 @@ export default function ReportsDashboard() {
 
         {/* COTIZACIONES */}
 
-        <div className="rounded-xl border bg-white p-6 shadow-sm">
+        <div className="rounded-xl border bg-card p-6 shadow-sm">
 
           <div className="mb-6 flex items-center justify-between">
 
@@ -420,7 +420,7 @@ export default function ReportsDashboard() {
 
             </h2>
 
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+            <span className="rounded-full bg-background px-3 py-1 text-xs font-semibold text-muted-foreground">
 
               {data.ultimasCotizaciones.length}
 
@@ -434,7 +434,7 @@ export default function ReportsDashboard() {
 
               <div className="rounded-lg border border-dashed p-8 text-center">
 
-                <p className="font-medium text-slate-500">
+                <p className="font-medium text-muted-foreground">
 
                   No existen cotizaciones.
 
@@ -448,7 +448,7 @@ export default function ReportsDashboard() {
 
                 <div
                   key={item.id}
-                  className="rounded-lg border p-4 transition hover:bg-slate-50"
+                  className="rounded-lg border p-4 transition hover:bg-muted"
                 >
 
                   <div className="flex items-start justify-between">
@@ -461,13 +461,13 @@ export default function ReportsDashboard() {
 
                       </p>
 
-                      <p className="mt-1 text-sm text-slate-500">
+                      <p className="mt-1 text-sm text-muted-foreground">
 
                         🏢 {item.company?.nombre ?? "Sin empresa"}
 
                       </p>
 
-                      <p className="text-sm text-slate-500">
+                      <p className="text-sm text-muted-foreground">
 
                         👤 {item.user?.nombre} {item.user?.apellido}
 
@@ -497,7 +497,7 @@ export default function ReportsDashboard() {
                           ? "bg-blue-100 text-blue-700"
                           : item.estado === "RECHAZADA"
                           ? "bg-red-100 text-red-700"
-                          : "bg-slate-100 text-slate-700"
+                          : "bg-background text-foreground"
                       }`}
                     >
 

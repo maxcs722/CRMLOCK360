@@ -58,7 +58,7 @@ export default function ProspectsDrawer() {
 
         <div
           key={item.id}
-          className="rounded-lg border p-4 hover:bg-slate-50"
+          className="rounded-lg border p-4 hover:bg-muted"
         >
 
           <h3 className="font-semibold">
@@ -67,7 +67,7 @@ export default function ProspectsDrawer() {
 
           </h3>
 
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-muted-foreground">
 
             {item.company?.razonSocial ?? "Sin empresa"}
 

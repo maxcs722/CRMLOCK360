@@ -208,7 +208,7 @@ export default function EditQuotePage() {
 
         </h1>
 
-        <p className="text-slate-500">
+        <p className="text-muted-foreground">
 
           Modificar cotización
 
@@ -216,7 +216,7 @@ export default function EditQuotePage() {
 
       </div>
 
-      <div className="rounded-xl border bg-white p-6">
+      <div className="rounded-xl border bg-card p-6">
 
         <div className="grid grid-cols-2 gap-6">
 
@@ -327,7 +327,7 @@ export default function EditQuotePage() {
 
       </div>
 
-            <div className="rounded-xl border bg-white p-6">
+            <div className="rounded-xl border bg-card p-6">
 
         <table className="w-full">
 
@@ -520,13 +520,13 @@ export default function EditQuotePage() {
 
       </div>
 
-            <div className="rounded-xl border bg-white p-6">
+            <div className="rounded-xl border bg-card p-6">
 
         <div className="ml-auto w-96 space-y-3">
 
           <div className="flex justify-between">
 
-            <span className="text-slate-600">
+            <span className="text-muted-foreground">
 
               Subtotal
 
@@ -544,7 +544,7 @@ export default function EditQuotePage() {
 
           <div className="flex justify-between">
 
-            <span className="text-slate-600">
+            <span className="text-muted-foreground">
 
               IVA (19%)
 

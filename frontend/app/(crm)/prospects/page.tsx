@@ -94,7 +94,7 @@ export default function ProspectsPage() {
           Prospectos
         </h1>
 
-        <p className="text-slate-500">
+        <p className="text-muted-foreground">
           Gestión Comercial
         </p>
 

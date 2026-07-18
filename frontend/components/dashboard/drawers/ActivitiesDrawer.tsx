@@ -58,7 +58,7 @@ export default function ActivitiesDrawer() {
 
         <div
           key={item.id}
-          className="rounded-lg border p-4 hover:bg-slate-50"
+          className="rounded-lg border p-4 hover:bg-muted"
         >
 
           <div className="flex items-center justify-between">
@@ -85,13 +85,13 @@ export default function ActivitiesDrawer() {
 
           </div>
 
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-muted-foreground">
 
             {item.tipo}
 
           </p>
 
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-muted-foreground">
 
             {new Date(item.fecha).toLocaleString("es-CL")}
 

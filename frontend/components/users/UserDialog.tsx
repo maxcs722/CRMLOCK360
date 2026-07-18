@@ -111,7 +111,7 @@ export default function UserDialog({
 
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
 
-      <div className="w-full max-w-3xl rounded-xl bg-white p-8 shadow-xl">
+      <div className="w-full max-w-3xl rounded-xl bg-card p-8 shadow-xl">
 
         <h2 className="mb-8 text-2xl font-bold">
 

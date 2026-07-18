@@ -12,10 +12,10 @@ export default function QuoteTotals({
   total,
 }: Props) {
   return (
-    <div className="rounded-xl border bg-white p-6">
+    <div className="rounded-xl border bg-card p-6">
       <div className="ml-auto w-96 space-y-3">
         <div className="flex justify-between">
-          <span className="text-slate-600">
+          <span className="text-muted-foreground">
             Subtotal
           </span>
 
@@ -26,7 +26,7 @@ export default function QuoteTotals({
         </div>
 
         <div className="flex justify-between">
-          <span className="text-slate-600">
+          <span className="text-muted-foreground">
             IVA (19%)
           </span>
 

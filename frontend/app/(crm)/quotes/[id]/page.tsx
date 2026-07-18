@@ -100,7 +100,7 @@ export default function QuoteDetailPage() {
 
           <div className="mt-2 flex items-center gap-3">
 
-  <span className="text-slate-500">
+  <span className="text-muted-foreground">
     Estado
   </span>
 
@@ -173,7 +173,7 @@ export default function QuoteDetailPage() {
 
       </div>
 
-      <div className="rounded-xl border bg-white p-6">
+      <div className="rounded-xl border bg-card p-6">
 
         <div className="grid grid-cols-2 gap-8">
 
@@ -235,7 +235,7 @@ export default function QuoteDetailPage() {
 
       </div>
 
-      <div className="rounded-xl border bg-white p-6">
+      <div className="rounded-xl border bg-card p-6">
 
         <h2 className="mb-4 text-xl font-bold">
 
@@ -252,7 +252,7 @@ export default function QuoteDetailPage() {
 
       </div>
 
-      <div className="rounded-xl border bg-white p-6">
+      <div className="rounded-xl border bg-card p-6">
 
         <h2 className="mb-4 text-xl font-bold">
 
@@ -264,7 +264,7 @@ export default function QuoteDetailPage() {
 
                 <thead>
 
-          <tr className="border-b bg-slate-100">
+          <tr className="border-b bg-background">
 
             <th className="p-3 text-left">
 

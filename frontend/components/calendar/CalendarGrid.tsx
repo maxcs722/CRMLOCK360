@@ -52,7 +52,7 @@ export default function CalendarGrid({
 
     <div>
 
-      <div className="mb-2 grid grid-cols-7 text-center font-semibold text-slate-500">
+      <div className="mb-2 grid grid-cols-7 text-center font-semibold text-muted-foreground">
 
         <div>Lun</div>
         <div>Mar</div>

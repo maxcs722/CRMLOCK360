@@ -20,7 +20,7 @@ export default function ProspectTable({
 }: Props) {
   if (loading) {
     return (
-      <div className="rounded-xl border bg-white p-8">
+      <div className="rounded-xl border bg-card p-8">
         Cargando prospectos...
       </div>
     );
@@ -28,16 +28,16 @@ export default function ProspectTable({
 
   if (prospects.length === 0) {
     return (
-      <div className="rounded-xl border bg-white p-8 text-center text-slate-500">
+      <div className="rounded-xl border bg-card p-8 text-center text-muted-foreground">
         No existen prospectos.
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border bg-white shadow">
+    <div className="overflow-hidden rounded-xl border bg-card shadow">
       <table className="w-full">
-        <thead className="bg-slate-100">
+        <thead className="bg-background">
           <tr>
             <th className="p-4 text-left">Título</th>
             <th className="text-left">Empresa</th>
@@ -61,7 +61,7 @@ export default function ProspectTable({
             return (
               <tr
                 key={prospect.id}
-                className="border-t hover:bg-slate-50"
+                className="border-t hover:bg-muted"
               >
                 <td className="p-4 font-semibold">
                   {prospect.titulo}

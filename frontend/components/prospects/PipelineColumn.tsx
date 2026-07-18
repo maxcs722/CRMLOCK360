@@ -22,17 +22,17 @@ export default function PipelineColumn({
 
   return (
 
-    <div className="min-w-[320px] rounded-xl bg-slate-100 p-4">
+    <div className="min-w-[320px] rounded-xl bg-background p-4">
 
       <div className="mb-4 flex items-center justify-between">
 
-        <h2 className="font-bold text-slate-700">
+        <h2 className="font-bold text-foreground">
 
           {title}
 
         </h2>
 
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-bold shadow">
+        <span className="rounded-full bg-card px-3 py-1 text-xs font-bold shadow">
 
           {prospects.length}
 
@@ -44,7 +44,7 @@ export default function PipelineColumn({
 
         {prospects.length === 0 ? (
 
-          <div className="rounded-lg border-2 border-dashed border-slate-300 p-6 text-center text-sm text-slate-400">
+          <div className="rounded-lg border-2 border-dashed border-slate-300 p-6 text-center text-sm text-muted-foreground">
 
             Sin prospectos
 

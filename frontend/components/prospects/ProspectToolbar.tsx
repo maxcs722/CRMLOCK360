@@ -19,14 +19,14 @@ export default function ProspectToolbar({
   onSearch,
 }: Props) {
   return (
-    <div className="flex flex-col gap-4 rounded-xl border bg-white p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+    <div className="flex flex-col gap-4 rounded-xl border bg-card p-4 shadow-sm lg:flex-row lg:items-center lg:justify-between">
 
       {/* Buscador */}
       <div className="relative w-full lg:w-96">
 
         <Search
           size={18}
-          className="absolute left-3 top-3 text-slate-400"
+          className="absolute left-3 top-3 text-muted-foreground"
         />
 
         <input

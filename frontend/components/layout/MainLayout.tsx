@@ -13,7 +13,7 @@ export function MainLayout({
   children,
 }: Props) {
   return (
-    <div className="flex h-screen bg-slate-100 dark:bg-slate-950">
+    <div className="flex h-screen bg-background dark:bg-slate-950">
 
       <Sidebar />
 

@@ -12,17 +12,17 @@ export default function ReportCard({
   subtitle,
 }: ReportCardProps) {
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm transition hover:shadow-md">
-      <h3 className="text-sm font-semibold text-slate-500">
+    <div className="rounded-xl border bg-card p-6 shadow-sm transition hover:shadow-md">
+      <h3 className="text-sm font-semibold text-muted-foreground">
         {title}
       </h3>
 
-      <p className="mt-2 text-4xl font-bold text-slate-800">
+      <p className="mt-2 text-4xl font-bold text-foreground">
         {value}
       </p>
 
       {subtitle && (
-        <p className="mt-2 text-sm text-slate-500">
+        <p className="mt-2 text-sm text-muted-foreground">
           {subtitle}
         </p>
       )}

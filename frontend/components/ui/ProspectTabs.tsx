@@ -49,7 +49,7 @@ export default function Tabs({
 
                 ? "bg-blue-600 text-white"
 
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                : "bg-background text-muted-foreground hover:bg-slate-200"
 
             }`}
 

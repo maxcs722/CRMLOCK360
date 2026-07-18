@@ -18,19 +18,19 @@ export default function ProspectCard({
 
   return (
 
-    <div className="rounded-lg border bg-white p-4 shadow-sm transition hover:shadow-md">
+    <div className="rounded-lg border bg-card p-4 shadow-sm transition hover:shadow-md">
 
       <div className="flex items-start justify-between">
 
         <div>
 
-          <h3 className="font-semibold text-slate-800">
+          <h3 className="font-semibold text-foreground">
 
             {prospect.titulo}
 
           </h3>
 
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-sm text-muted-foreground">
 
             {prospect.company?.nombreFantasia ||
 
@@ -57,7 +57,7 @@ export default function ProspectCard({
 
       </div>
 
-      <div className="mt-4 flex justify-between text-xs text-slate-500">
+      <div className="mt-4 flex justify-between text-xs text-muted-foreground">
 
         <span>
 

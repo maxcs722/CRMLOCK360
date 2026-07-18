@@ -15,7 +15,7 @@ export default function CompanyToolbar({
   onNewCompany,
 }: CompanyToolbarProps) {
   return (
-    <div className="flex flex-col gap-4 rounded-xl border bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between">
+    <div className="flex flex-col gap-4 rounded-xl border bg-card p-4 shadow-sm md:flex-row md:items-center md:justify-between">
 
       <div className="w-full md:max-w-md">
         <Input

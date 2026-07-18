@@ -15,7 +15,7 @@ export default function QuoteItems({
   setItems,
 }: Props) {
   return (
-    <div className="rounded-xl border bg-white p-6">
+    <div className="rounded-xl border bg-card p-6">
       <table className="w-full">
         <thead>
           <tr className="border-b">

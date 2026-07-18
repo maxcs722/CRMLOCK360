@@ -32,16 +32,16 @@ function InfoItem({
 }) {
   return (
     <div className="flex items-start gap-3 rounded-lg border p-3">
-      <div className="mt-1 text-slate-500">
+      <div className="mt-1 text-muted-foreground">
         {icon}
       </div>
 
       <div>
-        <p className="text-xs font-semibold uppercase text-slate-500">
+        <p className="text-xs font-semibold uppercase text-muted-foreground">
           {label}
         </p>
 
-        <p className="text-sm text-slate-900">
+        <p className="text-sm text-foreground">
           {value || "-"}
         </p>
       </div>
@@ -61,7 +61,7 @@ export default function CompanyInfoCard({
   sitioWeb,
 }: CompanyInfoCardProps) {
   return (
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border bg-card p-6 shadow-sm">
 
       <h2 className="mb-5 text-lg font-bold">
         Información General

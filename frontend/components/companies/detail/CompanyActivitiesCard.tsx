@@ -74,7 +74,7 @@ export default function CompanyActivitiesCard({
         return <ClipboardList className="h-5 w-5 text-indigo-600" />;
 
       case "COTIZACION":
-        return <FileText className="h-5 w-5 text-slate-700" />;
+        return <FileText className="h-5 w-5 text-foreground" />;
 
       case "NOTA":
         return <StickyNote className="h-5 w-5 text-yellow-600" />;
@@ -180,7 +180,7 @@ export default function CompanyActivitiesCard({
     return (
     <>
 
-      <div className="rounded-xl border bg-white shadow-sm">
+      <div className="rounded-xl border bg-card shadow-sm">
 
         <div className="flex items-center justify-between border-b p-6">
 
@@ -190,7 +190,7 @@ export default function CompanyActivitiesCard({
               Timeline Comercial
             </h2>
 
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-muted-foreground">
               Historial de todas las actividades de la empresa
             </p>
 
@@ -212,7 +212,7 @@ export default function CompanyActivitiesCard({
 
           <div className="p-10 text-center">
 
-            <p className="text-slate-500">
+            <p className="text-muted-foreground">
               Todavía no existen actividades.
             </p>
 
@@ -234,18 +234,18 @@ export default function CompanyActivitiesCard({
                 />
 
                 <div
-                  className="absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-full border bg-white shadow"
+                  className="absolute left-0 top-1 flex h-10 w-10 items-center justify-center rounded-full border bg-card shadow"
                 >
 
                   {activity.realizada ? (
                     <CheckCircle2 className="h-6 w-6 text-green-600" />
                   ) : (
-                    <Circle className="h-6 w-6 text-slate-400" />
+                    <Circle className="h-6 w-6 text-muted-foreground" />
                   )}
 
                 </div>
 
-                <div className="rounded-xl border bg-slate-50 p-5">
+                <div className="rounded-xl border bg-muted p-5">
 
                   <div className="flex items-center justify-between">
 
@@ -259,7 +259,7 @@ export default function CompanyActivitiesCard({
                           {activity.titulo}
                         </h3>
 
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-muted-foreground">
                           {new Date(activity.fecha).toLocaleString()}
                         </p>
 
@@ -298,7 +298,7 @@ export default function CompanyActivitiesCard({
 
                   {activity.descripcion && (
 
-                    <p className="mt-4 text-slate-700">
+                    <p className="mt-4 text-foreground">
                       {activity.descripcion}
                     </p>
 

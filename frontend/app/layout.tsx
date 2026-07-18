@@ -5,6 +5,7 @@ import "./globals.css";
 
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProviderWrapper } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,18 +30,21 @@ export default function RootLayout({
   return (
     <html
       lang="es"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-screen bg-slate-100">
-        <AuthProvider>
-          {children}
+      <body className="min-h-screen bg-background text-foreground">
+        <ThemeProviderWrapper>
+          <AuthProvider>
+            {children}
 
-          <Toaster
-            position="top-right"
-            richColors
-            closeButton
-          />
-        </AuthProvider>
+            <Toaster
+              position="top-right"
+              richColors
+              closeButton
+            />
+          </AuthProvider>
+        </ThemeProviderWrapper>
       </body>
     </html>
   );

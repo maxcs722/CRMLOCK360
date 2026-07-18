@@ -22,7 +22,7 @@ export default function CalendarHeader({
   onNext,
 }: Props) {
   return (
-    <div className="flex items-center justify-between rounded-xl border bg-white p-6 shadow-sm">
+    <div className="flex items-center justify-between rounded-xl border bg-card p-6 shadow-sm">
 
       <Button
         variant="outline"

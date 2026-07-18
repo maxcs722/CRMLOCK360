@@ -114,7 +114,7 @@ export default function EditProspectPage() {
 
         </h1>
 
-        <p className="text-slate-500">
+        <p className="text-muted-foreground">
 
           Modifique la información del prospecto.
 

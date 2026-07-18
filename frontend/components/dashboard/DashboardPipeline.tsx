@@ -69,7 +69,7 @@ export default function DashboardPipeline({
 
   return (
 
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border bg-card p-6 shadow-sm">
 
       <h2 className="mb-6 text-xl font-bold">
         Pipeline Comercial

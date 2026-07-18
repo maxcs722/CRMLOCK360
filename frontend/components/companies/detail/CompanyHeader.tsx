@@ -30,7 +30,7 @@ export default function CompanyHeader({
 
   return (
 
-    <div className="rounded-xl border bg-white p-6 shadow-sm">
+    <div className="rounded-xl border bg-card p-6 shadow-sm">
 
       <div className="flex items-center justify-between">
 

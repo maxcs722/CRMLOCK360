@@ -7,7 +7,7 @@ interface Props {
 const colors: Record<string, string> = {
 
   NUEVO:
-    "bg-slate-100 text-slate-700",
+    "bg-background text-foreground",
 
   CONTACTADO:
     "bg-blue-100 text-blue-700",
@@ -41,7 +41,7 @@ export default function ProspectStatusBadge({
     <span
       className={`rounded-full px-3 py-1 text-xs font-semibold ${
         colors[status] ??
-        "bg-slate-100 text-slate-600"
+        "bg-background text-muted-foreground"
       }`}
     >
 

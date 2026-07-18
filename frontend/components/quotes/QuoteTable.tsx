@@ -27,7 +27,7 @@ export default function QuoteTable({
 
   if (loading) {
     return (
-      <div className="rounded-xl border bg-white p-8">
+      <div className="rounded-xl border bg-card p-8">
         Cargando cotizaciones...
       </div>
     );
@@ -35,18 +35,18 @@ export default function QuoteTable({
 
   if (quotes.length === 0) {
     return (
-      <div className="rounded-xl border bg-white p-8 text-center text-slate-500">
+      <div className="rounded-xl border bg-card p-8 text-center text-muted-foreground">
         No existen cotizaciones.
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border bg-white shadow">
+    <div className="overflow-hidden rounded-xl border bg-card shadow">
 
       <table className="w-full">
 
-        <thead className="bg-slate-100">
+        <thead className="bg-background">
           <tr>
             <th className="p-4 text-left">Nº</th>
             <th className="text-left">Cliente</th>
@@ -63,7 +63,7 @@ export default function QuoteTable({
 
             <tr
               key={quote.id}
-              className="border-t hover:bg-slate-50"
+              className="border-t hover:bg-muted"
             >
 
               <td className="p-4 font-semibold">

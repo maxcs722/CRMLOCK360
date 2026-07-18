@@ -25,7 +25,7 @@ export function MenuItem({
       ${
         active
           ? "bg-blue-600 text-white"
-          : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+          : "text-muted-foreground hover:bg-background dark:hover:bg-slate-800"
       }`}
     >
       {icon}

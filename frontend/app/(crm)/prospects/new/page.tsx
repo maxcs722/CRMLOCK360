@@ -70,7 +70,7 @@ export default function NewProspectPage() {
           Nuevo Prospecto
         </h1>
 
-        <p className="text-slate-500">
+        <p className="text-muted-foreground">
           Registre una nueva oportunidad comercial.
         </p>
 

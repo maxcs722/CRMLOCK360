@@ -146,7 +146,7 @@ try {
 
       </h1>
 
-      <p className="text-slate-500">
+      <p className="text-muted-foreground">
 
         Crear una nueva cotización
 
@@ -154,7 +154,7 @@ try {
 
     </div>
 
-    <div className="rounded-xl border bg-white p-6">
+    <div className="rounded-xl border bg-card p-6">
 
       <div className="grid grid-cols-2 gap-6">
 
@@ -257,7 +257,7 @@ try {
 
     </div>
 
-    <div className="rounded-xl border bg-white p-6">
+    <div className="rounded-xl border bg-card p-6">
 
       <table className="w-full">
 
@@ -441,13 +441,13 @@ try {
 
 </div>
 
-      <div className="rounded-xl border bg-white p-6">
+      <div className="rounded-xl border bg-card p-6">
 
         <div className="ml-auto w-96 space-y-3">
 
           <div className="flex justify-between">
 
-            <span className="text-slate-600">
+            <span className="text-muted-foreground">
 
               Subtotal
 
@@ -464,7 +464,7 @@ try {
 
           <div className="flex justify-between">
 
-            <span className="text-slate-600">
+            <span className="text-muted-foreground">
 
               IVA (19%)
 
